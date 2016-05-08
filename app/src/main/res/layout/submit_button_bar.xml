@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/button_bar"
+    android:layout_below="@+id/space"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/space_between_content_areas"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    style="?android:attr/buttonBarStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        style="?android:attr/buttonBarButtonStyle"
+        android:elevation="4dp"
+        android:id="@+id/cancel_button"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:textColor="?colorPrimary"
+        android:layout_marginRight="@dimen/space_between_content_areas"
+        android:layout_marginEnd="@dimen/space_between_content_areas"
+        android:text="@string/action_cancel"/>
+
+    <Button
+        style="?android:attr/buttonBarButtonStyle"
+        android:background="?colorPrimary"
+        android:textColor="@color/white"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/submit_button"
+        android:layout_marginLeft="@dimen/space_between_content_areas"
+        android:layout_marginStart="@dimen/space_between_content_areas"
+        android:text="@string/action_submit"/>
+</LinearLayout>

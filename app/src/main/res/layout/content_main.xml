@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.ButtonBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="?android:attr/buttonBarStyle"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.jdelorenzo.capstoneproject.MainActivity"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:background="@android:color/white"
+    tools:showIn="@layout/activity_main">
+
+    <Button
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_work_out"/>
+
+    <Button
+        android:layout_marginTop="@dimen/button_bar_vertical_spacing"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_create_workout"/>
+
+    <Button
+        android:layout_marginTop="@dimen/button_bar_vertical_spacing"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_edit_workout"/>
+
+    <Button
+        android:layout_marginTop="@dimen/button_bar_vertical_spacing"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_view_stats"/>
+</android.support.v7.widget.ButtonBarLayout>
