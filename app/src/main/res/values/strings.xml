@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">HIT THE GYM</string>
 
     <!-- actions -->
@@ -25,8 +25,25 @@
     <!-- empty view strings -->
     <string name="empty_workout">You have no days for this workout.  Add a day!</string>
 
+    <!-- name strings -->
     <string name="weight">Weight</string>
     <string name="repetitions">Reps</string>
     <string name="sets">Sets</string>
     <string name="exercise">Exercise</string>
+
+    <!--shared preference strings -->
+    <string name="prefs_weight_unit_key" translatable="false">weight</string>
+    <string name="prefs_weight_unit_default" translatable="false">@string/prefs_weight_unit_imperial_value</string>
+    <string name="prefs_weight_unit_metric_label">kilograms</string>
+    <string name="prefs_weight_unit_imperial_label">pounds</string>
+    <string name="prefs_weight_unit_metric_value">metric</string>
+    <string name="prefs_weight_unit_imperial_value">imperial</string>
+
+    <!-- format strings -->
+    <string name="weight_format_metric" example="20 kg">
+        <xliff:g>%d$1</xliff:g> kg
+    </string>
+    <string name="weight_format_imperial" example="20 lb">
+        <xliff:g>%d$1</xliff:g> lb
+    </string>
 </resources>

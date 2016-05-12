@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prefs_weight_unit_values">
+        <item name="metric">@string/prefs_weight_unit_metric_value</item>
+        <item name="imperial">@string/prefs_weight_unit_imperial_value</item>
+    </string-array>
+
+    <string-array name="prefs_weight_unit_labels">
+        <item name="metric">@string/prefs_weight_unit_metric_label</item>
+        <item name="imperial">@string/prefs_weight_unit_imperial_label</item>
+    </string-array>
+</resources>
