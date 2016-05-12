@@ -17,6 +17,7 @@ public class ItemChoiceManager {
         mAdapter = adapter;
     }
 
+    @SuppressWarnings("unchecked")
     public void onClick(RecyclerView.ViewHolder viewHolder) {
 
         int position = viewHolder.getAdapterPosition();
