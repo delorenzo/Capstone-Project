@@ -16,6 +16,7 @@
     <string name="title_activity_modify_workout">Modify Workout</string>
     <string name="title_activity_add_workout">Add Workout</string>
     <string name="title_activity_view_stats">Your Progress</string>
+    <string name="title_activity_settings">Settings</string>
 
     <string name="section_format">Hello World from section: %1$d</string>
 
@@ -38,12 +39,18 @@
     <string name="prefs_weight_unit_imperial_label">pounds</string>
     <string name="prefs_weight_unit_metric_value">metric</string>
     <string name="prefs_weight_unit_imperial_value">imperial</string>
+    <string name="prefs_weight_unit_title">Weight Units</string>
+    <!-- notifications -->
+    <string name="prefs_notifications_key" translatable="false">notifications</string>
+    <string name="prefs_notifications_title">Notifications</string>
+    <string name="prefs_notifications_label_true">Receive notifications</string>
+    <string name="prefs_notifications_label_false">Do not receive notifications</string>
 
     <!-- format strings -->
     <string name="weight_format_metric" example="20 kg">
-        <xliff:g>%d$1</xliff:g> kg
+        <xliff:g>%f$1</xliff:g> kg
     </string>
     <string name="weight_format_imperial" example="20 lb">
-        <xliff:g>%d$1</xliff:g> lb
+        <xliff:g>%f$1</xliff:g> lb
     </string>
 </resources>

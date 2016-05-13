@@ -34,7 +34,16 @@
         <activity
             android:name=".ViewStatsActivity"
             android:label="@string/title_activity_view_stats"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.ActionBar"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jdelorenzo.capstoneproject.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
