@@ -10,6 +10,7 @@
     <string name="action_edit_workout">Edit Workout</string>
     <string name="action_submit">Submit</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_accept">Accept</string>
 
     <!-- titles -->
     <string name="title_activity_workout">Work Out</string>
@@ -53,4 +54,11 @@
     <string name="weight_format_imperial" example="20 lb">
         <xliff:g>%f$1</xliff:g> lb
     </string>
+
+    <!-- dialog strings -->
+    <string name="dialog_create_workout_title">Create Workout</string>
+    <string name="dialog_name_workout">Enter a name for your new workout:</string>
+
+    <!-- hint strings -->
+    <string name="hint_workout_name">Workout Name</string>
 </resources>

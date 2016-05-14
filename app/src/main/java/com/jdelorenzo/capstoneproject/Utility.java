@@ -20,4 +20,12 @@ public class Utility {
                     context.getString(R.string.weight_format_imperial), weight);
         }
     }
+
+    private double toImperial(double kg) {
+        return kg * 2.205;
+    }
+
+    private double toMetric (double lb) {
+        return lb / 2.205;
+    }
 }

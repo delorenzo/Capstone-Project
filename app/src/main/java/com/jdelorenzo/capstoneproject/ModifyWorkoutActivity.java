@@ -7,22 +7,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class ModifyWorkoutActivity extends AppCompatActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class ModifyWorkoutActivity extends AppCompatActivity implements
+        SelectWorkoutFragment.SelectWorkoutListener {
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    public static final String ARG_NAME = "workoutName";
+    private String mWorkoutName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            return;
+        }
         setContentView(R.layout.activity_add_modify_workout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        Bundle b = getIntent().getExtras();
+        if (b!= null) {
+            mWorkoutName = b.getString(ARG_NAME);
+        }
+        else {
+            SelectWorkoutFragment fragment = new SelectWorkoutFragment();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        }
+    }
+
+    @Override
+    public void onWorkoutSelected(int workoutId) {
+
     }
 }

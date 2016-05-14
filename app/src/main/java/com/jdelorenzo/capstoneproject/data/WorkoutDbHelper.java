@@ -21,20 +21,17 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_WORKOUT_TABLE = "CREATE TABLE " +
                 WorkoutEntry.TABLE_NAME + " (" +
-                WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                WorkoutEntry.COLUMN_DAY + " INTEGER NOT NULL, " +
-                "FOREIGN KEY (" + WorkoutEntry.COLUMN_DAY + ") REFERENCES " +
-                DayEntry.TABLE_NAME + "(" + DayEntry.COLUMN_WORKOUT_KEY + ") " +
-                "ON DELETE CASCADE ON UPDATE CASCADE" +
+                WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                WorkoutEntry.COLUMN_NAME + " UNIQUE TEXT NOT NULL," +
                 ");";
 
         final String SQL_CREATE_DAY_TABLE = "CREATE TABLE " +
                 DayEntry.TABLE_NAME + " ( " +
                 DayEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DayEntry.COLUMN_WORKOUT_KEY + " INTEGER NOT NUll, " +
                 DayEntry.COLUMN_DAY_OF_WEEK + " INTEGER NOT NULL, " +
-                DayEntry.COLUMN_EXERCISE + " INTEGER NOT NULL, " +
-                "FOREIGN KEY (" + DayEntry.COLUMN_EXERCISE + ") REFERENCES " +
-                ExerciseEntry.TABLE_NAME + "(" + ExerciseEntry.COLUMN_DAY_KEY + ") " +
+                "FOREIGN KEY (" + DayEntry.COLUMN_WORKOUT_KEY + ") REFERENCES " +
+                WorkoutEntry.TABLE_NAME + "(" + WorkoutEntry._ID + ") " +
                 "ON DELETE CASCADE ON UPDATE CASCADE" +
                 ");";
 
@@ -46,6 +43,9 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 ExerciseEntry.COLUMN_REPS + " TEXT, " +
                 ExerciseEntry.COLUMN_SETS + " INTEGER, " +
                 ExerciseEntry.COLUMN_WEIGHT + " TEXT, " +
+                "FOREIGN KEY (" + ExerciseEntry.COLUMN_DAY_KEY + ") REFERENCES " +
+                DayEntry.TABLE_NAME + "(" + DayEntry._ID + ") " +
+                "ON DELETE CASCADE ON UPDATE CASCADE" +
                 ");";
 
         db.execSQL(SQL_CREATE_WORKOUT_TABLE);

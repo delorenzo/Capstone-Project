@@ -13,6 +13,7 @@ public class WorkoutContract {
     public static final String PATH_WORKOUT = "workout";
     public static final String PATH_DAY = "day";
     public static final String PATH_EXERCISE = "exercise";
+    public static final String PATH_NAME = "name";
 
     public static final class WorkoutEntry implements BaseColumns {
 
@@ -26,25 +27,19 @@ public class WorkoutContract {
 
         public static final String TABLE_NAME = "workout";
 
-        public static final String COLUMN_DAY = "day";
+        public static final String COLUMN_NAME = "name";
 
-        public static Uri buildWorkoutUri(long id) {
+        public static Uri buildWorkoutId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static Uri buildWorkoutDay(long day) {
-            return CONTENT_URI.buildUpon()
-                    .appendQueryParameter(COLUMN_DAY, Long.toString(day)).build();
+        public static Uri buildWorkoutName(String name) {
+            return CONTENT_URI.buildUpon().appendQueryParameter(PATH_NAME, name).build();
         }
 
-        public long getDayFromUri(Uri uri) {
-            String day = uri.getQueryParameter(COLUMN_DAY);
-            if (null != day && day.length() > 0) {
-                return Long.parseLong(day);
-            }
-            else {
-                return 0;
-            }
+        public static String getWorkoutNameFromUri(Uri uri) {
+            String name = uri.getPathSegments().get(2);
+            return uri.getPathSegments().get(2);
         }
     }
 
@@ -61,9 +56,8 @@ public class WorkoutContract {
 
         public static final String COLUMN_WORKOUT_KEY = "workout_id";
         public static final String COLUMN_DAY_OF_WEEK = "day_of_week";
-        public static final String COLUMN_EXERCISE = "exercise";
 
-        public static Uri buildDayUri(long id) {
+        public static Uri buildDayId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }
@@ -85,7 +79,7 @@ public class WorkoutContract {
         public static final String COLUMN_WEIGHT = "weight";
         public static final String COLUMN_DESCRIPTION = "description";
 
-        public static Uri buildExerciseUri(long id) {
+        public static Uri buildExerciseId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }

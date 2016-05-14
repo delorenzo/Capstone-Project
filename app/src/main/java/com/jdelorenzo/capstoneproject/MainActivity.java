@@ -1,5 +1,7 @@
 package com.jdelorenzo.capstoneproject;
 
+import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,23 +11,25 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class MainActivity extends AppCompatActivity implements
+        CreateWorkoutDialogFragment.CreateWorkoutDialogListener {
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    private static final String FTAG_DIALOG_FRAGMENT = "CreateWorkoutDialogFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -47,5 +51,37 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.button_work_out)
+    public void onWorkOut() {
+        Intent intent = new Intent(this, WorkoutActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.button_create_workout)
+    public void onCreateWorkout() {
+        DialogFragment dialog = new CreateWorkoutDialogFragment();
+        dialog.show(getFragmentManager(), FTAG_DIALOG_FRAGMENT);
+    }
+
+    @OnClick(R.id.button_edit_workout)
+    public void onEditWorkout() {
+        Intent intent = new Intent(this, ModifyWorkoutActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.button_view_stats)
+    public void onViewStats() {
+        Intent intent = new Intent(this, ViewStatsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDialogPositiveClick(String name) {
+        DatabaseIntentService.startActionAddWorkout(getApplicationContext(), name);
+        Intent intent = new Intent(this, ModifyWorkoutActivity.class);
+        intent.putExtra(ModifyWorkoutActivity.ARG_NAME, name);
+        startActivity(intent);
     }
 }

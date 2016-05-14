@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  */
 public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String ARG_WORKOUT_ID = "workout";
-    private String mWorkoutId;
+    private long mWorkoutId;
     private ExerciseAdapter mExerciseAdapter;
     private long mDay;
     @Bind(R.id.workout_recycler_view) RecyclerView mRecyclerView;
@@ -55,10 +55,10 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
      * @param workoutID Workout ID.
      * @return A new instance of fragment WorkoutFragment.
      */
-    public static WorkoutFragment newInstance(String workoutID) {
+    public static WorkoutFragment newInstance(long workoutID) {
         WorkoutFragment fragment = new WorkoutFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_WORKOUT_ID, workoutID);
+        args.putLong(ARG_WORKOUT_ID, workoutID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,7 +67,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mWorkoutId = getArguments().getString(ARG_WORKOUT_ID);
+            mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
         }
     }
 
@@ -97,7 +97,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri workoutForDayUri = WorkoutContract.WorkoutEntry.buildWorkoutDay(mDay);
+        Uri workoutForDayUri = WorkoutContract.WorkoutEntry.buildWorkoutId(mWorkoutId);
         return new CursorLoader(getActivity(),
                 workoutForDayUri,
                 EXERCISE_COLUMNS,
