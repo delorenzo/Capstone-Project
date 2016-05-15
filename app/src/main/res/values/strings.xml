@@ -36,8 +36,8 @@
     <!--shared preference strings -->
     <string name="prefs_weight_unit_key" translatable="false">weight</string>
     <string name="prefs_weight_unit_default" translatable="false">@string/prefs_weight_unit_imperial_value</string>
-    <string name="prefs_weight_unit_metric_label">kilograms</string>
-    <string name="prefs_weight_unit_imperial_label">pounds</string>
+    <string name="prefs_weight_unit_metric_label">Kilograms</string>
+    <string name="prefs_weight_unit_imperial_label">Pounds</string>
     <string name="prefs_weight_unit_metric_value">metric</string>
     <string name="prefs_weight_unit_imperial_value">imperial</string>
     <string name="prefs_weight_unit_title">Weight Units</string>
@@ -61,4 +61,5 @@
 
     <!-- hint strings -->
     <string name="hint_workout_name">Workout Name</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

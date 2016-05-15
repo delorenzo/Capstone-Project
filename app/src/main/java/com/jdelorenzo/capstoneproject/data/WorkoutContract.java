@@ -33,6 +33,14 @@ public class WorkoutContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+        public static long getWorkoutIdFromUri(Uri uri) {
+            String workoutIdString = uri.getPathSegments().get(1);
+            if (null != workoutIdString && workoutIdString.length() > 0)
+                return Long.parseLong(workoutIdString);
+            else
+                return 0;
+        }
+
         public static Uri buildWorkoutName(String name) {
             return CONTENT_URI.buildUpon().appendQueryParameter(PATH_NAME, name).build();
         }
@@ -60,6 +68,35 @@ public class WorkoutContract {
         public static Uri buildDayId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
+        public static Uri buildWorkoutId(long id) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(id)).build();
+        }
+
+        public static Uri buildWorkoutIdDayOfWeek(long id, String day) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(id))
+                    .appendPath(PATH_DAY).appendPath(day).build();
+        }
+
+        public static long getDayIdFromUri(Uri uri) {
+            String dayIdString = uri.getPathSegments().get(1);
+            if (null != dayIdString && dayIdString.length() > 0)
+                return Long.parseLong(dayIdString);
+            else
+                return 0;
+        }
+
+        public static long getWorkoutIdFromUri(Uri uri) {
+            String workoutIdString = uri.getPathSegments().get(2);
+            if (null != workoutIdString && workoutIdString.length() > 0)
+                return Long.parseLong(workoutIdString);
+            else
+                return 0;
+        }
+
+        public static String getDayOfWeekFromUri(Uri uri) {
+            return uri.getPathSegments().get(4);
+        }
     }
 
     public static final class ExerciseEntry implements BaseColumns {
@@ -81,6 +118,14 @@ public class WorkoutContract {
 
         public static Uri buildExerciseId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static long getExerciseIdFromUri(Uri uri) {
+            String exerciseIdString = uri.getPathSegments().get(1);
+            if (null != exerciseIdString && exerciseIdString.length() > 0)
+                return Long.parseLong(exerciseIdString);
+            else
+                return 0;
         }
     }
 }
