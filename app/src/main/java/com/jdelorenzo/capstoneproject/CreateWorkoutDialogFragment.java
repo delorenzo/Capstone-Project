@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
-
 /**
  * An {@link DialogFragment} subclass for creating and naming a new workout.
  */
@@ -29,7 +27,7 @@ public class CreateWorkoutDialogFragment extends DialogFragment {
         final View rootView = inflater.inflate(R.layout.dialog_create_workout, null);
         builder.setTitle(R.string.dialog_create_workout_title)
                 .setIcon(R.drawable.run)
-                .setMessage(R.string.dialog_name_workout)
+                .setMessage(R.string.dialog_name_workout_text)
                 .setView(rootView)
                 .setPositiveButton(R.string.action_accept, new DialogInterface.OnClickListener() {
                     @Override

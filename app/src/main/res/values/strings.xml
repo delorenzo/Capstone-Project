@@ -58,7 +58,8 @@
 
     <!-- dialog strings -->
     <string name="dialog_create_workout_title">Create Workout</string>
-    <string name="dialog_name_workout">Enter a name for your new workout:</string>
+    <string name="dialog_name_workout_text">Enter a name for your new workout:</string>
+    <string name="dialog_select_workout_title">Select Workout</string>
 
     <!-- hint strings -->
     <string name="hint_workout_name">Workout Name</string>

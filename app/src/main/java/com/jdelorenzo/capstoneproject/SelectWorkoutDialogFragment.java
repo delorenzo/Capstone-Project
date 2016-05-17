@@ -48,9 +48,7 @@ public class SelectWorkoutDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setTitle(R.string.dialog_create_workout_title)
-                .setIcon(R.drawable.run)
-                .setMessage(R.string.dialog_name_workout)
+        builder.setTitle(R.string.dialog_select_workout_title)
                 .setItems(mWorkouts, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
