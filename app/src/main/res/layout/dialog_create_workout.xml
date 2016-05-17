@@ -3,6 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <EditText
+        android:layout_marginRight="@dimen/dialog_horizontal_padding"
+        android:layout_marginEnd="@dimen/dialog_horizontal_padding"
+        android:layout_marginStart="@dimen/dialog_horizontal_padding"
+        android:layout_marginLeft="@dimen/dialog_horizontal_padding"
         android:id="@+id/workout_name_edit_text"
         android:hint="@string/hint_workout_name"
         android:layout_width="wrap_content"

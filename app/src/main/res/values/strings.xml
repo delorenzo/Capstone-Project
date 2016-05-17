@@ -26,6 +26,7 @@
 
     <!-- empty view strings -->
     <string name="empty_workout">You have no days for this workout.  Add a day!</string>
+    <string name="no_workouts_text">You have no workouts.  Create a workout!</string>
 
     <!-- name strings -->
     <string name="weight">Weight</string>
@@ -61,5 +62,7 @@
 
     <!-- hint strings -->
     <string name="hint_workout_name">Workout Name</string>
-    <string name="title_activity_main2">Main2Activity</string>
+
+    <!-- provider string -->
+    <string name="content_authority">com.jdelorenzo.capstoneproject.app</string>
 </resources>

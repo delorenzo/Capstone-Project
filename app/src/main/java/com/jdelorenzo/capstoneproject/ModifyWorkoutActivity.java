@@ -1,20 +1,19 @@
 package com.jdelorenzo.capstoneproject;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ModifyWorkoutActivity extends AppCompatActivity implements
-        SelectWorkoutFragment.SelectWorkoutListener {
+public class ModifyWorkoutActivity extends AppCompatActivity {
     @Bind(R.id.toolbar) Toolbar toolbar;
-    public static final String ARG_NAME = "workoutName";
     private String mWorkoutName;
+    private long mWorkoutId;
+
+    public static final String ARG_WORKOUT_NAME = "workout";
+    public static final String ARG_WORKOUT_ID = "workoutId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +26,8 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         Bundle b = getIntent().getExtras();
         if (b!= null) {
-            mWorkoutName = b.getString(ARG_NAME);
+            mWorkoutName = b.getString(ARG_WORKOUT_NAME);
+            mWorkoutId = b.getLong(ARG_WORKOUT_ID);
         }
-        else {
-            SelectWorkoutFragment fragment = new SelectWorkoutFragment();
-
-        }
-    }
-
-    @Override
-    public void onWorkoutSelected(int workoutId) {
-
     }
 }

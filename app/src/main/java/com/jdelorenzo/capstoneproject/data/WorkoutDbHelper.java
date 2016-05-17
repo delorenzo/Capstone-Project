@@ -21,19 +21,19 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_WORKOUT_TABLE = "CREATE TABLE " +
                 WorkoutEntry.TABLE_NAME + " (" +
-                WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                WorkoutEntry.COLUMN_NAME + " UNIQUE TEXT NOT NULL," +
-                ");";
+                WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                WorkoutEntry.COLUMN_NAME + " TEXT UNIQUE NOT NULL " +
+                " );";
 
         final String SQL_CREATE_DAY_TABLE = "CREATE TABLE " +
                 DayEntry.TABLE_NAME + " ( " +
                 DayEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DayEntry.COLUMN_WORKOUT_KEY + " INTEGER NOT NUll, " +
-                DayEntry.COLUMN_DAY_OF_WEEK + " UNIQUE TEXT NOT NULL, " +
+                DayEntry.COLUMN_DAY_OF_WEEK + " TEXT UNIQUE NOT NULL, " +
                 "FOREIGN KEY (" + DayEntry.COLUMN_WORKOUT_KEY + ") REFERENCES " +
                 WorkoutEntry.TABLE_NAME + "(" + WorkoutEntry._ID + ") " +
-                "ON DELETE CASCADE ON UPDATE CASCADE" +
-                ");";
+                "ON DELETE CASCADE ON UPDATE CASCADE " +
+                " );";
 
         final String SQL_CREATE_EXERCISE_TABLE = "CREATE TABLE " +
                 ExerciseEntry.TABLE_NAME + " ( " +
@@ -45,8 +45,8 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 ExerciseEntry.COLUMN_WEIGHT + " TEXT, " +
                 "FOREIGN KEY (" + ExerciseEntry.COLUMN_DAY_KEY + ") REFERENCES " +
                 DayEntry.TABLE_NAME + "(" + DayEntry._ID + ") " +
-                "ON DELETE CASCADE ON UPDATE CASCADE" +
-                ");";
+                "ON DELETE CASCADE ON UPDATE CASCADE " +
+                " );";
 
         db.execSQL(SQL_CREATE_WORKOUT_TABLE);
         db.execSQL(SQL_CREATE_DAY_TABLE);

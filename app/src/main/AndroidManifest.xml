@@ -57,6 +57,12 @@
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
         </activity>
 
+        <provider
+            android:authorities="@string/content_authority"
+            android:name=".data.WorkoutProvider"
+            android:exported="false"
+            android:syncable="true" />
+
         <service
             android:name=".service.DatabaseIntentService"
             android:enabled="true"

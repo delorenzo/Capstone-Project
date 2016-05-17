@@ -126,7 +126,7 @@ public class DatabaseIntentService extends IntentService {
                     contentValues = new ContentValues();
                     contentValues.put(WorkoutEntry.COLUMN_NAME,
                             intent.getStringExtra(EXTRA_NAME));
-                    getContentResolver().insert(
+                    getApplicationContext().getContentResolver().insert(
                             intent.getData(),
                             contentValues);
                     break;

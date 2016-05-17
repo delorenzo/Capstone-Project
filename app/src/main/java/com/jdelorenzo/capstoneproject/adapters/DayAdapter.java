@@ -8,19 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.ItemChoiceManager;
 import com.jdelorenzo.capstoneproject.R;
-import com.jdelorenzo.capstoneproject.SelectWorkoutFragment;
-import com.jdelorenzo.capstoneproject.Utility;
-import com.jdelorenzo.capstoneproject.WorkoutFragment;
+import com.jdelorenzo.capstoneproject.SelectWorkoutDialogFragment;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
-
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,13 +75,13 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     @Override
     public void onBindViewHolder(final DayAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.dayTextView.setText(mCursor.getString(SelectWorkoutFragment.COL_DAY_OF_WEEK));
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseIntentService.startActionDeleteDay(mContext, mCursor.getLong(SelectWorkoutFragment.COL_ID));
-            }
-        });
+//        holder.dayTextView.setText(mCursor.getString(SelectWorkoutDialogFragment.COL_DAY_OF_WEEK));
+//        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DatabaseIntentService.startActionDeleteDay(mContext, mCursor.getLong(SelectWorkoutDialogFragment.COL_ID));
+//            }
+//        });
         mICM.onBindViewHolder(holder, position);
     }
 

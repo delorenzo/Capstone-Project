@@ -10,4 +10,5 @@
     <dimen name="subtitle_size">48dp</dimen>
     <dimen name="space_between_content_areas">8dp</dimen>
     <dimen name="button_bar_vertical_spacing">4dp</dimen>
+    <dimen name="dialog_horizontal_padding">16dp</dimen>
 </resources>
