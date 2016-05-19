@@ -33,6 +33,17 @@ public class SelectDaysDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        if (getArguments() != null) {
+            mCheckedItems = getArguments().getBooleanArray(ARG_CHECKED_ITEMS);
+        }
+        if (mCheckedItems != null) {
+            for (int i = 0; i < mCheckedItems.length; i++) {
+                if (mCheckedItems[i]) {
+                    mSelectedItems.add(i);
+                }
+            }
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dialog_select_days_title)
                 .setMultiChoiceItems(R.array.days, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {

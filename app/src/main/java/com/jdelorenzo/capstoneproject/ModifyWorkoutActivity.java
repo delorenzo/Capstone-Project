@@ -66,14 +66,12 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements SelectDa
 
     @Override
     public void onDaysSelected(ArrayList<Integer> indices) {
-        ArrayList<String> selectedDays = new ArrayList<>(indices.size());
-        String [] dayStrings = getResources().getStringArray(R.array.days);
-        mCheckedDays = new boolean[7];
-        for (int i : indices) {
-            selectedDays.add(dayStrings[i]);
-            mCheckedDays[i] = true;
-        }
-        DatabaseIntentService.startActionEditDays(this, selectedDays, mWorkoutId);
+//        ArrayList<String> selectedDays = new ArrayList<>(indices.size());
+//        String [] dayStrings = getResources().getStringArray(R.array.days);
+//        for (int i : indices) {
+//            selectedDays.add(dayStrings[i]);
+//        }
+        DatabaseIntentService.startActionEditDays(this, indices, mWorkoutId);
     }
 
     //In single pane mode, there is one FAB button for this activity, and it handles callbacks
@@ -92,7 +90,8 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements SelectDa
     //in multi pane mode, this is one of the FAB menu options
     @Optional @OnClick(R.id.fab_day)
     public void onDayFab() {
-        SelectDaysDialogFragment dialogFragment = SelectDaysDialogFragment.newInstance(mCheckedDays);
+        EditDayFragment fragment = (EditDayFragment) getFragmentManager().findFragmentByTag(FTAG_EDIT_DAY);
+        SelectDaysDialogFragment dialogFragment = SelectDaysDialogFragment.newInstance(fragment.getChecked());
         dialogFragment.show(getFragmentManager(), FTAG_SELECT_DAYS);
     }
 

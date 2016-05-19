@@ -98,8 +98,6 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,13 +130,14 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String sortOrder = WorkoutContract.DayEntry.COLUMN_DAY_OF_WEEK + " ASC";
         Uri dayForWorkoutUri = WorkoutContract.DayEntry.buildWorkoutId(mWorkoutId);
         return new CursorLoader(getActivity(),
                 dayForWorkoutUri,
                 DAY_COLUMNS,
                 null,
                 null,
-                null);
+                sortOrder);
     }
 
     @Override
@@ -149,6 +148,10 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
+    }
+
+    public boolean[] getChecked() {
+        return mAdapter.getChecked();
     }
 
 }

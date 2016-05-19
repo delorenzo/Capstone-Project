@@ -118,7 +118,7 @@ public class DatabaseIntentService extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionEditDays(Context context, ArrayList<String> days, long workoutId) {
+    public static void startActionEditDays(Context context, ArrayList<Integer> days, long workoutId) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_EDIT_DAYS);
         intent.setData(DayEntry.buildWorkoutId(workoutId));
@@ -184,7 +184,7 @@ public class DatabaseIntentService extends IntentService {
                     break;
 
                 case ACTION_EDIT_DAYS:
-                    ArrayList<String> days = intent.getStringArrayListExtra(EXTRA_DAY_OF_WEEK);
+                    ArrayList<Integer> days = intent.getIntegerArrayListExtra(EXTRA_DAY_OF_WEEK);
                     long workoutKey = intent.getLongExtra(EXTRA_WORKOUT_ID, 0);
                     int deleted = getContentResolver().delete(intent.getData(), null, null);
                     ContentValues[] values = new ContentValues[days.size()];

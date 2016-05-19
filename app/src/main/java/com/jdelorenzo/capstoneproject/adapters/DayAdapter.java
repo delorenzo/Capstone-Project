@@ -27,6 +27,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     private ItemChoiceManager mICM;
     final private DayAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
+    private String[] dayStrings;
 
     public DayAdapter(Context context, DayAdapterOnClickHandler clickHandler,
                            View emptyView) {
@@ -34,6 +35,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
         mICM = new ItemChoiceManager(this);
         mClickHandler = clickHandler;
         mEmptyView = emptyView;
+        dayStrings = context.getResources().getStringArray(R.array.days);
     }
 
     public interface DayAdapterOnClickHandler {
@@ -84,7 +86,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     @Override
     public void onBindViewHolder(final DayAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.dayButton.setText(mCursor.getString(EditDayFragment.COL_DAY_OF_WEEK));
+        int dayIndex = mCursor.getInt(EditDayFragment.COL_DAY_OF_WEEK);
+        holder.dayButton.setText(dayStrings[dayIndex]);
         mICM.onBindViewHolder(holder, position);
     }
 
@@ -110,5 +113,15 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
 
     public Cursor getCursor() {
         return mCursor;
+    }
+
+    public boolean[] getChecked() {
+        boolean[] checked = new boolean[7];
+        mCursor.moveToFirst();
+        while (!mCursor.isAfterLast()) {
+            checked[mCursor.getInt(EditDayFragment.COL_DAY_OF_WEEK)] = true;
+            mCursor.moveToNext();
+        }
+        return checked;
     }
 }

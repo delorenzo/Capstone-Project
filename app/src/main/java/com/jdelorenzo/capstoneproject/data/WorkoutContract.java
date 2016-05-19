@@ -74,9 +74,9 @@ public class WorkoutContract {
                     .build();
         }
 
-        public static Uri buildWorkoutIdDayOfWeek(long id, String day) {
+        public static Uri buildWorkoutIdDayOfWeek(long id, long day) {
             return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(id))
-                    .appendPath(PATH_DAY).appendPath(day).build();
+                    .appendPath(PATH_DAY).appendPath(Long.toString(day)).build();
         }
 
         public static long getDayIdFromUri(Uri uri) {

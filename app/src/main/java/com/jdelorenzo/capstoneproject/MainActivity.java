@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @OnClick(R.id.button_edit_workout)
     public void onEditWorkout() {
+        if (mWorkoutIds == null) return;
         if (mWorkoutIds.length == 0) {
             Toast.makeText(MainActivity.this, getString(R.string.no_workouts_text), Toast.LENGTH_SHORT).show();
         }
