@@ -9,4 +9,14 @@
         <item name="metric">@string/prefs_weight_unit_metric_label</item>
         <item name="imperial">@string/prefs_weight_unit_imperial_label</item>
     </string-array>
+
+    <string-array name="days">
+        <item name="sunday">@string/sunday</item>
+        <item name="monday">@string/monday</item>
+        <item name="tuesday">@string/tuesday</item>
+        <item name="wednesday">@string/wednesday</item>
+        <item name="thursday">@string/thursday</item>
+        <item name="friday">@string/friday</item>
+        <item name="saturday">@string/saturday</item>
+    </string-array>
 </resources>

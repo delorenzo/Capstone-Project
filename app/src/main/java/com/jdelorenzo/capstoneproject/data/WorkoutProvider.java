@@ -26,6 +26,8 @@ public class WorkoutProvider extends ContentProvider {
     private static final String sWorkoutIdDayOfWeekSelection = WorkoutEntry.TABLE_NAME + "." +
             WorkoutEntry._ID + " = ? AND " + DayEntry.TABLE_NAME + "." +
             DayEntry.COLUMN_DAY_OF_WEEK + " = ?";
+    private static final String sDayWorkoutKeySelection = DayEntry.TABLE_NAME + "." +
+            DayEntry.COLUMN_WORKOUT_KEY + " = ?";
 
     static final int WORKOUTS = 100;
     static final int WORKOUT_WITH_ID = 101;
@@ -45,8 +47,8 @@ public class WorkoutProvider extends ContentProvider {
 
         sDayByWorkoutQueryBuilder.setTables(
                 WorkoutEntry.TABLE_NAME + " INNER JOIN " + DayEntry.TABLE_NAME +
-                        " ON " + DayEntry.TABLE_NAME + "." + DayEntry.COLUMN_WORKOUT_KEY + " = "
-                        + WorkoutEntry.TABLE_NAME + "." + WorkoutEntry._ID
+                        " ON " + WorkoutEntry.TABLE_NAME + "." + WorkoutEntry._ID + " = " +
+                        DayEntry.TABLE_NAME + "." + DayEntry.COLUMN_WORKOUT_KEY
         );
     }
 
@@ -57,8 +59,8 @@ public class WorkoutProvider extends ContentProvider {
 
         sExerciseByDayQueryBuilder.setTables(
                 DayEntry.TABLE_NAME + " INNER JOIN " + ExerciseEntry.TABLE_NAME +
-                        " ON " + ExerciseEntry.TABLE_NAME + "." + ExerciseEntry.COLUMN_DAY_KEY +
-                        " = " + DayEntry.TABLE_NAME + "." + DayEntry._ID
+                        " ON " + DayEntry.TABLE_NAME + "." + DayEntry._ID +
+                        " = " + ExerciseEntry.TABLE_NAME + "." + ExerciseEntry.COLUMN_DAY_KEY
         );
     }
 
@@ -121,10 +123,10 @@ public class WorkoutProvider extends ContentProvider {
                 break;
             case DAYS_WITH_WORKOUT_ID:
                 workoutId = DayEntry.getWorkoutIdFromUri(uri);
-                retCursor = sDayByWorkoutQueryBuilder.query(
-                        mOpenHelper.getReadableDatabase(),
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        DayEntry.TABLE_NAME,
                         projection,
-                        sWorkoutIdSelection,
+                        sDayWorkoutKeySelection,
                         new String [] {Long.toString(workoutId)},
                         null,
                         null,
@@ -275,6 +277,12 @@ public class WorkoutProvider extends ContentProvider {
                         sDayIdSelection,
                         new String[] {Long.toString(dayId)});
                 break;
+            case DAYS_WITH_WORKOUT_ID:
+                workoutId = DayEntry.getWorkoutIdFromUri(uri);
+                rowsDeleted = db.delete(DayEntry.TABLE_NAME,
+                        sDayWorkoutKeySelection,
+                        new String[] {Long.toString(workoutId)});
+                break;
             case EXERCISES:
                 rowsDeleted = db.delete(ExerciseEntry.TABLE_NAME,
                         selection,
@@ -359,7 +367,7 @@ public class WorkoutProvider extends ContentProvider {
                 if (getContext() != null) {
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
-                return returnCount;
+                break;
             case DAYS:
                 db.beginTransaction();
                 returnCount = 0;
@@ -377,7 +385,25 @@ public class WorkoutProvider extends ContentProvider {
                 if (getContext() != null) {
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
-                return returnCount;
+                break;
+            case DAYS_WITH_WORKOUT_ID:
+                db.beginTransaction();
+                returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(DayEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                if (getContext() != null) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+                break;
             case EXERCISES:
                 db.beginTransaction();
                 returnCount = 0;
@@ -395,10 +421,14 @@ public class WorkoutProvider extends ContentProvider {
                 if (getContext() != null) {
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
-                return returnCount;
+                break;
             default:
-                throw new UnsupportedOperationException("Unknown uri in bulk insert:  " + uri);
+                throw new UnsupportedOperationException("Unknown uri in bulk insert");
         }
+        if (getContext() != null) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return returnCount;
     }
 
     static UriMatcher buildUriMatcher() {

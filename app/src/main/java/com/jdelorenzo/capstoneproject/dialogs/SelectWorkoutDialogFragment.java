@@ -1,12 +1,14 @@
-package com.jdelorenzo.capstoneproject;
+package com.jdelorenzo.capstoneproject.dialogs;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+
+import com.jdelorenzo.capstoneproject.R;
 
 import java.io.Serializable;
 
@@ -17,12 +19,11 @@ public class SelectWorkoutDialogFragment extends DialogFragment {
     private static final String ARG_WORKOUT_NAMES = "workouts";
     private static final String ARG_WORKOUT_IDS = "workoutIds";
 
-
-    interface SelectWorkoutListener extends Serializable {
+    public interface SelectWorkoutListener extends Serializable {
         void onWorkoutSelected(long workoutId);
     }
 
-    SelectWorkoutListener mListener;
+    SelectWorkoutListener mCallback;
 
     public static SelectWorkoutDialogFragment newInstance(SelectWorkoutListener callback, String[] workouts, long[] ids) {
         SelectWorkoutDialogFragment selectWorkoutFragment = new SelectWorkoutDialogFragment();
@@ -38,7 +39,7 @@ public class SelectWorkoutDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mListener = (SelectWorkoutListener) getArguments().getSerializable(ARG_CALLBACK);
+            mCallback = (SelectWorkoutListener) getArguments().getSerializable(ARG_CALLBACK);
             mWorkouts = getArguments().getStringArray(ARG_WORKOUT_NAMES);
             mWorkoutIds = getArguments().getLongArray(ARG_WORKOUT_IDS);
         }
@@ -52,7 +53,7 @@ public class SelectWorkoutDialogFragment extends DialogFragment {
                 .setItems(mWorkouts, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mListener.onWorkoutSelected(mWorkoutIds[which]);
+                        mCallback.onWorkoutSelected(mWorkoutIds[which]);
                     }
                 })
                 .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
@@ -62,18 +63,5 @@ public class SelectWorkoutDialogFragment extends DialogFragment {
                     }
                 });
         return builder.create();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            if (null == mListener) {
-                mListener = (SelectWorkoutListener) context;
-            }
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() +
-                    " must implement SelectWorkoutListener");
-        }
     }
 }

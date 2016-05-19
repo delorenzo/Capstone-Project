@@ -19,7 +19,7 @@ import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseAdapterViewHolder> {
@@ -43,11 +43,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     public class ExerciseAdapterViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        @Bind(R.id.complete_checkbox) CheckBox completeCheckbox;
-        @Bind(R.id.exercise_name) TextView exerciseName;
-        @Bind(R.id.repetitions) TextView repetitions;
-        @Bind(R.id.weight) TextView weight;
-        @Bind(R.id.sets) TextView sets;
+        @BindView(R.id.complete_checkbox) CheckBox completeCheckbox;
+        @BindView(R.id.exercise_name) TextView exerciseName;
+        @BindView(R.id.repetitions) TextView repetitions;
+        @BindView(R.id.weight) TextView weight;
+        @BindView(R.id.sets) TextView sets;
 
         public ExerciseAdapterViewHolder(View view)
         {

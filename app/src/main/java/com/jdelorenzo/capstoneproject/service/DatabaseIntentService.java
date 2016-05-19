@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
 
+import java.util.ArrayList;
+
 
 /**
  * An {@link IntentService} subclass for handling asynchronous database call requests in
@@ -19,6 +21,7 @@ public class DatabaseIntentService extends IntentService {
     private static final String ACTION_DELETE_WORKOUT = "com.jdelorenzo.capstoneproject.service.action.DELETE_WORKOUT";
     private static final String ACTION_RENAME_WORKOUT = "com.jdelorenzo.capstoneproject.service.action.RENAME_WORKOUT";
     private static final String ACTION_ADD_DAY = "com.jdelorenzo.capstoneproject.service.action.ADD_DAY";
+    private static final String ACTION_EDIT_DAYS = "com.jdelorenzo.capstoneproject.service.action_EDIT_DAYS";
     private static final String ACTION_DELETE_DAY = "com.jdelorenzo.capstoneproject.service.action.DELETE_DAY";
     private static final String ACTION_ADD_EXERCISE = "com.jdelorenzo.capstoneproject.service.action.ADD_EXERCISE";
     private static final String ACTION_EDIT_EXERCISE = "com.jdelorenzo.capstoneproject.service.action.EDIT_EXERCISE";
@@ -115,6 +118,15 @@ public class DatabaseIntentService extends IntentService {
         context.startService(intent);
     }
 
+    public static void startActionEditDays(Context context, ArrayList<String> days, long workoutId) {
+        Intent intent = new Intent(context, DatabaseIntentService.class);
+        intent.setAction(ACTION_EDIT_DAYS);
+        intent.setData(DayEntry.buildWorkoutId(workoutId));
+        intent.putExtra(EXTRA_WORKOUT_ID, workoutId);
+        intent.putExtra(EXTRA_DAY_OF_WEEK, days);
+        context.startService(intent);
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         ContentValues contentValues;
@@ -169,6 +181,21 @@ public class DatabaseIntentService extends IntentService {
                             null,
                             null
                     );
+                    break;
+
+                case ACTION_EDIT_DAYS:
+                    ArrayList<String> days = intent.getStringArrayListExtra(EXTRA_DAY_OF_WEEK);
+                    long workoutKey = intent.getLongExtra(EXTRA_WORKOUT_ID, 0);
+                    int deleted = getContentResolver().delete(intent.getData(), null, null);
+                    ContentValues[] values = new ContentValues[days.size()];
+                    for (int i = 0; i < days.size(); i++) {
+                        ContentValues v = new ContentValues();
+                        v.put(DayEntry.COLUMN_WORKOUT_KEY, workoutKey);
+                        v.put(DayEntry.COLUMN_DAY_OF_WEEK, days.get(i));
+                        values[i] = v;
+                    }
+                    int inserted = getContentResolver().bulkInsert(intent.getData(), values);
+                    Log.d(LOG_TAG, "Inserted " + inserted + " days and removed " + deleted + " days");
                     break;
 
                 case ACTION_ADD_EXERCISE:

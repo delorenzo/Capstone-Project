@@ -14,40 +14,47 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jdelorenzo.capstoneproject.adapters.DayAdapter;
-import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
 import java.io.Serializable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class EditWorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class EditDayFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
     private static final String ARG_WORKOUT_ID = "workoutId";
-    private static final String ARG_DAY_ID = "dayId";
     private long mWorkoutId;
-    private long mDayId;
-    private ExerciseAdapter mAdapter;
-    @BindView(R.id.empty_exercise_textview) TextView mEmptyView;
-    @BindView(R.id.exercise_recyclerview) RecyclerView mRecyclerView;
+    private DayAdapter mAdapter;
+    @BindView(R.id.empty_workout_textview) TextView mEmptyView;
+    @BindView(R.id.add_workout_recycler_view) RecyclerView mRecyclerView;
     private SelectDayListener mCallback;
-    private static final int WORKOUT_LOADER = 0;
     private Unbinder unbinder;
+
+    private static final int DAY_LOADER = 0;
+
+    private static final String[] DAY_COLUMNS = {
+            WorkoutContract.DayEntry.TABLE_NAME + "." + WorkoutContract.DayEntry._ID,
+            WorkoutContract.DayEntry.COLUMN_DAY_OF_WEEK,
+            WorkoutContract.DayEntry.COLUMN_WORKOUT_KEY
+    };
+
+    public static final int COL_DAY_ID = 0;
+    public static final int COL_DAY_OF_WEEK = 1;
+    public static final int COL_WORKOUT_KEY = 2;
 
     public interface SelectDayListener extends Serializable {
         void onDaySelected(long id);
     }
 
-    public static EditWorkoutFragment newInstance(long dayId, long workoutId) {
-        EditWorkoutFragment fragment = new EditWorkoutFragment();
+    public static EditDayFragment newInstance(long workoutId) {
+        EditDayFragment fragment = new EditDayFragment();
         Bundle b = new Bundle();
         b.putLong(ARG_WORKOUT_ID, workoutId);
-        b.putLong(ARG_DAY_ID, dayId);
         fragment.setArguments(b);
         return fragment;
     }
@@ -57,25 +64,21 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
-            mDayId = getArguments().getLong(ARG_DAY_ID);
         }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
-            mDayId = getArguments().getLong(ARG_DAY_ID);
         }
-        getLoaderManager().initLoader(WORKOUT_LOADER, null, this);
+        getLoaderManager().initLoader(DAY_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putLong(ARG_WORKOUT_ID, mWorkoutId);
-        outState.putLong(ARG_DAY_ID, mDayId);
         super.onSaveInstanceState(outState);
     }
 
@@ -88,23 +91,24 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
             }
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
-                    " must implement EditWorkoutListener");
+                    " must implement SelectDayListener");
         }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_add_workout_day, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_add_workout, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new ExerciseAdapter(getActivity(), new ExerciseAdapter.ExerciseAdapterOnClickHandler() {
+
+        mAdapter = new DayAdapter(getActivity(), new DayAdapter.DayAdapterOnClickHandler() {
             @Override
-            public void onClick(Long id, ExerciseAdapter.ExerciseAdapterViewHolder vh) {
-                Toast.makeText(getActivity(), "" + id, Toast.LENGTH_SHORT).show();
+            public void onClick(Long id, DayAdapter.DayAdapterViewHolder vh) {
+                mCallback.onDaySelected(id);
             }
-        }, mEmptyView, ListView.CHOICE_MODE_SINGLE);
+        }, mEmptyView);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
@@ -121,7 +125,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
         Uri dayForWorkoutUri = WorkoutContract.DayEntry.buildWorkoutId(id);
         return new CursorLoader(getActivity(),
                 dayForWorkoutUri,
-                null,
+                DAY_COLUMNS,
                 null,
                 null,
                 sortOrder);
@@ -137,7 +141,4 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
         mAdapter.swapCursor(null);
     }
 
-    public void fabAction() {
-
-    }
 }

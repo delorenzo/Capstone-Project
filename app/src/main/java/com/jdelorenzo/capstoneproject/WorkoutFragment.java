@@ -18,8 +18,9 @@ import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.ExerciseEntry;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +32,9 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     private long mWorkoutId;
     private ExerciseAdapter mExerciseAdapter;
     private long mDay;
-    @Bind(R.id.workout_recycler_view) RecyclerView mRecyclerView;
-    @Bind(R.id.workout_empty_view) TextView mEmptyView;
+    @BindView(R.id.workout_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.workout_empty_view) TextView mEmptyView;
+    private Unbinder unbinder;
 
     public String[] EXERCISE_COLUMNS = {
             ExerciseEntry.TABLE_NAME + "." + ExerciseEntry._ID,
@@ -75,7 +77,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_workout, container);
-        ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, rootView);
         mRecyclerView.setHasFixedSize(true);
         mExerciseAdapter = new ExerciseAdapter(getActivity(), new ExerciseAdapter.ExerciseAdapterOnClickHandler() {
             @Override
@@ -91,7 +93,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onDestroy() {
-        ButterKnife.unbind(this);
+        unbinder.unbind();
         super.onDestroy();
     }
 

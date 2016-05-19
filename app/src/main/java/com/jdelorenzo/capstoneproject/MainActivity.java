@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,22 +16,24 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
+import com.jdelorenzo.capstoneproject.dialogs.CreateWorkoutDialogFragment;
+import com.jdelorenzo.capstoneproject.dialogs.SelectWorkoutDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements
         CreateWorkoutDialogFragment.CreateWorkoutDialogListener {
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     private static final String FTAG_DIALOG_FRAGMENT = "CreateWorkoutDialogFragment";
     String [] mWorkoutLabels;
     long [] mWorkoutIds;
-    @Bind({R.id.button_work_out, R.id.button_edit_workout, R.id.button_view_stats}) List<Button> workoutButtons;
+    @BindViews({R.id.button_work_out, R.id.button_edit_workout, R.id.button_view_stats}) List<Button> workoutButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements
 
     static final ButterKnife.Action<View> DISABLE = new ButterKnife.Action<View>() {
         @Override
-        public void apply(View view, int index) {
+        public void apply(@NonNull View view, int index) {
             view.setAlpha(0.2f);
             view.setClickable(false);
         }

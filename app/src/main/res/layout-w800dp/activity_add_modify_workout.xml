@@ -33,25 +33,57 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_master_container"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:baselineAligned="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/fragment_detail_container"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+        <FrameLayout
+            android:id="@+id/fragment_master_container"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:id="@+id/divider"
+            android:background="@android:color/darker_gray"/>
+
+        <FrameLayout
+            android:id="@+id/fragment_detail_container"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_white_24dp"
+        app:menu_colorNormal="?colorAccent"
+        app:menu_colorRipple="@android:color/white"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="bottom|end" >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_alarm_24dp"
+            app:fab_label="Menu item 1"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_exercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/run"
+            app:fab_label="Menu item 1" />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.design.widget.CoordinatorLayout>

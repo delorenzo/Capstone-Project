@@ -13,7 +13,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.SlideAnimation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
             android:name=".ModifyWorkoutActivity"
             android:label="@string/title_activity_modify_workout"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.SlideAnimation">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />

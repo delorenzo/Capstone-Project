@@ -1,4 +1,4 @@
-package com.jdelorenzo.capstoneproject;
+package com.jdelorenzo.capstoneproject.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.jdelorenzo.capstoneproject.R;
+
 /**
  * An {@link DialogFragment} subclass for creating and naming a new workout.
  */
 public class CreateWorkoutDialogFragment extends DialogFragment {
-    interface CreateWorkoutDialogListener {
+    public interface CreateWorkoutDialogListener {
         void onDialogPositiveClick(String name);
     }
 

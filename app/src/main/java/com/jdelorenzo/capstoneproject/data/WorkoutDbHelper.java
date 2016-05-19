@@ -28,8 +28,8 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_DAY_TABLE = "CREATE TABLE " +
                 DayEntry.TABLE_NAME + " ( " +
                 DayEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DayEntry.COLUMN_WORKOUT_KEY + " INTEGER NOT NUll, " +
-                DayEntry.COLUMN_DAY_OF_WEEK + " TEXT UNIQUE NOT NULL, " +
+                DayEntry.COLUMN_WORKOUT_KEY + " INTEGER NOT NULL, " +
+                DayEntry.COLUMN_DAY_OF_WEEK + " TEXT NOT NULL, " +
                 "FOREIGN KEY (" + DayEntry.COLUMN_WORKOUT_KEY + ") REFERENCES " +
                 WorkoutEntry.TABLE_NAME + "(" + WorkoutEntry._ID + ") " +
                 "ON DELETE CASCADE ON UPDATE CASCADE " +
