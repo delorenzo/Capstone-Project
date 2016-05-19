@@ -28,6 +28,8 @@ public class WorkoutProvider extends ContentProvider {
             DayEntry.COLUMN_DAY_OF_WEEK + " = ?";
     private static final String sDayWorkoutKeySelection = DayEntry.TABLE_NAME + "." +
             DayEntry.COLUMN_WORKOUT_KEY + " = ?";
+    private static final String sExerciseDayIdSelection = ExerciseEntry.TABLE_NAME + "." +
+            ExerciseEntry.COLUMN_DAY_KEY + " = ?";
 
     static final int WORKOUTS = 100;
     static final int WORKOUT_WITH_ID = 101;
@@ -169,6 +171,18 @@ public class WorkoutProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
+            case EXERCISES_WITH_DAY_ID:
+                dayId = ExerciseEntry.getDayIdFromUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        ExerciseEntry.TABLE_NAME,
+                        projection,
+                        sExerciseDayIdSelection,
+                        new String[] {Long.toString(dayId)},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri:  " + uri);
         }
@@ -233,6 +247,13 @@ public class WorkoutProvider extends ContentProvider {
                 break;
             case EXERCISES:
                 long exerciseId = db.insert(ExerciseEntry.TABLE_NAME, null, values);
+                if (exerciseId > 0)
+                    returnUri = ExerciseEntry.buildExerciseId(exerciseId);
+                else
+                    throw new android.database.SQLException("Failed to insert exercise row into " + uri);
+                break;
+            case EXERCISES_WITH_DAY_ID:
+                exerciseId = db.insert(ExerciseEntry.TABLE_NAME, null, values);
                 if (exerciseId > 0)
                     returnUri = ExerciseEntry.buildExerciseId(exerciseId);
                 else
@@ -333,6 +354,13 @@ public class WorkoutProvider extends ContentProvider {
                         sExerciseIdSelection,
                         new String[] {Long.toString(exerciseId)});
                 break;
+            case EXERCISES_WITH_DAY_ID:
+                dayId = ExerciseEntry.getDayIdFromUri(uri);
+                rowsUpdated = db.update(ExerciseEntry.TABLE_NAME,
+                        values,
+                        sExerciseDayIdSelection,
+                        new String[] {Long.toString(dayId)});
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri in update:  " + uri);
         }
@@ -364,9 +392,6 @@ public class WorkoutProvider extends ContentProvider {
                 } finally {
                     db.endTransaction();
                 }
-                if (getContext() != null) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
                 break;
             case DAYS:
                 db.beginTransaction();
@@ -381,9 +406,6 @@ public class WorkoutProvider extends ContentProvider {
                     db.setTransactionSuccessful();
                 } finally {
                     db.endTransaction();
-                }
-                if (getContext() != null) {
-                    getContext().getContentResolver().notifyChange(uri, null);
                 }
                 break;
             case DAYS_WITH_WORKOUT_ID:
@@ -400,9 +422,6 @@ public class WorkoutProvider extends ContentProvider {
                 } finally {
                     db.endTransaction();
                 }
-                if (getContext() != null) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
                 break;
             case EXERCISES:
                 db.beginTransaction();
@@ -418,8 +437,20 @@ public class WorkoutProvider extends ContentProvider {
                 } finally {
                     db.endTransaction();
                 }
-                if (getContext() != null) {
-                    getContext().getContentResolver().notifyChange(uri, null);
+                break;
+            case EXERCISES_WITH_DAY_ID:
+                db.beginTransaction();
+                returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(ExerciseEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
                 }
                 break;
             default:

@@ -70,7 +70,8 @@ public class WorkoutContract {
         }
 
         public static Uri buildWorkoutId(long id) {
-            return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(id)).build();
+            return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(id))
+                    .build();
         }
 
         public static Uri buildWorkoutIdDayOfWeek(long id, String day) {
@@ -104,9 +105,11 @@ public class WorkoutContract {
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_EXERCISE).build();
 
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_EXERCISE;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +
+                        PATH_EXERCISE;
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_EXERCISE;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +
+                        PATH_EXERCISE;
 
         public static final String TABLE_NAME = "exercise";
 
@@ -120,10 +123,23 @@ public class WorkoutContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+        public static Uri buildDayId(long dayId) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_DAY).appendPath(Long.toString(dayId))
+                    .build();
+        }
+
         public static long getExerciseIdFromUri(Uri uri) {
             String exerciseIdString = uri.getPathSegments().get(1);
             if (null != exerciseIdString && exerciseIdString.length() > 0)
                 return Long.parseLong(exerciseIdString);
+            else
+                return 0;
+        }
+
+        public static long getDayIdFromUri(Uri uri) {
+            String dayIdString = uri.getPathSegments().get(2);
+            if (null != dayIdString && dayIdString.length() > 0)
+                return Long.parseLong(dayIdString);
             else
                 return 0;
         }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.adapters.DayAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
+import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
 import java.io.Serializable;
 
@@ -28,6 +29,7 @@ import butterknife.Unbinder;
 public class EditDayFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String ARG_WORKOUT_ID = "workoutId";
+    private static final String ARG_CALLBACK = "callback";
     private long mWorkoutId;
     private DayAdapter mAdapter;
     @BindView(R.id.empty_workout_textview) TextView mEmptyView;
@@ -48,13 +50,14 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     public static final int COL_WORKOUT_KEY = 2;
 
     public interface SelectDayListener extends Serializable {
-        void onDaySelected(long id);
+        void onDaySelected(long dayId);
     }
 
-    public static EditDayFragment newInstance(long workoutId) {
+    public static EditDayFragment newInstance(long workoutId, SelectDayListener listener) {
         EditDayFragment fragment = new EditDayFragment();
         Bundle b = new Bundle();
         b.putLong(ARG_WORKOUT_ID, workoutId);
+        b.putSerializable(ARG_CALLBACK, listener);
         fragment.setArguments(b);
         return fragment;
     }
@@ -64,6 +67,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
+            mCallback = (SelectDayListener) getArguments().getSerializable(ARG_CALLBACK);
         }
     }
 
@@ -84,7 +88,6 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
         try {
             if (null == mCallback) {
                 mCallback = (SelectDayListener) context;
@@ -94,6 +97,8 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
                     " must implement SelectDayListener");
         }
     }
+
+
 
     @Nullable
     @Override
@@ -108,6 +113,12 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
             public void onClick(Long id, DayAdapter.DayAdapterViewHolder vh) {
                 mCallback.onDaySelected(id);
             }
+
+            @Override
+            public void onDelete(Long id, DayAdapter.DayAdapterViewHolder vh) {
+                DatabaseIntentService.startActionDeleteDay(getActivity(), id);
+                getActivity().getContentResolver().notifyChange(WorkoutContract.DayEntry.buildWorkoutId(mWorkoutId), null);
+            }
         }, mEmptyView);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
@@ -121,14 +132,13 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String sortOrder = WorkoutContract.DayEntry.COLUMN_DAY_OF_WEEK + " ASC";
-        Uri dayForWorkoutUri = WorkoutContract.DayEntry.buildWorkoutId(id);
+        Uri dayForWorkoutUri = WorkoutContract.DayEntry.buildWorkoutId(mWorkoutId);
         return new CursorLoader(getActivity(),
                 dayForWorkoutUri,
                 DAY_COLUMNS,
                 null,
                 null,
-                sortOrder);
+                null);
     }
 
     @Override

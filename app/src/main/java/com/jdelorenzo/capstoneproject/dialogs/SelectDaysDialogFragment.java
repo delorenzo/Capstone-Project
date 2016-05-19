@@ -16,16 +16,26 @@ import java.util.ArrayList;
 public class SelectDaysDialogFragment extends DialogFragment {
     ArrayList<Integer> mSelectedItems = new ArrayList<>();
     private SelectDaysListener mCallback;
+    private boolean[] mCheckedItems;
+    private static final String ARG_CHECKED_ITEMS = "checkedItems";
 
     public interface SelectDaysListener extends Serializable {
         void onDaysSelected(ArrayList<Integer> days);
+    }
+
+    public static SelectDaysDialogFragment newInstance(boolean[] checked) {
+        Bundle b = new Bundle();
+        b.putBooleanArray(ARG_CHECKED_ITEMS, checked);
+        SelectDaysDialogFragment fragment = new SelectDaysDialogFragment();
+        fragment.setArguments(b);
+        return fragment;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dialog_select_days_title)
-                .setMultiChoiceItems(R.array.days, null, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(R.array.days, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         if (isChecked) {

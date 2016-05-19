@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jdelorenzo.capstoneproject.adapters.DayAdapter;
 import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
@@ -117,14 +116,13 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String sortOrder = WorkoutContract.DayEntry.COLUMN_DAY_OF_WEEK + " ASC";
-        Uri dayForWorkoutUri = WorkoutContract.DayEntry.buildWorkoutId(id);
+        Uri dayForWorkoutUri = WorkoutContract.ExerciseEntry.buildDayId(mDayId);
         return new CursorLoader(getActivity(),
                 dayForWorkoutUri,
                 null,
                 null,
                 null,
-                sortOrder);
+                null);
     }
 
     @Override

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void modifyWorkout(long workout) {
         Intent intent = new Intent(this, ModifyWorkoutActivity.class);
-        intent.putExtra(WorkoutActivity.ARG_WORKOUT_ID, workout);
+        intent.putExtra(ModifyWorkoutActivity.ARG_WORKOUT_ID, workout);
         startActivity(intent);
     }
 

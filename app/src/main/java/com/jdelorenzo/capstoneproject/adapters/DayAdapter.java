@@ -19,6 +19,7 @@ import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHolder> {
     private Cursor mCursor;
@@ -37,10 +38,10 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
 
     public interface DayAdapterOnClickHandler {
         void onClick(Long id, DayAdapterViewHolder vh);
+        void onDelete(Long id, DayAdapterViewHolder vh);
     }
 
-    public class DayAdapterViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+    public class DayAdapterViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.delete_day_button) ImageButton deleteButton;
         @BindView(R.id.day) Button dayButton;
 
@@ -48,16 +49,23 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
         {
             super(view);
             ButterKnife.bind(this, view);
-            view.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
+        @OnClick(R.id.day)
+        public void onClick() {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
             int dayId = mCursor.getColumnIndex(WorkoutContract.DayEntry._ID);
             mClickHandler.onClick(mCursor.getLong(dayId), this);
             mICM.onClick(this);
+        }
+
+        @OnClick(R.id.delete_day_button)
+        public void onDelete() {
+            int adapterPosition = getAdapterPosition();
+            mCursor.moveToPosition(adapterPosition);
+            int dayId = mCursor.getColumnIndex(WorkoutContract.DayEntry._ID);
+            mClickHandler.onDelete(mCursor.getLong(dayId), this);
         }
     }
 
@@ -77,19 +85,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     public void onBindViewHolder(final DayAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         holder.dayButton.setText(mCursor.getString(EditDayFragment.COL_DAY_OF_WEEK));
-        holder.dayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "Hi from " + holder.dayButton.getText() + "!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "Delete " + holder.dayButton.getText() + "!", Toast.LENGTH_SHORT).show();
-                //DatabaseIntentService.startActionDeleteDay(mContext, mCursor.getLong(EditDayFragment.COL_DAY_ID));
-            }
-        });
         mICM.onBindViewHolder(holder, position);
     }
 
