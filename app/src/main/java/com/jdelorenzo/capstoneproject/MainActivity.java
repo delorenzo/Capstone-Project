@@ -87,9 +87,9 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void workOut(long id) {
+    private void workOut(long workoutId) {
         Intent intent = new Intent(this, WorkoutActivity.class);
-        intent.putExtra(WorkoutActivity.ARG_WORKOUT_ID, mWorkoutIds[0]);
+        intent.putExtra(WorkoutActivity.ARG_WORKOUT_ID, workoutId);
         startActivity(intent);
     }
 

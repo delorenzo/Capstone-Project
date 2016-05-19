@@ -40,9 +40,9 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 ExerciseEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ExerciseEntry.COLUMN_DAY_KEY + " INTEGER NOT NULL, " +
                 ExerciseEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
-                ExerciseEntry.COLUMN_REPS + " TEXT, " +
+                ExerciseEntry.COLUMN_REPS + " INTEGER, " +
                 ExerciseEntry.COLUMN_SETS + " INTEGER, " +
-                ExerciseEntry.COLUMN_WEIGHT + " TEXT, " +
+                ExerciseEntry.COLUMN_WEIGHT + " REAL, " +
                 "FOREIGN KEY (" + ExerciseEntry.COLUMN_DAY_KEY + ") REFERENCES " +
                 DayEntry.TABLE_NAME + "(" + DayEntry._ID + ") " +
                 "ON DELETE CASCADE ON UPDATE CASCADE " +

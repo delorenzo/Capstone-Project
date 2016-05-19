@@ -70,7 +70,7 @@ public class DatabaseIntentService extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionAddDay(Context context, long workoutId, long dayOfWeek) {
+    public static void startActionAddDay(Context context, long workoutId, int dayOfWeek) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_ADD_DAY);
         intent.setData(DayEntry.CONTENT_URI);
@@ -86,8 +86,8 @@ public class DatabaseIntentService extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionAddExercise(Context context, long dayId, String name, String sets,
-                                              String reps, String weight) {
+    public static void startActionAddExercise(Context context, long dayId, String name, int sets,
+                                              int reps, double weight) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_ADD_EXERCISE);
         intent.setData(ExerciseEntry.CONTENT_URI);
@@ -106,8 +106,8 @@ public class DatabaseIntentService extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionEditExercise(Context context, long id, String name, String sets,
-                                              String reps, String weight) {
+    public static void startActionEditExercise(Context context, long id, String name, int sets,
+                                              int reps, double weight) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_EDIT_EXERCISE);
         intent.setData(ExerciseEntry.buildExerciseId(id));
@@ -168,7 +168,7 @@ public class DatabaseIntentService extends IntentService {
                     contentValues.put(DayEntry.COLUMN_WORKOUT_KEY,
                             intent.getLongExtra(EXTRA_WORKOUT_ID, 0));
                     contentValues.put(DayEntry.COLUMN_DAY_OF_WEEK,
-                            intent.getLongExtra(EXTRA_DAY_OF_WEEK, 0));
+                            intent.getIntExtra(EXTRA_DAY_OF_WEEK, 0));
                     getContentResolver().insert(
                             intent.getData(),
                             contentValues
@@ -205,11 +205,11 @@ public class DatabaseIntentService extends IntentService {
                     contentValues.put(ExerciseEntry.COLUMN_DESCRIPTION,
                             intent.getStringExtra(EXTRA_NAME));
                     contentValues.put(ExerciseEntry.COLUMN_REPS,
-                            intent.getLongExtra(EXTRA_REPS, 0));
+                            intent.getIntExtra(EXTRA_REPS, 0));
                     contentValues.put(ExerciseEntry.COLUMN_SETS,
-                            intent.getLongExtra(EXTRA_SETS, 0));
+                            intent.getIntExtra(EXTRA_SETS, 0));
                     contentValues.put(ExerciseEntry.COLUMN_WEIGHT,
-                            intent.getLongExtra(EXTRA_WEIGHT, 0));
+                            intent.getDoubleExtra(EXTRA_WEIGHT, 0));
                     getContentResolver().insert(
                             intent.getData(),
                             contentValues
@@ -223,11 +223,11 @@ public class DatabaseIntentService extends IntentService {
                     contentValues.put(ExerciseEntry.COLUMN_DESCRIPTION,
                             intent.getStringExtra(EXTRA_NAME));
                     contentValues.put(ExerciseEntry.COLUMN_REPS,
-                            intent.getLongExtra(EXTRA_REPS, 0));
+                            intent.getIntExtra(EXTRA_REPS, 0));
                     contentValues.put(ExerciseEntry.COLUMN_SETS,
-                            intent.getLongExtra(EXTRA_SETS, 0));
+                            intent.getIntExtra(EXTRA_SETS, 0));
                     contentValues.put(ExerciseEntry.COLUMN_WEIGHT,
-                            intent.getLongExtra(EXTRA_WEIGHT, 0));
+                            intent.getDoubleExtra(EXTRA_WEIGHT, 0));
                     getContentResolver().update(
                             intent.getData(),
                             contentValues,

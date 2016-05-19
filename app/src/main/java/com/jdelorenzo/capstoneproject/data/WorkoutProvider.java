@@ -30,6 +30,9 @@ public class WorkoutProvider extends ContentProvider {
             DayEntry.COLUMN_WORKOUT_KEY + " = ?";
     private static final String sExerciseDayIdSelection = ExerciseEntry.TABLE_NAME + "." +
             ExerciseEntry.COLUMN_DAY_KEY + " = ?";
+    private static final String sExerciseWorkoutIdDayOfWeekSelection = DayEntry.TABLE_NAME + "." +
+            DayEntry.COLUMN_WORKOUT_KEY + " = ? AND " + DayEntry.TABLE_NAME + "." +
+            DayEntry.COLUMN_DAY_OF_WEEK + " = ?";
 
     static final int WORKOUTS = 100;
     static final int WORKOUT_WITH_ID = 101;
@@ -41,6 +44,7 @@ public class WorkoutProvider extends ContentProvider {
     static final int EXERCISE_WITH_ID = 301;
     static final int EXERCISES_WITH_WORKOUT_ID = 302;
     static final int EXERCISES_WITH_DAY_ID = 303;
+    static final int EXERCISES_WITH_WORKOUT_ID_AND_DAY_OF_WEEK = 304;
 
     private static final SQLiteQueryBuilder sDayByWorkoutQueryBuilder;
 
@@ -178,6 +182,19 @@ public class WorkoutProvider extends ContentProvider {
                         projection,
                         sExerciseDayIdSelection,
                         new String[] {Long.toString(dayId)},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case EXERCISES_WITH_WORKOUT_ID_AND_DAY_OF_WEEK:
+                workoutId = ExerciseEntry.getWorkoutIdFromUri(uri);
+                int day = ExerciseEntry.getDayOfWeekFromUri(uri);
+                retCursor = sExerciseByDayQueryBuilder.query(
+                        mOpenHelper.getReadableDatabase(),
+                        projection,
+                        sExerciseWorkoutIdDayOfWeekSelection,
+                        new String[] {Long.toString(workoutId), Integer.toString(day)},
                         null,
                         null,
                         sortOrder

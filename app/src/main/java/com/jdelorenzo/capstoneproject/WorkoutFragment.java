@@ -18,6 +18,9 @@ import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.ExerciseEntry;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,7 +31,7 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String ARG_WORKOUT_ID = "workout";
+    private static final String ARG_WORKOUT_ID = "workoutId";
     private long mWorkoutId;
     private ExerciseAdapter mExerciseAdapter;
     private long mDay;
@@ -54,13 +57,13 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     /**
-     * @param workoutID Workout ID.
+     * @param workoutId Workout ID.
      * @return A new instance of fragment WorkoutFragment.
      */
-    public static WorkoutFragment newInstance(long workoutID) {
+    public static WorkoutFragment newInstance(long workoutId) {
         WorkoutFragment fragment = new WorkoutFragment();
         Bundle args = new Bundle();
-        args.putLong(ARG_WORKOUT_ID, workoutID);
+        args.putLong(ARG_WORKOUT_ID, workoutId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,7 +79,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_workout, container);
+        View rootView = inflater.inflate(R.layout.fragment_workout, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         mRecyclerView.setHasFixedSize(true);
         mExerciseAdapter = new ExerciseAdapter(getActivity(), new ExerciseAdapter.ExerciseAdapterOnClickHandler() {
@@ -99,10 +102,12 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri workoutForDayUri = WorkoutContract.WorkoutEntry.buildWorkoutId(mWorkoutId);
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        Uri exerciseUri = WorkoutContract.ExerciseEntry.buildWorkoutIdDayOfWeek(mWorkoutId, day);
         return new CursorLoader(getActivity(),
-                workoutForDayUri,
-                EXERCISE_COLUMNS,
+                exerciseUri,
+                null,
                 null,
                 null,
                 null);

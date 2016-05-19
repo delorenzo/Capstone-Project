@@ -128,6 +128,11 @@ public class WorkoutContract {
                     .build();
         }
 
+        public static Uri buildWorkoutIdDayOfWeek(long workoutId, int day) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(workoutId))
+                    .appendPath(PATH_DAY).appendPath(Integer.toString(day)).build();
+        }
+
         public static long getExerciseIdFromUri(Uri uri) {
             String exerciseIdString = uri.getPathSegments().get(1);
             if (null != exerciseIdString && exerciseIdString.length() > 0)
@@ -140,6 +145,22 @@ public class WorkoutContract {
             String dayIdString = uri.getPathSegments().get(2);
             if (null != dayIdString && dayIdString.length() > 0)
                 return Long.parseLong(dayIdString);
+            else
+                return 0;
+        }
+
+        public static long getWorkoutIdFromUri(Uri uri) {
+            String workoutIdString = uri.getPathSegments().get(2);
+            if (null != workoutIdString && workoutIdString.length() > 0)
+                return Long.parseLong(workoutIdString);
+            else
+                return 0;
+        }
+
+        public static int getDayOfWeekFromUri(Uri uri) {
+            String dayOfWeekString = uri.getPathSegments().get(4);
+            if (null != dayOfWeekString && dayOfWeekString.length() > 0)
+                return Integer.parseInt(dayOfWeekString);
             else
                 return 0;
         }

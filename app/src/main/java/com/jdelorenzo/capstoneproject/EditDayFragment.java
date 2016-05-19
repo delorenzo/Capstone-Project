@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class EditDayFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
     private static final String ARG_WORKOUT_ID = "workoutId";
     private static final String ARG_CALLBACK = "callback";
     private long mWorkoutId;
@@ -86,8 +85,15 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
         super.onSaveInstanceState(outState);
     }
 
+    /*
+    This method is never called..
+     */
     @Override
     public void onAttach(Context context) {
+        super.onAttach(context);
+        if (getArguments() != null) {
+            mCallback = (SelectDayListener) getArguments().getSerializable(ARG_CALLBACK);
+        }
         try {
             if (null == mCallback) {
                 mCallback = (SelectDayListener) context;

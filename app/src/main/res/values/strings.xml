@@ -28,6 +28,7 @@
     <string name="empty_day_text">You have no days for this workout.  Add a day!</string>
     <string name="no_workouts_text">You have no workouts.  Create a workout!</string>
     <string name="empty_exercise_text">You have no exercises for this day.  Add an exercise!</string>
+    <string name="empty_workout_text">You have no exercises scheduled for today.</string>
 
     <!-- name strings -->
     <string name="weight">Weight</string>
@@ -51,17 +52,24 @@
 
     <!-- format strings -->
     <string name="weight_format_metric" example="20 kg">
-        <xliff:g>%f$1</xliff:g> kg
+        <xliff:g>%1$.2f</xliff:g> kg
     </string>
     <string name="weight_format_imperial" example="20 lb">
-        <xliff:g>%f$1</xliff:g> lb
+        <xliff:g>%1$.2f</xliff:g> lb
     </string>
+    <string name="weight_format" translatable="false" example="23.45">
+        <xliff:g>%1$.2f</xliff:g>
+    </string>
+    <string name="weight_units_metric">kg</string>
+    <string name="weight_units_imperial">lb</string>
 
     <!-- dialog strings -->
     <string name="dialog_create_workout_title">Create Workout</string>
     <string name="dialog_name_workout_text">Enter a name for your new workout:</string>
     <string name="dialog_select_workout_title">Select Workout</string>
     <string name="dialog_select_days_title">Select Days</string>
+    <string name="dialog_create_exercise_title">Create Exercise</string>
+    <string name="dialog_create_exercise_text">Enter the details of your new exercise:</string>
 
     <!-- hint strings -->
     <string name="hint_workout_name">Workout Name</string>

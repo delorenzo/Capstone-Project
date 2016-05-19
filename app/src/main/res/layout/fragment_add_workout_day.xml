@@ -24,6 +24,10 @@
             android:dropDownSelector="@color/colorPrimary" />
         <TextView
             android:visibility="gone"
+            android:gravity="center"
+            android:textAppearance="?textAppearanceLargePopupMenu"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/space_between_content_areas"
             android:text="@string/empty_exercise_text"
             android:id="@+id/empty_exercise_textview"
             android:layout_width="match_parent"

@@ -11,4 +11,9 @@
     <dimen name="space_between_content_areas">8dp</dimen>
     <dimen name="button_bar_vertical_spacing">4dp</dimen>
     <dimen name="dialog_horizontal_padding">16dp</dimen>
+
+    <dimen name="edit_text_horizontal_padding">16dp</dimen>
+    <dimen name="edit_text_horizontal_margin">0dp</dimen>
+    <dimen name="button_bar_max_width">328dp</dimen>
+    <dimen name="button_height">48dp</dimen>
 </resources>

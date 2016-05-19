@@ -26,67 +26,90 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                android:layout_gravity="bottom"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+                <ImageView
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/logo_wide"
+                    android:contentDescription="@string/app_name" />
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:clipToPadding="false"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/button_bar_layout"
-        android:layout_width="match_parent"
+    <ScrollView
+        android:id="@+id/activity_main_scrollview"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        style="?android:attr/buttonBarStyle"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin">
-
-        <Button
-            android:id="@+id/button_work_out"
-            android:background="@color/colorAccent"
-            android:textColor="@android:color/white"
-            style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:clipToPadding="false"
+            android:id="@+id/button_bar_layout"
             android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="wrap_content"
-            android:text="@string/action_work_out"/>
+            android:orientation="vertical"
+            style="?android:attr/buttonBarStyle"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin">
 
-        <Button
-            android:id="@+id/button_create_workout"
-            android:layout_marginTop="@dimen/button_bar_vertical_spacing"
-            android:background="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/action_create_workout"/>
+            <Button
+                android:maxWidth="@dimen/button_bar_max_width"
+                android:minWidth="@dimen/button_bar_max_width"
+                android:id="@+id/button_work_out"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_work_out"/>
 
-        <Button
-            android:id="@+id/button_edit_workout"
-            android:layout_marginTop="@dimen/button_bar_vertical_spacing"
-            android:background="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/action_edit_workout"/>
+            <Button
+                android:maxWidth="@dimen/button_bar_max_width"
+                android:minWidth="@dimen/button_bar_max_width"
+                android:id="@+id/button_create_workout"
+                android:layout_marginTop="@dimen/button_bar_vertical_spacing"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_create_workout"/>
 
-        <Button
-            android:id="@+id/button_view_stats"
-            android:layout_marginTop="@dimen/button_bar_vertical_spacing"
-            android:background="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/action_view_stats"/>
-    </LinearLayout>
+            <Button
+                android:maxWidth="@dimen/button_bar_max_width"
+                android:minWidth="@dimen/button_bar_max_width"
+                android:id="@+id/button_edit_workout"
+                android:layout_marginTop="@dimen/button_bar_vertical_spacing"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_edit_workout"/>
+
+            <Button
+                android:maxWidth="@dimen/button_bar_max_width"
+                android:minWidth="@dimen/button_bar_max_width"
+                android:id="@+id/button_view_stats"
+                android:layout_marginTop="@dimen/button_bar_vertical_spacing"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_view_stats"/>
+        </LinearLayout>
+    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

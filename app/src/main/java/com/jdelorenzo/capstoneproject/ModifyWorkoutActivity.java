@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.jdelorenzo.capstoneproject.data.WorkoutContract;
+import com.jdelorenzo.capstoneproject.dialogs.CreateExerciseDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.SelectDaysDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
@@ -17,7 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class ModifyWorkoutActivity extends AppCompatActivity implements SelectDaysDialogFragment.SelectDaysListener {
+public class ModifyWorkoutActivity extends AppCompatActivity implements
+        SelectDaysDialogFragment.SelectDaysListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
     private String mWorkoutName;
     private long mWorkoutId;
@@ -31,6 +34,7 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements SelectDa
     private static final String FTAG_EDIT_DAY = "editDayFragment";
     private static final String FTAG_EDIT_WORKOUT = "editWorkoutFragment";
     private static final String FTAG_SELECT_DAYS = "selectDaysDialogFragment";
+    private static final String FTAG_ADD_EXERCISE = "addExerciseDialogFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements SelectDa
         setContentView(R.layout.activity_add_modify_workout);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle b = getIntent().getExtras();
         if (b!= null) {
             mWorkoutName = b.getString(ARG_WORKOUT_NAME);
@@ -66,11 +71,6 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements SelectDa
 
     @Override
     public void onDaysSelected(ArrayList<Integer> indices) {
-//        ArrayList<String> selectedDays = new ArrayList<>(indices.size());
-//        String [] dayStrings = getResources().getStringArray(R.array.days);
-//        for (int i : indices) {
-//            selectedDays.add(dayStrings[i]);
-//        }
         DatabaseIntentService.startActionEditDays(this, indices, mWorkoutId);
     }
 
@@ -98,8 +98,18 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements SelectDa
     //in multi pane mode, this is one of the fab menu options
     @Optional @OnClick(R.id.fab_exercise)
     public void onExerciseFab() {
-        EditWorkoutFragment fragment = (EditWorkoutFragment) getFragmentManager().findFragmentByTag(FTAG_EDIT_WORKOUT);
-        fragment.fabAction();
+        EditWorkoutFragment fragment = (EditWorkoutFragment) getFragmentManager()
+                .findFragmentByTag(FTAG_EDIT_WORKOUT);
+        final long dayId = fragment.getDayId();
+        CreateExerciseDialogFragment dialogFragment = CreateExerciseDialogFragment
+                .newInstance(new CreateExerciseDialogFragment.CreateExerciseDialogFragmentListener() {
+            @Override
+            public void onCreateExercise(int sets, int reps, String description, int weight) {
+                DatabaseIntentService.startActionAddExercise(getApplicationContext(), dayId, description, sets, reps, weight);
+                getContentResolver().notifyChange(WorkoutContract.ExerciseEntry.buildDayId(dayId), null);
+            }
+        });
+        dialogFragment.show(getFragmentManager(), FTAG_ADD_EXERCISE);
     }
 
     @Override

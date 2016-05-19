@@ -3,34 +3,36 @@ package com.jdelorenzo.capstoneproject.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.jdelorenzo.capstoneproject.EditWorkoutFragment;
 import com.jdelorenzo.capstoneproject.ItemChoiceManager;
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.Utility;
-import com.jdelorenzo.capstoneproject.WorkoutFragment;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseAdapterViewHolder> {
+public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapter.ExerciseAdapterViewHolder> {
     private Cursor mCursor;
     private Context mContext;
     private ItemChoiceManager mICM;
     final private ExerciseAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
 
-    public ExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
-                           View emptyView, int choiceMode) {
+    public EditExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
+                               View emptyView, int choiceMode) {
         mContext = context;
         mICM = new ItemChoiceManager(this);
         mClickHandler = clickHandler;
@@ -39,15 +41,17 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     public interface ExerciseAdapterOnClickHandler {
         void onClick(Long id, ExerciseAdapterViewHolder vh);
+        void onDelete(Long id, ExerciseAdapterViewHolder vh);
     }
 
     public class ExerciseAdapterViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        @BindView(R.id.complete_checkbox) CheckBox completeCheckbox;
-        @BindView(R.id.exercise_name) TextView exerciseName;
-        @BindView(R.id.repetitions) TextView repetitions;
-        @BindView(R.id.weight) TextView weight;
-        @BindView(R.id.sets) TextView sets;
+        @BindView(R.id.delete_exercise_button) ImageButton deleteExerciseButton;
+        @BindView(R.id.exercise) AppCompatAutoCompleteTextView exerciseName;
+        @BindView(R.id.repetitions) AppCompatEditText repetitions;
+        @BindView(R.id.weight) AppCompatEditText weight;
+        @BindView(R.id.sets) AppCompatEditText sets;
+        @BindView(R.id.weight_units) TextView weightUnits;
 
         public ExerciseAdapterViewHolder(View view)
         {
@@ -64,13 +68,21 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             mClickHandler.onClick(mCursor.getLong(exerciseId), this);
             mICM.onClick(this);
         }
+
+        @OnClick(R.id.delete_exercise_button)
+        public void onDelete() {
+            int adapterPosition = getAdapterPosition();
+            mCursor.moveToPosition(adapterPosition);
+            int exerciseId = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry._ID);
+            mClickHandler.onDelete(mCursor.getLong(exerciseId), this);
+        }
     }
 
     @Override
     public ExerciseAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (parent instanceof RecyclerView) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_exercise, parent, false);
+                    .inflate(R.layout.item_add_exercise, parent, false);
             view.setFocusable(true);
             return new ExerciseAdapterViewHolder(view);
         } else {
@@ -81,27 +93,14 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     @Override
     public void onBindViewHolder(final ExerciseAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.exerciseName.setText(mCursor.getString(WorkoutFragment.COL_DESCRIPTION));
+        holder.exerciseName.setText(mCursor.getString(EditWorkoutFragment.COL_DESCRIPTION));
         holder.repetitions.setText(String.format(Locale.getDefault(), "%d",
-                mCursor.getLong(WorkoutFragment.COL_REPS)));
+                mCursor.getInt(EditWorkoutFragment.COL_REPS)));
         holder.sets.setText(String.format(Locale.getDefault(), "%d",
-                mCursor.getLong(WorkoutFragment.COL_SETS)));
-        holder.weight.setText(Utility.getFormattedWeightString(mContext,
-                mCursor.getDouble(WorkoutFragment.COL_WEIGHT)));
-        holder.completeCheckbox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                long sets = Long.parseLong(holder.sets.toString());
-                if (isChecked && sets > 0) {
-                    sets--;
-                    holder.sets.setText(String.format(Locale.getDefault(), "%d", sets));
-                }
-                if (sets > 0) {
-                    buttonView.setChecked(false);
-                }
-            }
-        });
+                mCursor.getInt(EditWorkoutFragment.COL_SETS)));
+        holder.weight.setText(Utility.getFormattedWeightStringWithoutUnits(mContext,
+                mCursor.getDouble(EditWorkoutFragment.COL_WEIGHT)));
+        holder.weightUnits.setText(Utility.getWeightUnits(mContext));
         mICM.onBindViewHolder(holder, position);
     }
 
