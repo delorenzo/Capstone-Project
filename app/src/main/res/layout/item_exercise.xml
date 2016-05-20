@@ -10,7 +10,7 @@
         android:layout_gravity="center"
         android:layout_marginRight="@dimen/icon_left_margin"
         android:layout_marginEnd="@dimen/icon_left_margin"
-        android:background="@color/white"
+        android:background="@android:color/transparent"
         android:id="@+id/complete_checkbox"
         android:layout_margin="4dp"/>
     <TextView

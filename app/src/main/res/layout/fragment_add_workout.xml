@@ -29,7 +29,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/add_workout_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             tools:listitem="@layout/item_workout_day">
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>

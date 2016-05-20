@@ -1,12 +1,14 @@
 package com.jdelorenzo.capstoneproject;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @BindView(R.id.workout_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.workout_empty_view) TextView mEmptyView;
     private Unbinder unbinder;
+    private final static int WORKOUT_LOADER = 0;
 
     public String[] EXERCISE_COLUMNS = {
             ExerciseEntry.TABLE_NAME + "." + ExerciseEntry._ID,
@@ -81,6 +84,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_workout, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
         mExerciseAdapter = new ExerciseAdapter(getActivity(), new ExerciseAdapter.ExerciseAdapterOnClickHandler() {
             @Override
@@ -88,10 +92,20 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
                 //do nothing for now
             }
         }, mEmptyView, AbsListView.CHOICE_MODE_NONE);
+        mRecyclerView.setAdapter(mExerciseAdapter);
         if (savedInstanceState != null) {
             mExerciseAdapter.onRestoreInstanceState(savedInstanceState);
         }
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
+        }
+        getLoaderManager().initLoader(WORKOUT_LOADER, null, this);
     }
 
     @Override

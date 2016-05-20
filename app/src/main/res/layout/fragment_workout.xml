@@ -14,16 +14,19 @@
     android:layout_marginStart="@dimen/activity_horizontal_margin"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginEnd="@dimen/activity_horizontal_margin">
+    <TextView
+        android:gravity="center"
+        android:textAppearance="?textAppearanceLargePopupMenu"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/space_between_content_areas"
+        android:text="@string/empty_workout_text"
+        android:id="@+id/workout_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/workout_recycler_view"
         tools:listitem="@layout/item_exercise"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <TextView
-        android:visibility="gone"
-        android:gravity="center_horizontal"
-        android:text="@string/empty_workout_text"
-        android:id="@+id/workout_empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </LinearLayout>

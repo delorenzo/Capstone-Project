@@ -14,14 +14,6 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_height="match_parent">
-        <android.support.v7.widget.AppCompatSpinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Monday"
-            android:spinnerMode="dropdown"
-            tools:listitem="@layout/spinner_day_dropdown_item"
-            android:id="@+id/day_selection_spinner"
-            android:dropDownSelector="@color/colorPrimary" />
         <TextView
             android:visibility="gone"
             android:gravity="center"
@@ -36,12 +28,6 @@
             android:id="@+id/exercise_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_add_exercise" />
-        <!--<include layout="@layout/item_add_exercise_fake"/>-->
-        <!--<include layout="@layout/item_add_exercise"/>-->
-        <!--<android.support.v4.widget.Space-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="140dp" />-->
-        <!--<include layout="@layout/submit_button_bar"/>-->
+            tools:listitem="@layout/item_add_exercise_old" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

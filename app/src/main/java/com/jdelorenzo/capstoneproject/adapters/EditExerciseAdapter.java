@@ -47,11 +47,10 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
     public class ExerciseAdapterViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         @BindView(R.id.delete_exercise_button) ImageButton deleteExerciseButton;
-        @BindView(R.id.exercise) AppCompatAutoCompleteTextView exerciseName;
-        @BindView(R.id.repetitions) AppCompatEditText repetitions;
-        @BindView(R.id.weight) AppCompatEditText weight;
-        @BindView(R.id.sets) AppCompatEditText sets;
-        @BindView(R.id.weight_units) TextView weightUnits;
+        @BindView(R.id.exercise_name) TextView exerciseName;
+        @BindView(R.id.repetitions) TextView repetitions;
+        @BindView(R.id.weight) TextView weight;
+        @BindView(R.id.sets) TextView sets;
 
         public ExerciseAdapterViewHolder(View view)
         {
@@ -98,9 +97,8 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
                 mCursor.getInt(EditWorkoutFragment.COL_REPS)));
         holder.sets.setText(String.format(Locale.getDefault(), "%d",
                 mCursor.getInt(EditWorkoutFragment.COL_SETS)));
-        holder.weight.setText(Utility.getFormattedWeightStringWithoutUnits(mContext,
+        holder.weight.setText(Utility.getFormattedWeightString(mContext,
                 mCursor.getDouble(EditWorkoutFragment.COL_WEIGHT)));
-        holder.weightUnits.setText(Utility.getWeightUnits(mContext));
         mICM.onBindViewHolder(holder, position);
     }
 

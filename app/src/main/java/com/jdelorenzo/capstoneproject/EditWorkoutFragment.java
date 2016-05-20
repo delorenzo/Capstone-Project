@@ -80,7 +80,6 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
             mDayId = getArguments().getLong(ARG_DAY_ID);
         }
         getLoaderManager().initLoader(WORKOUT_LOADER, null, this);
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -110,6 +109,9 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
             }
         }, mEmptyView, ListView.CHOICE_MODE_SINGLE);
         mRecyclerView.setAdapter(mAdapter);
+        if (savedInstanceState != null) {
+            mAdapter.onRestoreInstanceState(savedInstanceState);
+        }
         return rootView;
     }
 
@@ -124,7 +126,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
         Uri dayForWorkoutUri = WorkoutContract.ExerciseEntry.buildDayId(mDayId);
         return new CursorLoader(getActivity(),
                 dayForWorkoutUri,
-                null,
+                EXERCISE_COLUMNS,
                 null,
                 null,
                 null);

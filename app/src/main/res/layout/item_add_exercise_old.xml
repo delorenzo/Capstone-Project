@@ -10,54 +10,57 @@
         android:layout_gravity="center"
         android:layout_marginRight="@dimen/icon_left_margin"
         android:layout_marginEnd="@dimen/icon_left_margin"
-        android:background="@color/white"
-        android:id="@+id/delete_day_button"
+        android:background="@android:color/transparent"
+        android:id="@+id/delete_exercise_button"
         android:scaleType="fitXY"
         android:layout_margin="4dp"
         android:contentDescription="@string/accessibility_string_delete_workout_day"
         android:src="@drawable/ic_delete_24dp_color_primary"/>
     <android.support.v7.widget.AppCompatAutoCompleteTextView
-        android:layout_weight="2"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:layout_gravity="center_vertical"
         android:hint="@string/exercise"
-        android:id="@+id/exercise_edittext"
+        android:id="@+id/exercise"
         android:maxLines="1"
         android:ellipsize="end"
         android:inputType="textAutoComplete"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Deadlifts"/>
+        tools:context="Deadlifts"/>
     <android.support.v7.widget.AppCompatEditText
-        android:layout_weight="1.5"
         android:layout_gravity="center_vertical"
         android:maxLines="1"
         android:ellipsize="end"
-        android:id="@+id/weight_edittext"
+        android:id="@+id/weight"
         android:hint="@string/weight"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="80 lb"
         android:inputType="numberDecimal"/>
-    <android.support.v7.widget.AppCompatEditText
-        android:layout_weight="1"
+    <TextView
         android:layout_gravity="center_vertical"
-        android:id="@+id/repetitions_edittext"
+        android:id="@+id/weight_units"
+        android:textAppearance="?textAppearanceListItemSmall"
+        android:layout_weight="0"
+        tools:text="lb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.AppCompatEditText
+        android:layout_gravity="center_vertical"
+        android:id="@+id/repetitions"
         android:hint="@string/repetitions"
         android:maxLines="1"
         android:ellipsize="end"
-        android:layout_width="0dp"
-        tools:text="10"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"/>
     <android.support.v7.widget.AppCompatEditText
-        android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:id="@+id/sets_edittext"
+        android:id="@+id/sets"
         android:hint="@string/sets"
         android:maxLines="1"
         android:ellipsize="end"
-        tools:text="3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"/>
 </LinearLayout>

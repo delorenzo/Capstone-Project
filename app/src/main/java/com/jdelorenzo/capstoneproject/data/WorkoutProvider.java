@@ -499,6 +499,9 @@ public class WorkoutProvider extends ContentProvider {
                 WorkoutContract.PATH_WORKOUT + "/#", EXERCISES_WITH_WORKOUT_ID);
         matcher.addURI(authority, WorkoutContract.PATH_EXERCISE + "/" + WorkoutContract.PATH_DAY +
                 "/#", EXERCISES_WITH_DAY_ID);
+        matcher.addURI(authority, WorkoutContract.PATH_EXERCISE + "/" +
+                WorkoutContract.PATH_WORKOUT + "/#/" + WorkoutContract.PATH_DAY + "/#",
+                EXERCISES_WITH_WORKOUT_ID_AND_DAY_OF_WEEK);
         return matcher;
     }
 }
