@@ -1,10 +1,13 @@
 package com.jdelorenzo.capstoneproject;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
@@ -20,7 +23,7 @@ import butterknife.OnClick;
 import butterknife.Optional;
 
 public class ModifyWorkoutActivity extends AppCompatActivity implements
-        SelectDaysDialogFragment.SelectDaysListener {
+        SelectDaysDialogFragment.SelectDaysListener, EditDayFragment.SelectDayListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
     private String mWorkoutName;
     private long mWorkoutId;
@@ -39,11 +42,6 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            mWorkoutId = savedInstanceState.getLong(EXTRA_WORKOUT_ID);
-            mCheckedDays = savedInstanceState.getBooleanArray(EXTRA_CHECKED_DAYS);
-            return;
-        }
         setContentView(R.layout.activity_add_modify_workout);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -53,19 +51,33 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements
             mWorkoutName = b.getString(ARG_WORKOUT_NAME);
             mWorkoutId = b.getLong(ARG_WORKOUT_ID);
         }
-        EditDayFragment selectDayFragment = EditDayFragment.newInstance(mWorkoutId, new EditDayFragment.SelectDayListener() {
-            @Override
-            public void onDaySelected(long dayId) {
-                EditWorkoutFragment editWorkoutFragment = EditWorkoutFragment.newInstance(mWorkoutId, dayId);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, editWorkoutFragment, FTAG_EDIT_WORKOUT)
-                        .commit();
-            }
-        });
+        if (savedInstanceState == null) {
+//            EditDayFragment selectDayFragment = EditDayFragment.newInstance(mWorkoutId, new EditDayFragment.SelectDayListener() {
+//                @Override
+//                public void onDaySelected(long dayId) {
+//                    EditWorkoutFragment editWorkoutFragment = EditWorkoutFragment.newInstance(mWorkoutId, dayId);
+//                    getFragmentManager()
+//                            .beginTransaction()
+//                            .replace(R.id.fragment_container, editWorkoutFragment, FTAG_EDIT_WORKOUT)
+//                            .addToBackStack(null)
+//                            .commit();
+//                }
+//            });
+            EditDayFragment selectDayFragment = EditDayFragment.newInstance(mWorkoutId, null);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, selectDayFragment, FTAG_EDIT_DAY)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onDaySelected(long dayId) {
+        EditWorkoutFragment editWorkoutFragment = EditWorkoutFragment.newInstance(mWorkoutId, dayId);
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, selectDayFragment, FTAG_EDIT_DAY)
+                .replace(R.id.fragment_container, editWorkoutFragment, FTAG_EDIT_WORKOUT)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -79,11 +91,11 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements
     @Optional @OnClick(R.id.fab)
     public void onFabClick() {
         FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager.findFragmentByTag(FTAG_EDIT_DAY) != null) {
-            onDayFab();
-        }
-        else if (fragmentManager.findFragmentByTag(FTAG_EDIT_WORKOUT) != null) {
+        if (fragmentManager.findFragmentByTag(FTAG_EDIT_WORKOUT) != null) {
             onExerciseFab();
+        }
+        else if (fragmentManager.findFragmentByTag(FTAG_EDIT_DAY) != null) {
+            onDayFab();
         }
     }
 
@@ -114,8 +126,38 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putBooleanArray(EXTRA_CHECKED_DAYS, mCheckedDays);
         outState.putLong(EXTRA_WORKOUT_ID, mWorkoutId);
-        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mWorkoutId = savedInstanceState.getLong(EXTRA_WORKOUT_ID);
+        mCheckedDays = savedInstanceState.getBooleanArray(EXTRA_CHECKED_DAYS);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_modify_workout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

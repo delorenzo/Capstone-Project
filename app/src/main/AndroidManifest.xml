@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jdelorenzo.capstoneproject">
+    package="com.jdelorenzo.capstoneproject" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -9,10 +9,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.SlideAnimation">
+            android:theme="@style/AppTheme.SlideAnimation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +23,7 @@
             android:name=".WorkoutActivity"
             android:label="@string/title_activity_workout"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
@@ -32,7 +32,7 @@
             android:name=".ModifyWorkoutActivity"
             android:label="@string/title_activity_modify_workout"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.SlideAnimation">
+            android:theme="@style/AppTheme.SlideAnimation" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
@@ -41,7 +41,7 @@
             android:name=".ViewStatsActivity"
             android:label="@string/title_activity_view_stats"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
@@ -50,15 +50,15 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.ActionBar">
+            android:theme="@style/AppTheme.ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
         </activity>
 
         <provider
-            android:authorities="@string/content_authority"
             android:name=".data.WorkoutProvider"
+            android:authorities="@string/content_authority"
             android:exported="false"
             android:syncable="true" />
 
@@ -66,7 +66,6 @@
             android:name=".service.DatabaseIntentService"
             android:enabled="true"
             android:exported="false" />
-
     </application>
 
 </manifest>

@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "1024531492562",
+    "project_id": "hit-the-gym-3223d"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024531492562:android:d1ce159c817eca34",
+        "android_client_info": {
+          "package_name": "com.jdelorenzo.capstoneproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024531492562-9mad5uafl1ip7cu8p2k8qpvnoh98bn64.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jdelorenzo.capstoneproject",
+            "certificate_hash": "B477A020403D49829B4DFE7280E35D8FD0D73A62"
+          }
+        },
+        {
+          "client_id": "1024531492562-r45eb3e85d2jv7cupbit1pf6cmq6rtcs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jdelorenzo.capstoneproject",
+            "certificate_hash": "1008E104C6C545334B5F1105E064B2BBEBB6B958"
+          }
+        },
+        {
+          "client_id": "1024531492562-urfvm1de8puhnvusv3b799da8r95tuld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY1qFM-L0AfwEqXeUgH2LB709PgMFxUwQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-78116848-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

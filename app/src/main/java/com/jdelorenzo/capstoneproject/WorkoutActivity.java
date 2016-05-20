@@ -1,8 +1,11 @@
 package com.jdelorenzo.capstoneproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import butterknife.OnClick;
@@ -14,7 +17,6 @@ public class WorkoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) return;
         setContentView(R.layout.activity_workout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -24,15 +26,40 @@ public class WorkoutActivity extends AppCompatActivity {
         if (b!= null) {
             mWorkoutId = b.getLong(ARG_WORKOUT_ID);
         }
-        WorkoutFragment workoutFragment = WorkoutFragment.newInstance(mWorkoutId);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, workoutFragment, FTAG_WORKOUT)
-                .commit();
+        if (savedInstanceState == null) {
+            WorkoutFragment workoutFragment = WorkoutFragment.newInstance(mWorkoutId);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, workoutFragment, FTAG_WORKOUT)
+                    .commit();
+        }
     }
 
     @OnClick(R.id.fab_time)
     public void rest() {
         Toast.makeText(this, "Take a break!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_workout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

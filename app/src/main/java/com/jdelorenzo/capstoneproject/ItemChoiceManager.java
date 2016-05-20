@@ -11,9 +11,10 @@ public class ItemChoiceManager {
     private static final String EXTRA_SELECTED_ITEMS = "selectedItems";
     private RecyclerView.Adapter mAdapter;
     private int mChoiceMode;
-    ParcelableSparseBooleanArray mSelected = new ParcelableSparseBooleanArray();
+    ParcelableSparseBooleanArray mSelected;
 
     public ItemChoiceManager(RecyclerView.Adapter adapter) {
+        mSelected = new ParcelableSparseBooleanArray();
         mAdapter = adapter;
     }
 
@@ -56,7 +57,7 @@ public class ItemChoiceManager {
     }
 
     public boolean isItemChecked(int position) {
-        return mSelected.get(position);
+        return mSelected != null && mSelected.get(position);
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {

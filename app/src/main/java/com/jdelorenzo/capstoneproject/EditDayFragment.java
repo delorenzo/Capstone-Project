@@ -1,5 +1,6 @@
 package com.jdelorenzo.capstoneproject;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -66,7 +67,6 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
-            mCallback = (SelectDayListener) getArguments().getSerializable(ARG_CALLBACK);
         }
     }
 
@@ -85,9 +85,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
         super.onSaveInstanceState(outState);
     }
 
-    /*
-    This method is never called..
-     */
+    //This method is never called on older APIs ( < 22 )
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -104,14 +102,26 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
+    //This deprecated method left in place to support older APIs
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            if (null == mCallback) {
+                mCallback = (SelectDayListener) activity;
+            }
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() +
+                    " must implement SelectDayListener");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_workout, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setHasFixedSize(true);
-
         mAdapter = new DayAdapter(getActivity(), new DayAdapter.DayAdapterOnClickHandler() {
             @Override
             public void onClick(Long id, DayAdapter.DayAdapterViewHolder vh) {
@@ -130,7 +140,9 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onDestroy() {
-        unbinder.unbind();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
         super.onDestroy();
     }
 
