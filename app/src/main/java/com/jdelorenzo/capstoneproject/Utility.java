@@ -14,11 +14,11 @@ public class Utility {
         if (unit.equals(context.getString(R.string.prefs_weight_unit_imperial_value))) {
             weight = toImperial(weight);
             return String.format(Locale.getDefault(),
-                    context.getString(R.string.weight_format_metric), weight);
+                    context.getString(R.string.weight_format_imperial), weight);
         }
         else {
             return String.format(Locale.getDefault(),
-                    context.getString(R.string.weight_format_imperial), weight);
+                    context.getString(R.string.weight_format_metric), weight);
         }
     }
 
@@ -49,10 +49,22 @@ public class Utility {
         String unit = preferences.getString(context.getString(R.string.prefs_weight_unit_key),
                 context.getString(R.string.prefs_weight_unit_default));
         if (unit.equals(context.getString(R.string.prefs_weight_unit_imperial_value))) {
-            return toImperial(weight);
+            return toMetric(weight);
         }
         else {
             return weight;
+        }
+    }
+
+    public static double convertWeightToImperial(Context context, double weight) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String unit = preferences.getString(context.getString(R.string.prefs_weight_unit_key),
+                context.getString(R.string.prefs_weight_unit_default));
+        if (unit.equals(context.getString(R.string.prefs_weight_unit_imperial_value))) {
+            return weight;
+        }
+        else {
+            return toImperial(weight);
         }
     }
 

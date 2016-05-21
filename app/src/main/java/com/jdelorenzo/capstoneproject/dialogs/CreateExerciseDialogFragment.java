@@ -9,8 +9,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.R;
+import com.jdelorenzo.capstoneproject.Utility;
 
 import java.io.Serializable;
 
@@ -29,10 +31,11 @@ public class CreateExerciseDialogFragment extends DialogFragment {
     @BindView(R.id.sets) EditText setsEditText;
     @BindView(R.id.repetitions) EditText repetitionsEditText;
     @BindView(R.id.weight) EditText weightEditText;
+    @BindView(R.id.weight_units) TextView weightUnits;
 
     private Unbinder unbinder;
     public interface CreateExerciseDialogFragmentListener extends Serializable {
-        void onCreateExercise(int sets, int reps, String description, int weight);
+        void onCreateExercise(int sets, int reps, String description, double weight);
     }
 
     private CreateExerciseDialogFragmentListener mCallback;
@@ -54,6 +57,7 @@ public class CreateExerciseDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View rootView = inflater.inflate(R.layout.dialog_add_exercise, null);
         unbinder = ButterKnife.bind(this, rootView);
+        weightUnits.setText(Utility.getWeightUnits(getActivity()));
         builder.setTitle(R.string.dialog_create_exercise_title)
                 .setIcon(R.drawable.run)
                 .setMessage(R.string.dialog_create_exercise_text)
@@ -62,9 +66,24 @@ public class CreateExerciseDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String description = exerciseEditText.getText().toString();
-                        int sets = Integer.parseInt(setsEditText.getText().toString());
-                        int repetitions = Integer.parseInt(repetitionsEditText.getText().toString());
-                        int weight = Integer.parseInt(weightEditText.getText().toString());
+                        if (description.isEmpty()) {
+                            exerciseEditText.setError(getActivity().getString(R.string.error_message_exercise_name));
+                            return;
+                        }
+                        String setText = setsEditText.getText().toString();
+                        if (setText.isEmpty()) {
+                            setsEditText.setError(getActivity().getString(R.string.error_message_sets));
+                            return;
+                        }
+                        int sets = Integer.parseInt(setText);
+                        String repetitionText = repetitionsEditText.getText().toString();
+                        if (repetitionText.isEmpty()) {
+                            repetitionsEditText.setError(getActivity().getString(R.string.error_message_repetitions));
+                            return;
+                        }
+                        int repetitions = Integer.parseInt(repetitionText);
+                        String weightText = weightEditText.getText().toString();
+                        double weight = weightText.isEmpty() ? 0 : Double.parseDouble(weightText);
                         mCallback.onCreateExercise(sets, repetitions, description, weight);
                     }
                 })

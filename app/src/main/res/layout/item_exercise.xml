@@ -30,7 +30,7 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:id="@+id/weight"
-        tools:text="15 lb"
+        tools:text="15.5 lb"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
     <TextView

@@ -121,6 +121,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_workout, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new DayAdapter(getActivity(), new DayAdapter.DayAdapterOnClickHandler() {
             @Override

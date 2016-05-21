@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
 
+import com.jdelorenzo.capstoneproject.Utility;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
 
 import java.util.ArrayList;

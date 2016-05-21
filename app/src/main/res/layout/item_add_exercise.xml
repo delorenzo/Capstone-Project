@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
-    android:layout_height="?android:attr/listPreferredItemHeight">
+    android:layout_height="wrap_content">
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -19,8 +19,9 @@
         android:src="@drawable/ic_delete_24dp_color_primary"/>
     <TextView
         android:gravity="center"
-        android:textAppearance="?android:textAppearanceListItem"
-        android:layout_weight="2"
+        android:textAppearance="?android:textAppearanceListItemSmall"
+        android:layout_weight="1"
+        android:textSize="14sp"
         android:layout_gravity="center_vertical"
         android:id="@+id/exercise_name"
         android:maxLines="1"
@@ -30,18 +31,20 @@
         tools:text="Curls"/>
     <TextView
         android:gravity="center"
-        android:textAppearance="?android:textAppearanceListItemSmall"
+        android:textAppearance="?android:textAppearanceListItem"
+        android:textSize="14sp"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:maxLines="1"
         android:ellipsize="end"
         android:id="@+id/weight"
-        tools:text="15 lb"
+        tools:text="15.5 lb"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
     <TextView
         android:gravity="center"
-        android:textAppearance="?android:textAppearanceListItemSmall"
+        android:textAppearance="?android:textAppearanceListItem"
+        android:textSize="14sp"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:id="@+id/repetitions"
@@ -52,6 +55,7 @@
         android:layout_height="wrap_content"/>
     <TextView
         android:gravity="center"
+        android:textSize="14sp"
         android:textAppearance="?android:textAppearanceListItemSmall"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"

@@ -82,9 +82,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     public void onBindViewHolder(final ExerciseAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         holder.exerciseName.setText(mCursor.getString(WorkoutFragment.COL_DESCRIPTION));
-        holder.repetitions.setText(String.format(Locale.getDefault(), "%d",
+        holder.repetitions.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_reps),
                 mCursor.getLong(WorkoutFragment.COL_REPS)));
-        holder.sets.setText(String.format(Locale.getDefault(), "%d",
+        holder.sets.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_sets),
                 mCursor.getLong(WorkoutFragment.COL_SETS)));
         holder.weight.setText(Utility.getFormattedWeightString(mContext,
                 mCursor.getDouble(WorkoutFragment.COL_WEIGHT)));

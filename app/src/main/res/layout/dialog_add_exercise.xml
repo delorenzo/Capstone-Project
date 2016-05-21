@@ -21,18 +21,22 @@
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/weight"
         android:hint="@string/weight"
+        android:text="@string/default_weight"
         android:inputType="numberDecimal"/>
     <TextView
         android:id="@+id/weight_units"
+        android:text="@string/prefs_weight_unit_default"
         tools:text="lb"/>
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/repetitions"
         app:layout_columnSpan="2"
         android:hint="@string/repetitions"
+        android:text="@string/default_reps"
         android:inputType="number"/>
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/sets"
         app:layout_columnSpan="2"
         android:hint="@string/sets"
+        android:text="@string/default_sets"
         android:inputType="number"/>
 </android.support.v7.widget.GridLayout>

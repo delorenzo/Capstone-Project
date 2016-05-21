@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.jdelorenzo.capstoneproject.WorkoutActivity"
-    android:background="@android:color/white"
-    android:layout_marginTop="@dimen/activity_vertical_margin"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_marginStart="@dimen/activity_horizontal_margin"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin">
-    <TextView
-        android:gravity="center"
-        android:textAppearance="?textAppearanceLargePopupMenu"
-        android:visibility="gone"
+    tools:context="com.jdelorenzo.capstoneproject.WorkoutActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@android:color/white"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/space_between_content_areas"
-        android:text="@string/empty_workout_text"
-        android:id="@+id/workout_empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/workout_recycler_view"
-        tools:listitem="@layout/item_exercise"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:gravity="center"
+            android:textAppearance="?textAppearanceLargePopupMenu"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/space_between_content_areas"
+            android:text="@string/empty_workout_text"
+            android:id="@+id/workout_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/workout_recycler_view"
+            tools:listitem="@layout/item_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

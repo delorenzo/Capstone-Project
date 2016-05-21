@@ -52,16 +52,22 @@
 
     <!-- format strings -->
     <string name="weight_format_metric" example="20 kg">
-        <xliff:g>%1$.2f</xliff:g> kg
+        <xliff:g>%1$.1f</xliff:g> kg
     </string>
     <string name="weight_format_imperial" example="20 lb">
-        <xliff:g>%1$.2f</xliff:g> lb
+        <xliff:g>%1$.1f</xliff:g> lb
     </string>
     <string name="weight_format" translatable="false" example="23.45">
-        <xliff:g>%1$.2f</xliff:g>
+        <xliff:g>%1$.1f</xliff:g>
     </string>
     <string name="weight_units_metric">kg</string>
     <string name="weight_units_imperial">lb</string>
+    <string name="format_reps" example="10 reps">
+        <xliff:g>%1$d</xliff:g> reps
+    </string>
+    <string name="format_sets" example="3 sets">
+        <xliff:g>%1$d</xliff:g> sets
+    </string>
 
     <!-- dialog strings -->
     <string name="dialog_create_workout_title">Create Workout</string>
@@ -85,4 +91,15 @@
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
+
+
+    <!-- error messages -->
+    <string name="error_message_exercise_name">Exercise name is required.</string>
+    <string name="error_message_sets">At least one set is required.</string>
+    <string name="error_message_repetitions">At least one repetition is required.</string>
+
+    <!-- default dialog values -->
+    <string name="default_sets">3</string>
+    <string name="default_reps">10</string>
+    <string name="default_weight">0</string>
 </resources>

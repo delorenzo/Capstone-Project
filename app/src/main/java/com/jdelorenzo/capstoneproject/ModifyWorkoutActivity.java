@@ -2,7 +2,9 @@ package com.jdelorenzo.capstoneproject;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,17 +54,6 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements
             mWorkoutId = b.getLong(ARG_WORKOUT_ID);
         }
         if (savedInstanceState == null) {
-//            EditDayFragment selectDayFragment = EditDayFragment.newInstance(mWorkoutId, new EditDayFragment.SelectDayListener() {
-//                @Override
-//                public void onDaySelected(long dayId) {
-//                    EditWorkoutFragment editWorkoutFragment = EditWorkoutFragment.newInstance(mWorkoutId, dayId);
-//                    getFragmentManager()
-//                            .beginTransaction()
-//                            .replace(R.id.fragment_container, editWorkoutFragment, FTAG_EDIT_WORKOUT)
-//                            .addToBackStack(null)
-//                            .commit();
-//                }
-//            });
             EditDayFragment selectDayFragment = EditDayFragment.newInstance(mWorkoutId, null);
             getFragmentManager()
                     .beginTransaction()
@@ -107,7 +98,7 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements
         dialogFragment.show(getFragmentManager(), FTAG_SELECT_DAYS);
     }
 
-    //in multi pane mode, this is one of the fab menu options
+    //in multi pane mode, this is one of the FAB menu options
     @Optional @OnClick(R.id.fab_exercise)
     public void onExerciseFab() {
         EditWorkoutFragment fragment = (EditWorkoutFragment) getFragmentManager()
@@ -116,7 +107,9 @@ public class ModifyWorkoutActivity extends AppCompatActivity implements
         CreateExerciseDialogFragment dialogFragment = CreateExerciseDialogFragment
                 .newInstance(new CreateExerciseDialogFragment.CreateExerciseDialogFragmentListener() {
             @Override
-            public void onCreateExercise(int sets, int reps, String description, int weight) {
+            public void onCreateExercise(int sets, int reps, String description, double weight) {
+                //always store weight in metric
+                weight = Utility.convertWeightToMetric(getApplicationContext(), weight);
                 DatabaseIntentService.startActionAddExercise(getApplicationContext(), dayId, description, sets, reps, weight);
                 getContentResolver().notifyChange(WorkoutContract.ExerciseEntry.buildDayId(dayId), null);
             }

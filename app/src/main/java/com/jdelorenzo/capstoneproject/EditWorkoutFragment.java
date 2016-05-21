@@ -52,7 +52,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
     public final static int COL_REPS = 3;
     public final static int COL_DESCRIPTION = 4;
 
-    public static EditWorkoutFragment newInstance(long dayId, long workoutId) {
+    public static EditWorkoutFragment newInstance(long workoutId, long dayId) {
         EditWorkoutFragment fragment = new EditWorkoutFragment();
         Bundle b = new Bundle();
         b.putLong(ARG_WORKOUT_ID, workoutId);
