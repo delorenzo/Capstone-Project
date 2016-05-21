@@ -48,6 +48,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         @BindView(R.id.repetitions) TextView repetitions;
         @BindView(R.id.weight) TextView weight;
         @BindView(R.id.sets) TextView sets;
+        private long setCount;
 
         public ExerciseAdapterViewHolder(View view)
         {
@@ -84,20 +85,22 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         holder.exerciseName.setText(mCursor.getString(WorkoutFragment.COL_DESCRIPTION));
         holder.repetitions.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_reps),
                 mCursor.getLong(WorkoutFragment.COL_REPS)));
+        holder.setCount = mCursor.getLong(WorkoutFragment.COL_SETS);
         holder.sets.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_sets),
-                mCursor.getLong(WorkoutFragment.COL_SETS)));
+                holder.setCount));
         holder.weight.setText(Utility.getFormattedWeightString(mContext,
                 mCursor.getDouble(WorkoutFragment.COL_WEIGHT)));
         holder.completeCheckbox.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                long sets = Long.parseLong(holder.sets.toString());
-                if (isChecked && sets > 0) {
-                    sets--;
-                    holder.sets.setText(String.format(Locale.getDefault(), "%d", sets));
+                if (isChecked && holder.setCount > 0) {
+                    holder.setCount--;
+                    holder.sets.setText(String.format(Locale.getDefault(),
+                            mContext.getString(R.string.format_sets),
+                            holder.setCount));
                 }
-                if (sets > 0) {
+                if (holder.setCount > 0) {
                     buttonView.setChecked(false);
                 }
             }

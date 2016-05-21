@@ -117,7 +117,8 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        //the days are indexed by 0, calendar is indexed by 1
+        int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
         Uri exerciseUri = WorkoutContract.ExerciseEntry.buildWorkoutIdDayOfWeek(mWorkoutId, day);
         return new CursorLoader(getActivity(),
                 exerciseUri,
