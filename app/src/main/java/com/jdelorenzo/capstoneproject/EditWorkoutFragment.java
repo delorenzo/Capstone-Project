@@ -15,14 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jdelorenzo.capstoneproject.adapters.EditExerciseAdapter;
-import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
-import java.io.Serializable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -34,7 +31,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
     private long mWorkoutId;
     private long mDayId;
     private EditExerciseAdapter mAdapter;
-    @BindView(R.id.empty_exercise_textview) TextView mEmptyView;
+    @BindView(R.id.empty_exercise_text_view) TextView mEmptyView;
     @BindView(R.id.exercise_recyclerview) RecyclerView mRecyclerView;
     private static final int WORKOUT_LOADER = 0;
     private Unbinder unbinder;
