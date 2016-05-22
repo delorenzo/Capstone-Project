@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/rest_time_picker"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <NumberPicker
+        android:id="@+id/minute"
+        android:layout_marginLeft="@dimen/number_picker_horizontal_margin"
+        android:layout_marginStart="@dimen/number_picker_horizontal_margin"
+        android:layout_marginEnd="@dimen/number_picker_horizontal_margin"
+        android:layout_marginRight="@dimen/number_picker_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+
+    <NumberPicker
+        android:id="@+id/seconds"
+        android:layout_marginLeft="@dimen/number_picker_horizontal_margin"
+        android:layout_marginStart="@dimen/number_picker_horizontal_margin"
+        android:layout_marginEnd="@dimen/number_picker_horizontal_margin"
+        android:layout_marginRight="@dimen/number_picker_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+</LinearLayout>

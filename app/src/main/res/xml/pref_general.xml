@@ -19,4 +19,8 @@
         android:positiveButtonText="@null"
         android:title="@string/prefs_weight_unit_title" />
 
+    <com.jdelorenzo.capstoneproject.dialogs.TimePreference
+        android:defaultValue="@integer/prefs_rest_default"
+        android:key="@string/prefs_rest_key"
+        android:title="@string/prefs_rest_title"/>
 </PreferenceScreen>

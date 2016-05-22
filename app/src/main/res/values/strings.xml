@@ -11,6 +11,7 @@
     <string name="action_submit">Submit</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_accept">Accept</string>
+    <string name="action_dismiss">Dismiss</string>
 
     <!-- titles -->
     <string name="title_activity_workout">Work Out</string>
@@ -49,6 +50,15 @@
     <string name="prefs_notifications_title">Notifications</string>
     <string name="prefs_notifications_label_true">Receive notifications</string>
     <string name="prefs_notifications_label_false">Do not receive notifications</string>
+    <!-- rest -->
+    <string name="prefs_rest_key">rest</string>
+    <string name="prefs_rest_title">Rest Time</string>
+    <string name="prefs_rest_summary_format_minutes">
+        <xliff:g>%1$d</xliff:g> min <xliff:g>%2$d</xliff:g> sec
+    </string>
+    <string name="prefs_rest_summary_format">
+        <xliff:g>%1$d</xliff:g> sec
+    </string>
 
     <!-- format strings -->
     <string name="weight_format_metric" example="20 kg">
@@ -68,6 +78,12 @@
     <string name="format_sets" example="3 sets">
         <xliff:g>%1$d</xliff:g> sets
     </string>
+    <string name="format_rest" example="Time remaining:  01:59">
+        Time remaining:  <xliff:g>%1$02d</xliff:g>:<xliff:g>%2$02d</xliff:g>
+    </string>
+    <string name="format_rest_seconds" example="Seconds remaining:  20">
+        Seconds remaining:  <xliff:g>%1$d</xliff:g>
+    </string>
 
     <!-- dialog strings -->
     <string name="dialog_create_workout_title">Create Workout</string>
@@ -76,6 +92,8 @@
     <string name="dialog_select_days_title">Select Days</string>
     <string name="dialog_create_exercise_title">Create Exercise</string>
     <string name="dialog_create_exercise_text">Enter the details of your new exercise:</string>
+    <string name="dialog_rest_title">Take a break!</string>
+    <string name="dialog_rest_finished">Get back to work!</string>
 
     <!-- hint strings -->
     <string name="hint_workout_name">Workout Name</string>

@@ -8,19 +8,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.jdelorenzo.capstoneproject.dialogs.RestDialogFragment;
+
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WorkoutActivity extends AppCompatActivity {
     private long mWorkoutId;
     public static final String ARG_WORKOUT_ID = "workoutId";
     private static final String FTAG_WORKOUT = "workoutFragment";
+    private static final String FTAG_REST_DIALOG = "restDialogFragment";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         Bundle b = getIntent().getExtras();
         if (b!= null) {
@@ -37,7 +45,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
     @OnClick(R.id.fab_time)
     public void rest() {
-        Toast.makeText(this, "Take a break!", Toast.LENGTH_SHORT).show();
+        RestDialogFragment restDialogFragment = new RestDialogFragment();
+        restDialogFragment.show(getFragmentManager(), FTAG_REST_DIALOG);
     }
 
     @Override
