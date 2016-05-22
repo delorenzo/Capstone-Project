@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.adapters.EditExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
+import com.jdelorenzo.capstoneproject.dialogs.EditExerciseDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
 import butterknife.BindView;
@@ -28,6 +29,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
     private static final String ARG_WORKOUT_ID = "workoutId";
     private static final String ARG_DAY_ID = "dayId";
     private static final String ARG_CALLBACK = "callback";
+    private static final String FTAG_EDIT_EXERCISE = "editExerciseFragment";
     private long mWorkoutId;
     private long mDayId;
     private EditExerciseAdapter mAdapter;
@@ -93,8 +95,20 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new EditExerciseAdapter(getActivity(), new EditExerciseAdapter.ExerciseAdapterOnClickHandler() {
             @Override
-            public void onClick(Long id, EditExerciseAdapter.ExerciseAdapterViewHolder vh) {
-
+            public void onClick(final Long id, String name, int reps, int sets, double weight,
+                                EditExerciseAdapter.ExerciseAdapterViewHolder vh) {
+                EditExerciseDialogFragment fragment = EditExerciseDialogFragment.newInstance(
+                        name, reps, sets, weight,
+                        new EditExerciseDialogFragment.EditExerciseDialogFragmentListener() {
+                            @Override
+                            public void onEditExercise(int sets, int reps, String description, double weight) {
+                                DatabaseIntentService.startActionEditExercise(getActivity(),
+                                        id, description, sets, reps, weight);
+                                getActivity().getContentResolver().notifyChange(
+                                        WorkoutContract.ExerciseEntry.buildDayId(mDayId), null);
+                            }
+                        });
+                fragment.show(getFragmentManager(), FTAG_EDIT_EXERCISE);
             }
 
             @Override

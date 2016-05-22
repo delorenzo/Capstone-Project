@@ -16,6 +16,7 @@ import com.jdelorenzo.capstoneproject.Utility;
 import com.jdelorenzo.capstoneproject.model.Exercise;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +29,11 @@ implemented in the calling activity.
  */
 public class EditExerciseDialogFragment extends DialogFragment {
     private static final String ARG_CALLBACK = "callback";
+    private static final String ARG_SETS = "sets";
+    private static final String ARG_REPS = "reps";
+    private static final String ARG_DESCRIPTION = "description";
+    private static final String ARG_WEIGHT = "weight";
+
     @BindView(R.id.exercise) EditText exerciseEditText;
     @BindView(R.id.sets) EditText setsEditText;
     @BindView(R.id.repetitions) EditText repetitionsEditText;
@@ -41,9 +47,14 @@ public class EditExerciseDialogFragment extends DialogFragment {
 
     private EditExerciseDialogFragmentListener mCallback;
 
-    public static EditExerciseDialogFragment newInstance(EditExerciseDialogFragmentListener callback) {
+    public static EditExerciseDialogFragment newInstance(String description, int reps, int sets, double weight,
+                                                         EditExerciseDialogFragmentListener callback) {
         Bundle b = new Bundle();
         b.putSerializable(ARG_CALLBACK, callback);
+        b.putInt(ARG_SETS, sets);
+        b.putInt(ARG_REPS, reps);
+        b.putString(ARG_DESCRIPTION, description);
+        b.putDouble(ARG_WEIGHT, weight);
         EditExerciseDialogFragment fragment = new EditExerciseDialogFragment();
         fragment.setArguments(b);
         return fragment;
@@ -51,13 +62,19 @@ public class EditExerciseDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        if (getArguments() != null) {
-            mCallback = (EditExerciseDialogFragmentListener) getArguments().getSerializable(ARG_CALLBACK);
-        }
+        Bundle args = getArguments();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View rootView = inflater.inflate(R.layout.dialog_add_exercise, null);
         unbinder = ButterKnife.bind(this, rootView);
+        if (args != null) {
+            mCallback = (EditExerciseDialogFragmentListener) args.getSerializable(ARG_CALLBACK);
+            exerciseEditText.setText(args.getString(ARG_DESCRIPTION, ""));
+            repetitionsEditText.setText(args.getInt(ARG_REPS, 0));
+            setsEditText.setText(args.getInt(ARG_SETS, 0));
+            double weight = args.getDouble(ARG_WEIGHT, 0);
+            weightEditText.setText(String.format(Locale.getDefault(), "%f", weight));
+        }
         weightUnits.setText(Utility.getWeightUnits(getActivity()));
         builder.setTitle(R.string.dialog_edit_exercise_title)
                 .setView(rootView)

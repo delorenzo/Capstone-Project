@@ -40,7 +40,8 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
     }
 
     public interface ExerciseAdapterOnClickHandler {
-        void onClick(Long id, ExerciseAdapterViewHolder vh);
+        void onClick(Long id, String name, int reps, int sets, double weight,
+                     ExerciseAdapterViewHolder vh);
         void onDelete(Long id, ExerciseAdapterViewHolder vh);
     }
 
@@ -63,8 +64,18 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-            int exerciseId = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry._ID);
-            mClickHandler.onClick(mCursor.getLong(exerciseId), this);
+            int exerciseIdIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry._ID);
+            int descriptionIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_DESCRIPTION);
+            int setsIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_SETS);
+            int repsIndx = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_REPS);
+            int weightIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_WEIGHT);
+            mClickHandler.onClick(
+                    mCursor.getLong(exerciseIdIndex),
+                    mCursor.getString(descriptionIndex),
+                    mCursor.getInt(setsIndex),
+                    mCursor.getInt(repsIndx),
+                    mCursor.getDouble(weightIndex),
+                    this);
             mICM.onClick(this);
         }
 
