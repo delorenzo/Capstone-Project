@@ -12,6 +12,10 @@ import com.jdelorenzo.capstoneproject.R;
 
 import java.io.Serializable;
 
+/*
+Extension of {@link DialogFragment} that allows the user to select from the existing workout names.
+ */
+
 public class SelectWorkoutDialogFragment extends DialogFragment {
     private String[] mWorkouts;
     private long[] mWorkoutIds;

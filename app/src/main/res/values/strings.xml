@@ -94,6 +94,7 @@
     <string name="dialog_create_exercise_text">Enter the details of your new exercise:</string>
     <string name="dialog_rest_title">Take a break!</string>
     <string name="dialog_rest_finished">Get back to work!</string>
+    <string name="dialog_edit_exercise_title">Edit Exercise</string>
 
     <!-- hint strings -->
     <string name="hint_workout_name">Workout Name</string>

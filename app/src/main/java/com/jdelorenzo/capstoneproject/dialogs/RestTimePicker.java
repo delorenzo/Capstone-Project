@@ -16,7 +16,7 @@ import com.jdelorenzo.capstoneproject.R;
 import java.util.Locale;
 
 /**
- * Custom time picker that allows you to pick a rest period in minutes and seconds.
+ * Custom time picker that allows the user to pick a rest period in minutes and seconds.
  */
 public class RestTimePicker extends FrameLayout {
     private int mCurrentMinute = 0;

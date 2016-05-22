@@ -11,6 +11,11 @@ import com.jdelorenzo.capstoneproject.R;
 
 import java.util.Locale;
 
+/*
+Extension of {@link DialogPreference} that allows the user to select a preferred rest time,
+using the {@link RestTimePicker}.
+ */
+
 public class TimePreference extends DialogPreference {
     private int lastMinute = 0;
     private int lastSeconds = 0;
