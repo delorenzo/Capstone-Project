@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import com.jdelorenzo.capstoneproject.R;
-import com.jdelorenzo.capstoneproject.Utility;
-
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +25,7 @@ public class ModifyWeightDialogFragment extends DialogFragment {
         Bundle args = getArguments();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View rootView = inflater.inflate(R.layout.dialog_edit_weight, null);
+        final View rootView = inflater.inflate(R.layout.weight_picker, null);
         unbinder = ButterKnife.bind(this, rootView);
         weightPicker.setMinValue(0);
         weightPicker.setMaxValue(999);

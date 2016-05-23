@@ -11,28 +11,26 @@ import android.widget.NumberPicker;
 
 import com.jdelorenzo.capstoneproject.R;
 
-import java.util.Locale;
-
 /**
  * Custom time picker that allows the user to pick a rest period in minutes and seconds.
  */
 public class WeightPicker extends FrameLayout {
-    private int mCurrentMinute = 0;
-    private int mCurrentSeconds = 0;
-    private final NumberPicker mMinutePicker;
-    private final NumberPicker mSecondPicker;
+    private int mCurrentWeight = 0;
+    private int mCurrentWeightFraction = 0;
+    private final NumberPicker mWeightPicker;
+    private final NumberPicker mWeightFractionPicker;
     private static final String ARG_STATE = "state";
-    private static final String ARG_MINUTE = "minute";
-    private static final String ARG_SECOND = "second";
+    private static final String ARG_WEIGHT = "weight";
+    private static final String ARG_WEIGHT_FRACTION = "weightFraction";
 
-    private static final OnRestTimeChangedListener NO_OP_CHANGE_LISTENER = new OnRestTimeChangedListener() {
+    private static final OnWeightChangedListener NO_OP_CHANGE_LISTENER = new OnWeightChangedListener() {
         @Override
         public void onRestTimeChanged(WeightPicker view, int minute, int seconds) {
 
         }
     };
-    private OnRestTimeChangedListener mListener;
-    public interface OnRestTimeChangedListener {
+    private OnWeightChangedListener mListener;
+    public interface OnWeightChangedListener {
         void onRestTimeChanged(WeightPicker view, int minute, int seconds);
     }
 
@@ -46,31 +44,31 @@ public class WeightPicker extends FrameLayout {
 
     public WeightPicker(Context context, AttributeSet attributeSet, int defStyle) {
         super(context, attributeSet, defStyle);
-        LayoutInflater.from(context).inflate(R.layout.rest_time_picker, this, true);
-        mMinutePicker = (NumberPicker) findViewById(R.id.minute);
-        mMinutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        LayoutInflater.from(context).inflate(R.layout.weight_picker, this, true);
+        mWeightPicker = (NumberPicker) findViewById(R.id.minute);
+        mWeightPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                mCurrentMinute = newVal;
-                onTimeChanged();
+                mCurrentWeight = newVal;
+                onWeightChanged();
             }
         });
-        mMinutePicker.setMaxValue(59);
-        mMinutePicker.setMinValue(0);
-        mSecondPicker = (NumberPicker) findViewById(R.id.seconds);
-        mSecondPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        mWeightPicker.setMaxValue(999);
+        mWeightPicker.setMinValue(0);
+        mWeightFractionPicker = (NumberPicker) findViewById(R.id.seconds);
+        mWeightFractionPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                mCurrentSeconds = newVal;
-                onTimeChanged();
+                mCurrentWeightFraction = newVal;
+                onWeightChanged();
             }
         });
-        mSecondPicker.setMaxValue(59);
-        mSecondPicker.setMinValue(0);
+        mWeightFractionPicker.setMaxValue(9);
+        mWeightFractionPicker.setMinValue(0);
 
     }
 
-    public void setOnTimeChangedListener(@NonNull OnRestTimeChangedListener listener) {
+    public void setOnWeightChangedListener(@NonNull OnWeightChangedListener listener) {
         mListener = listener;
     }
 
@@ -78,39 +76,39 @@ public class WeightPicker extends FrameLayout {
     /**
      * @return The current minute.
      */
-    public Integer getCurrentMinute() {
-        return mCurrentMinute;
+    public Integer getCurrentWeight() {
+        return mCurrentWeight;
     }
 
-    public void setCurrentMinute(Integer currentMinute) {
-        this.mCurrentMinute = currentMinute;
-        updateMinuteDisplay();
+    public void setCurrentWeight(Integer currentWeight) {
+        this.mCurrentWeight = currentWeight;
+        updateWeightDisplay();
     }
 
     /**
      * @return The current minute.
      */
-    public Integer getCurrentSeconds() {
-        return mCurrentSeconds;
+    public Integer getCurrentWeightFraction() {
+        return mCurrentWeightFraction;
     }
 
     public void setCurrentSecond(Integer currentSecond) {
-        this.mCurrentSeconds = currentSecond;
+        this.mCurrentWeightFraction = currentSecond;
         updateSecondsDisplay();
     }
 
-    private void onTimeChanged() {
-        mListener.onRestTimeChanged(this, getCurrentMinute(), getCurrentSeconds());
+    private void onWeightChanged() {
+        mListener.onRestTimeChanged(this, getCurrentWeight(), getCurrentWeightFraction());
     }
 
-    private void updateMinuteDisplay() {
-        mMinutePicker.setValue(mCurrentMinute);
-        mListener.onRestTimeChanged(this, getCurrentMinute(), getCurrentSeconds());
+    private void updateWeightDisplay() {
+        mWeightPicker.setValue(mCurrentWeight);
+        mListener.onRestTimeChanged(this, getCurrentWeight(), getCurrentWeightFraction());
     }
 
     private void updateSecondsDisplay() {
-        mSecondPicker.setValue(mCurrentSeconds);
-        mListener.onRestTimeChanged(this, getCurrentMinute(), getCurrentSeconds());
+        mWeightFractionPicker.setValue(mCurrentWeightFraction);
+        mListener.onRestTimeChanged(this, getCurrentWeightFraction(), getCurrentWeightFraction());
     }
 
 
@@ -121,8 +119,8 @@ public class WeightPicker extends FrameLayout {
     protected Parcelable onSaveInstanceState() {
         Bundle b = new Bundle();
         b.putParcelable(ARG_STATE, super.onSaveInstanceState());
-        b.putInt(ARG_MINUTE, mCurrentMinute);
-        b.putInt(ARG_SECOND, mCurrentSeconds);
+        b.putInt(ARG_WEIGHT, mCurrentWeight);
+        b.putInt(ARG_WEIGHT_FRACTION, mCurrentWeightFraction);
         return super.onSaveInstanceState();
     }
 
@@ -130,8 +128,8 @@ public class WeightPicker extends FrameLayout {
     protected void onRestoreInstanceState(Parcelable state) {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle)state;
-            mCurrentMinute = bundle.getInt(ARG_MINUTE);
-            mCurrentSeconds = bundle.getInt(ARG_SECOND);
+            mCurrentWeight = bundle.getInt(ARG_WEIGHT);
+            mCurrentWeightFraction = bundle.getInt(ARG_WEIGHT_FRACTION);
             state = bundle.getParcelable(ARG_STATE);
         }
         super.onRestoreInstanceState(state);

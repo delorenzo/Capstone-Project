@@ -127,4 +127,5 @@
     <string name="default_reps">10</string>
     <string name="default_weight">0</string>
 
+    <string name="dot">.</string>
 </resources>
