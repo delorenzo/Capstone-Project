@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -70,10 +71,10 @@ public class EditExerciseDialogFragment extends DialogFragment {
         if (args != null) {
             mCallback = (EditExerciseDialogFragmentListener) args.getSerializable(ARG_CALLBACK);
             exerciseEditText.setText(args.getString(ARG_DESCRIPTION, ""));
-            repetitionsEditText.setText(args.getInt(ARG_REPS, 0));
-            setsEditText.setText(args.getInt(ARG_SETS, 0));
+            repetitionsEditText.setText(String.format(Locale.getDefault(), "%d", args.getInt(ARG_REPS, 0)));
+            setsEditText.setText(String.format(Locale.getDefault(), "%d", args.getInt(ARG_SETS, 0)));
             double weight = args.getDouble(ARG_WEIGHT, 0);
-            weightEditText.setText(String.format(Locale.getDefault(), "%f", weight));
+            weightEditText.setText(String.format(Locale.getDefault(), "%.1f", weight));
         }
         weightUnits.setText(Utility.getWeightUnits(getActivity()));
         builder.setTitle(R.string.dialog_edit_exercise_title)

@@ -67,13 +67,13 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
             int exerciseIdIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry._ID);
             int descriptionIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_DESCRIPTION);
             int setsIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_SETS);
-            int repsIndx = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_REPS);
+            int repsIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_REPS);
             int weightIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_WEIGHT);
             mClickHandler.onClick(
                     mCursor.getLong(exerciseIdIndex),
                     mCursor.getString(descriptionIndex),
                     mCursor.getInt(setsIndex),
-                    mCursor.getInt(repsIndx),
+                    mCursor.getInt(repsIndex),
                     mCursor.getDouble(weightIndex),
                     this);
             mICM.onClick(this);

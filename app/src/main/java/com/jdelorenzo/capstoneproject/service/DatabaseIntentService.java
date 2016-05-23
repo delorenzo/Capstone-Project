@@ -219,8 +219,6 @@ public class DatabaseIntentService extends IntentService {
 
                 case ACTION_EDIT_EXERCISE:
                     contentValues = new ContentValues();
-                    contentValues.put(ExerciseEntry.COLUMN_DAY_KEY,
-                            intent.getLongExtra(EXTRA_DAY_ID, 0));
                     contentValues.put(ExerciseEntry.COLUMN_DESCRIPTION,
                             intent.getStringExtra(EXTRA_NAME));
                     contentValues.put(ExerciseEntry.COLUMN_REPS,
