@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.ExerciseEntry;
+import com.jdelorenzo.capstoneproject.dialogs.ModifyWeightDialogFragment;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -41,6 +42,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @BindView(R.id.workout_empty_view) TextView mEmptyView;
     private Unbinder unbinder;
     private final static int WORKOUT_LOADER = 0;
+    private static final String FTAG_MODIFY_WEIGHT = "modifyWeightDialogFragment";
 
     public String[] EXERCISE_COLUMNS = {
             ExerciseEntry.TABLE_NAME + "." + ExerciseEntry._ID,
@@ -89,7 +91,8 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         mExerciseAdapter = new ExerciseAdapter(getActivity(), new ExerciseAdapter.ExerciseAdapterOnClickHandler() {
             @Override
             public void onClick(Long id, ExerciseAdapter.ExerciseAdapterViewHolder vh) {
-                //do nothing for now
+                ModifyWeightDialogFragment fragment = new ModifyWeightDialogFragment();
+                fragment.show(getFragmentManager(), FTAG_MODIFY_WEIGHT);
             }
         }, mEmptyView, AbsListView.CHOICE_MODE_NONE);
         mRecyclerView.setAdapter(mExerciseAdapter);

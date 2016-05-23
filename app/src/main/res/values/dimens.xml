@@ -17,4 +17,6 @@
     <dimen name="button_bar_max_width">328dp</dimen>
     <dimen name="button_height">48dp</dimen>
     <dimen name="number_picker_horizontal_margin">5dp</dimen>
+
+    <dimen name="dialog_text_horizontal_margin">4dp</dimen>
 </resources>

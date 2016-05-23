@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:background="@android:color/white"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <NumberPicker
+        android:id="@+id/weight_number_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:text="."
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_height="wrap_content" />
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/weight_fraction_number_picker"/>
+    <TextView
+        android:id="@+id/weight_picker_units"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        tools:text="lb"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_height="wrap_content" />
+</LinearLayout>

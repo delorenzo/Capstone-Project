@@ -95,6 +95,11 @@
     <string name="dialog_rest_title">Take a break!</string>
     <string name="dialog_rest_finished">Get back to work!</string>
     <string name="dialog_edit_exercise_title">Edit Exercise</string>
+    <string name="dialog_name_label">Name:</string>
+    <string name="dialog_reps_label">Reps:</string>
+    <string name="dialog_sets_label">Sets:</string>
+    <string name="dialog_weight_label">Weight:</string>
+    <string name="dialog_default_name">Exercise 1</string>
 
     <!-- hint strings -->
     <string name="hint_workout_name">Workout Name</string>
@@ -121,4 +126,5 @@
     <string name="default_sets">3</string>
     <string name="default_reps">10</string>
     <string name="default_weight">0</string>
+
 </resources>

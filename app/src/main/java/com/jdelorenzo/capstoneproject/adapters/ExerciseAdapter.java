@@ -48,7 +48,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         @BindView(R.id.repetitions) TextView repetitions;
         @BindView(R.id.weight) TextView weight;
         @BindView(R.id.sets) TextView sets;
-        private long setCount;
+        private int setCount;
 
         public ExerciseAdapterViewHolder(View view)
         {
@@ -84,10 +84,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         mCursor.moveToPosition(position);
         holder.exerciseName.setText(mCursor.getString(WorkoutFragment.COL_DESCRIPTION));
         holder.repetitions.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_reps),
-                mCursor.getLong(WorkoutFragment.COL_REPS)));
-        holder.setCount = mCursor.getLong(WorkoutFragment.COL_SETS);
-        holder.sets.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_sets),
-                holder.setCount));
+                mCursor.getInt(WorkoutFragment.COL_REPS)));
+        holder.setCount = mCursor.getInt(WorkoutFragment.COL_SETS);
+        holder.sets.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_sets), holder.setCount));
         holder.weight.setText(Utility.getFormattedWeightString(mContext,
                 mCursor.getDouble(WorkoutFragment.COL_WEIGHT)));
         holder.completeCheckbox.setOnCheckedChangeListener(

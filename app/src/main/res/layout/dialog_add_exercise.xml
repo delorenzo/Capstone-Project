@@ -1,25 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="center_horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:alignmentMode="alignBounds"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_gravity="center"
     android:paddingEnd="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:layout_width="wrap_content"
-    app:columnCount="2"
-    android:layout_height="wrap_content">
+    app:columnCount="3"
+    android:layout_height="wrap_content"
+    app:rowCount="4">
+    <TextView
+        android:id="@+id/exercise_name_label"
+        android:text="@string/dialog_name_label"
+        android:gravity="end"
+        app:layout_gravity="fill_horizontal"
+        android:layout_marginRight="@dimen/dialog_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/dialog_text_horizontal_margin" />
     <android.support.v7.widget.AppCompatAutoCompleteTextView
+        android:layout_marginRight="@dimen/dialog_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/dialog_text_horizontal_margin"
+        android:layout_marginLeft="@dimen/dialog_text_horizontal_margin"
+        android:layout_marginStart="@dimen/dialog_text_horizontal_margin"
         app:layout_columnSpan="2"
-        android:hint="@string/exercise"
+        android:text="@string/dialog_default_name"
+        android:gravity="center"
         android:id="@+id/exercise"
         android:inputType="textAutoComplete"
         tools:context="Deadlifts"/>
+    <TextView
+        android:id="@+id/weight_label"
+        android:text="@string/dialog_weight_label"
+        android:gravity="end"
+        app:layout_gravity="fill_horizontal"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp" />
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/weight"
+        android:gravity="center"
         android:hint="@string/weight"
         android:text="@string/default_weight"
         android:inputType="numberDecimal"/>
@@ -27,16 +49,33 @@
         android:id="@+id/weight_units"
         android:text="@string/prefs_weight_unit_default"
         tools:text="lb"/>
+    <TextView
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="end"
+        app:layout_gravity="fill_horizontal"
+        android:id="@+id/repetitions_label"
+        android:text="@string/dialog_reps_label" />
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/repetitions"
+        android:gravity="center"
         app:layout_columnSpan="2"
         android:hint="@string/repetitions"
         android:text="@string/default_reps"
         android:inputType="number"/>
+    <TextView
+        android:gravity="end"
+        app:layout_gravity="fill_horizontal"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
+        android:foregroundGravity="right"
+        android:id="@+id/sets_label"
+        android:text="@string/dialog_sets_label" />
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/sets"
         app:layout_columnSpan="2"
         android:hint="@string/sets"
         android:text="@string/default_sets"
+        android:gravity="center"
         android:inputType="number"/>
 </android.support.v7.widget.GridLayout>

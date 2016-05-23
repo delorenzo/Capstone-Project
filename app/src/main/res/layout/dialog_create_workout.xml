@@ -10,5 +10,6 @@
         android:id="@+id/workout_name_edit_text"
         android:hint="@string/hint_workout_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 </FrameLayout>
