@@ -14,6 +14,11 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
     buildTypes {
         release {
             minifyEnabled false

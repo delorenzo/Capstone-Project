@@ -19,4 +19,5 @@
     <dimen name="number_picker_horizontal_margin">5dp</dimen>
 
     <dimen name="dialog_text_horizontal_margin">4dp</dimen>
+    <dimen name="empty_text_vertical_margin">32dp</dimen>
 </resources>

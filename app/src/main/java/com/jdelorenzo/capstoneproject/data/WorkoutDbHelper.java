@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.jdelorenzo.capstoneproject.data.WorkoutContract.WorkoutEntry;
+import com.jdelorenzo.capstoneproject.data.WorkoutContract.RoutineEntry;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.DayEntry;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.ExerciseEntry;
 
@@ -19,19 +19,19 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_WORKOUT_TABLE = "CREATE TABLE " +
-                WorkoutEntry.TABLE_NAME + " (" +
-                WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                WorkoutEntry.COLUMN_NAME + " TEXT UNIQUE NOT NULL " +
+        final String SQL_CREATE_ROUTINE_TABLE = "CREATE TABLE " +
+                RoutineEntry.TABLE_NAME + " (" +
+                RoutineEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                RoutineEntry.COLUMN_NAME + " TEXT UNIQUE NOT NULL " +
                 " );";
 
         final String SQL_CREATE_DAY_TABLE = "CREATE TABLE " +
                 DayEntry.TABLE_NAME + " ( " +
                 DayEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DayEntry.COLUMN_WORKOUT_KEY + " INTEGER NOT NULL, " +
+                DayEntry.COLUMN_ROUTINE_KEY + " INTEGER NOT NULL, " +
                 DayEntry.COLUMN_DAY_OF_WEEK + " INTEGER NOT NULL, " +
-                "FOREIGN KEY (" + DayEntry.COLUMN_WORKOUT_KEY + ") REFERENCES " +
-                WorkoutEntry.TABLE_NAME + "(" + WorkoutEntry._ID + ") " +
+                "FOREIGN KEY (" + DayEntry.COLUMN_ROUTINE_KEY + ") REFERENCES " +
+                RoutineEntry.TABLE_NAME + "(" + RoutineEntry._ID + ") " +
                 "ON DELETE CASCADE ON UPDATE CASCADE " +
                 " );";
 
@@ -48,14 +48,14 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 "ON DELETE CASCADE ON UPDATE CASCADE " +
                 " );";
 
-        db.execSQL(SQL_CREATE_WORKOUT_TABLE);
+        db.execSQL(SQL_CREATE_ROUTINE_TABLE);
         db.execSQL(SQL_CREATE_DAY_TABLE);
         db.execSQL(SQL_CREATE_EXERCISE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + WorkoutEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + RoutineEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DayEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ExerciseEntry.TABLE_NAME);
         onCreate(db);

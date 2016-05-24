@@ -15,7 +15,7 @@ import com.jdelorenzo.capstoneproject.R;
 /**
  * An {@link DialogFragment} subclass for creating and naming a new workout.
  */
-public class CreateWorkoutDialogFragment extends DialogFragment {
+public class CreateRoutineDialogFragment extends DialogFragment {
     public interface CreateWorkoutDialogListener {
         void onDialogPositiveClick(String name);
     }

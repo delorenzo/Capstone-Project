@@ -11,50 +11,50 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.ExerciseEntry;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.DayEntry;
-import com.jdelorenzo.capstoneproject.data.WorkoutContract.WorkoutEntry;
+import com.jdelorenzo.capstoneproject.data.WorkoutContract.RoutineEntry;
 
 public class WorkoutProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private WorkoutDbHelper mOpenHelper;
 
-    private static final String sWorkoutIdSelection = WorkoutEntry.TABLE_NAME + "." +
-            WorkoutEntry._ID + " = ?";
+    private static final String sRoutineIdSelection = RoutineEntry.TABLE_NAME + "." +
+            RoutineEntry._ID + " = ?";
     private static final String sDayIdSelection = DayEntry.TABLE_NAME + "." +
             DayEntry._ID + " = ?";
     private static  final String sExerciseIdSelection = ExerciseEntry.TABLE_NAME + "." +
             ExerciseEntry._ID + " = ?";
-    private static final String sWorkoutIdDayOfWeekSelection = WorkoutEntry.TABLE_NAME + "." +
-            WorkoutEntry._ID + " = ? AND " + DayEntry.TABLE_NAME + "." +
+    private static final String sRoutineIdDayOfWeekSelection = RoutineEntry.TABLE_NAME + "." +
+            RoutineEntry._ID + " = ? AND " + DayEntry.TABLE_NAME + "." +
             DayEntry.COLUMN_DAY_OF_WEEK + " = ?";
-    private static final String sDayWorkoutKeySelection = DayEntry.TABLE_NAME + "." +
-            DayEntry.COLUMN_WORKOUT_KEY + " = ?";
+    private static final String sDayRoutineKeySelection = DayEntry.TABLE_NAME + "." +
+            DayEntry.COLUMN_ROUTINE_KEY + " = ?";
     private static final String sExerciseDayIdSelection = ExerciseEntry.TABLE_NAME + "." +
             ExerciseEntry.COLUMN_DAY_KEY + " = ?";
-    private static final String sExerciseWorkoutIdDayOfWeekSelection = DayEntry.TABLE_NAME + "." +
-            DayEntry.COLUMN_WORKOUT_KEY + " = ? AND " + DayEntry.TABLE_NAME + "." +
+    private static final String sExerciseRoutineIdDayOfWeekSelection = DayEntry.TABLE_NAME + "." +
+            DayEntry.COLUMN_ROUTINE_KEY + " = ? AND " + DayEntry.TABLE_NAME + "." +
             DayEntry.COLUMN_DAY_OF_WEEK + " = ?";
 
-    static final int WORKOUTS = 100;
-    static final int WORKOUT_WITH_ID = 101;
+    static final int ROUTINES = 100;
+    static final int ROUTINE_WITH_ID = 101;
     static final int DAYS = 200;
     static final int DAY_WITH_ID = 201;
-    static final int DAYS_WITH_WORKOUT_ID = 202;
-    static final int DAY_WITH_WORKOUT_ID_AND_DAY_OF_WEEK = 203;
+    static final int DAYS_WITH_ROUTINE_ID = 202;
+    static final int DAY_WITH_ROUTINE_ID_AND_DAY_OF_WEEK = 203;
     static final int EXERCISES = 300;
     static final int EXERCISE_WITH_ID = 301;
-    static final int EXERCISES_WITH_WORKOUT_ID = 302;
+    static final int EXERCISES_WITH_ROUTINE_ID = 302;
     static final int EXERCISES_WITH_DAY_ID = 303;
-    static final int EXERCISES_WITH_WORKOUT_ID_AND_DAY_OF_WEEK = 304;
+    static final int EXERCISES_WITH_ROUTINE_ID_AND_DAY_OF_WEEK = 304;
 
-    private static final SQLiteQueryBuilder sDayByWorkoutQueryBuilder;
+    private static final SQLiteQueryBuilder sDayByRoutineQueryBuilder;
 
     static {
-        sDayByWorkoutQueryBuilder = new SQLiteQueryBuilder();
+        sDayByRoutineQueryBuilder = new SQLiteQueryBuilder();
 
-        sDayByWorkoutQueryBuilder.setTables(
-                WorkoutEntry.TABLE_NAME + " INNER JOIN " + DayEntry.TABLE_NAME +
-                        " ON " + WorkoutEntry.TABLE_NAME + "." + WorkoutEntry._ID + " = " +
-                        DayEntry.TABLE_NAME + "." + DayEntry.COLUMN_WORKOUT_KEY
+        sDayByRoutineQueryBuilder.setTables(
+                RoutineEntry.TABLE_NAME + " INNER JOIN " + DayEntry.TABLE_NAME +
+                        " ON " + RoutineEntry.TABLE_NAME + "." + RoutineEntry._ID + " = " +
+                        DayEntry.TABLE_NAME + "." + DayEntry.COLUMN_ROUTINE_KEY
         );
     }
 
@@ -81,9 +81,9 @@ public class WorkoutProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
-            case WORKOUTS:
+            case ROUTINES:
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        WorkoutEntry.TABLE_NAME,
+                        RoutineEntry.TABLE_NAME,
                         projection,
                         null,
                         null,
@@ -92,12 +92,12 @@ public class WorkoutProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case WORKOUT_WITH_ID:
-                long workoutId = WorkoutEntry.getWorkoutIdFromUri(uri);
+            case ROUTINE_WITH_ID:
+                long workoutId = RoutineEntry.getRoutineIdFromUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        WorkoutEntry.TABLE_NAME,
+                        RoutineEntry.TABLE_NAME,
                         projection,
-                        sWorkoutIdSelection,
+                        sRoutineIdSelection,
                         new String [] {Long.toString(workoutId)},
                         null,
                         null,
@@ -127,25 +127,25 @@ public class WorkoutProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case DAYS_WITH_WORKOUT_ID:
-                workoutId = DayEntry.getWorkoutIdFromUri(uri);
+            case DAYS_WITH_ROUTINE_ID:
+                workoutId = DayEntry.getRoutineIdFromUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         DayEntry.TABLE_NAME,
                         projection,
-                        sDayWorkoutKeySelection,
+                        sDayRoutineKeySelection,
                         new String [] {Long.toString(workoutId)},
                         null,
                         null,
                         sortOrder
                 );
                 break;
-            case DAY_WITH_WORKOUT_ID_AND_DAY_OF_WEEK:
-                workoutId = DayEntry.getWorkoutIdFromUri(uri);
+            case DAY_WITH_ROUTINE_ID_AND_DAY_OF_WEEK:
+                workoutId = DayEntry.getRoutineIdFromUri(uri);
                 String dayOfWeek = DayEntry.getDayOfWeekFromUri(uri);
-                retCursor = sDayByWorkoutQueryBuilder.query(
+                retCursor = sDayByRoutineQueryBuilder.query(
                         mOpenHelper.getReadableDatabase(),
                         projection,
-                        sWorkoutIdDayOfWeekSelection,
+                        sRoutineIdDayOfWeekSelection,
                         new String [] {Long.toString(workoutId), dayOfWeek},
                         null,
                         null,
@@ -187,13 +187,13 @@ public class WorkoutProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case EXERCISES_WITH_WORKOUT_ID_AND_DAY_OF_WEEK:
-                workoutId = ExerciseEntry.getWorkoutIdFromUri(uri);
+            case EXERCISES_WITH_ROUTINE_ID_AND_DAY_OF_WEEK:
+                workoutId = ExerciseEntry.getRoutineIdFromUri(uri);
                 int day = ExerciseEntry.getDayOfWeekFromUri(uri);
                 retCursor = sExerciseByDayQueryBuilder.query(
                         mOpenHelper.getReadableDatabase(),
                         projection,
-                        sExerciseWorkoutIdDayOfWeekSelection,
+                        sExerciseRoutineIdDayOfWeekSelection,
                         new String[] {Long.toString(workoutId), Integer.toString(day)},
                         null,
                         null,
@@ -215,17 +215,17 @@ public class WorkoutProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
-            case WORKOUTS:
-                return WorkoutEntry.CONTENT_TYPE;
-            case WORKOUT_WITH_ID:
-                return WorkoutEntry.CONTENT_ITEM_TYPE;
+            case ROUTINES:
+                return RoutineEntry.CONTENT_TYPE;
+            case ROUTINE_WITH_ID:
+                return RoutineEntry.CONTENT_ITEM_TYPE;
             case DAYS:
                 return DayEntry.CONTENT_TYPE;
             case DAY_WITH_ID:
                 return DayEntry.CONTENT_ITEM_TYPE;
-            case DAY_WITH_WORKOUT_ID_AND_DAY_OF_WEEK:
+            case DAY_WITH_ROUTINE_ID_AND_DAY_OF_WEEK:
                 return DayEntry.CONTENT_ITEM_TYPE;
-            case DAYS_WITH_WORKOUT_ID:
+            case DAYS_WITH_ROUTINE_ID:
                 return DayEntry.CONTENT_TYPE;
             case EXERCISES:
                 return ExerciseEntry.CONTENT_TYPE;
@@ -233,7 +233,7 @@ public class WorkoutProvider extends ContentProvider {
                 return ExerciseEntry.CONTENT_ITEM_TYPE;
             case EXERCISES_WITH_DAY_ID:
                 return ExerciseEntry.CONTENT_TYPE;
-            case EXERCISES_WITH_WORKOUT_ID:
+            case EXERCISES_WITH_ROUTINE_ID:
                 return ExerciseEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri:  " + uri);
@@ -248,10 +248,10 @@ public class WorkoutProvider extends ContentProvider {
         Uri returnUri;
 
         switch (match) {
-            case WORKOUTS:
-                long workoutId = db.insert(WorkoutEntry.TABLE_NAME, null, values);
+            case ROUTINES:
+                long workoutId = db.insert(RoutineEntry.TABLE_NAME, null, values);
                 if (workoutId > 0)
-                    returnUri = WorkoutEntry.buildWorkoutId(workoutId);
+                    returnUri = RoutineEntry.buildRoutineId(workoutId);
                 else
                     throw new android.database.SQLException("Failed to insert workout row into " + uri);
                 break;
@@ -293,15 +293,15 @@ public class WorkoutProvider extends ContentProvider {
         int rowsDeleted;
 
         switch (match) {
-            case WORKOUTS:
-                rowsDeleted = db.delete(WorkoutEntry.TABLE_NAME,
+            case ROUTINES:
+                rowsDeleted = db.delete(RoutineEntry.TABLE_NAME,
                         selection,
                         selectionArgs);
                 break;
-            case WORKOUT_WITH_ID:
-                long workoutId = WorkoutEntry.getWorkoutIdFromUri(uri);
-                rowsDeleted = db.delete(WorkoutEntry.TABLE_NAME,
-                        sWorkoutIdSelection,
+            case ROUTINE_WITH_ID:
+                long workoutId = RoutineEntry.getRoutineIdFromUri(uri);
+                rowsDeleted = db.delete(RoutineEntry.TABLE_NAME,
+                        sRoutineIdSelection,
                         new String[] {Long.toString(workoutId)});
                 break;
             case DAYS:
@@ -315,10 +315,10 @@ public class WorkoutProvider extends ContentProvider {
                         sDayIdSelection,
                         new String[] {Long.toString(dayId)});
                 break;
-            case DAYS_WITH_WORKOUT_ID:
-                workoutId = DayEntry.getWorkoutIdFromUri(uri);
+            case DAYS_WITH_ROUTINE_ID:
+                workoutId = DayEntry.getRoutineIdFromUri(uri);
                 rowsDeleted = db.delete(DayEntry.TABLE_NAME,
-                        sDayWorkoutKeySelection,
+                        sDayRoutineKeySelection,
                         new String[] {Long.toString(workoutId)});
                 break;
             case EXERCISES:
@@ -350,11 +350,11 @@ public class WorkoutProvider extends ContentProvider {
         int rowsUpdated;
 
         switch (match) {
-            case WORKOUT_WITH_ID:
-                long workoutId = WorkoutEntry.getWorkoutIdFromUri(uri);
-                rowsUpdated = db.update(WorkoutEntry.TABLE_NAME,
+            case ROUTINE_WITH_ID:
+                long workoutId = RoutineEntry.getRoutineIdFromUri(uri);
+                rowsUpdated = db.update(RoutineEntry.TABLE_NAME,
                         values,
-                        sWorkoutIdSelection,
+                        sRoutineIdSelection,
                         new String[] {Long.toString(workoutId)});
                 break;
             case DAY_WITH_ID:
@@ -395,12 +395,12 @@ public class WorkoutProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         int returnCount;
         switch (match) {
-            case WORKOUTS:
+            case ROUTINES:
                 db.beginTransaction();
                 returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        long _id = db.insert(WorkoutEntry.TABLE_NAME, null, value);
+                        long _id = db.insert(RoutineEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }
@@ -425,7 +425,7 @@ public class WorkoutProvider extends ContentProvider {
                     db.endTransaction();
                 }
                 break;
-            case DAYS_WITH_WORKOUT_ID:
+            case DAYS_WITH_ROUTINE_ID:
                 db.beginTransaction();
                 returnCount = 0;
                 try {
@@ -483,25 +483,25 @@ public class WorkoutProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = WorkoutContract.CONTENT_AUTHORITY;
 
-        matcher.addURI(authority, WorkoutContract.PATH_WORKOUT, WORKOUTS);
-        matcher.addURI(authority, WorkoutContract.PATH_WORKOUT + "/#", WORKOUT_WITH_ID);
+        matcher.addURI(authority, WorkoutContract.PATH_ROUTINE, ROUTINES);
+        matcher.addURI(authority, WorkoutContract.PATH_ROUTINE + "/#", ROUTINE_WITH_ID);
 
         matcher.addURI(authority, WorkoutContract.PATH_DAY, DAYS);
         matcher.addURI(authority, WorkoutContract.PATH_DAY + "/#", DAY_WITH_ID);
-        matcher.addURI(authority, WorkoutContract.PATH_DAY + "/" + WorkoutContract.PATH_WORKOUT +
-        "/#", DAYS_WITH_WORKOUT_ID);
-        matcher.addURI(authority, WorkoutContract.PATH_DAY + "/" + WorkoutContract.PATH_WORKOUT +
-                "/#/" + WorkoutContract.PATH_DAY + "/*", DAY_WITH_WORKOUT_ID_AND_DAY_OF_WEEK);
+        matcher.addURI(authority, WorkoutContract.PATH_DAY + "/" + WorkoutContract.PATH_ROUTINE +
+        "/#", DAYS_WITH_ROUTINE_ID);
+        matcher.addURI(authority, WorkoutContract.PATH_DAY + "/" + WorkoutContract.PATH_ROUTINE +
+                "/#/" + WorkoutContract.PATH_DAY + "/*", DAY_WITH_ROUTINE_ID_AND_DAY_OF_WEEK);
 
         matcher.addURI(authority, WorkoutContract.PATH_EXERCISE, EXERCISES);
         matcher.addURI(authority, WorkoutContract.PATH_EXERCISE + "/#", EXERCISE_WITH_ID);
         matcher.addURI(authority, WorkoutContract.PATH_EXERCISE + "/" +
-                WorkoutContract.PATH_WORKOUT + "/#", EXERCISES_WITH_WORKOUT_ID);
+                WorkoutContract.PATH_ROUTINE + "/#", EXERCISES_WITH_ROUTINE_ID);
         matcher.addURI(authority, WorkoutContract.PATH_EXERCISE + "/" + WorkoutContract.PATH_DAY +
                 "/#", EXERCISES_WITH_DAY_ID);
         matcher.addURI(authority, WorkoutContract.PATH_EXERCISE + "/" +
-                WorkoutContract.PATH_WORKOUT + "/#/" + WorkoutContract.PATH_DAY + "/#",
-                EXERCISES_WITH_WORKOUT_ID_AND_DAY_OF_WEEK);
+                WorkoutContract.PATH_ROUTINE + "/#/" + WorkoutContract.PATH_DAY + "/#",
+                EXERCISES_WITH_ROUTINE_ID_AND_DAY_OF_WEEK);
         return matcher;
     }
 }

@@ -10,30 +10,30 @@ public class WorkoutContract {
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    public static final String PATH_WORKOUT = "workout";
+    public static final String PATH_ROUTINE = "routine";
     public static final String PATH_DAY = "day";
     public static final String PATH_EXERCISE = "exercise";
     public static final String PATH_NAME = "name";
 
-    public static final class WorkoutEntry implements BaseColumns {
+    public static final class RoutineEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).build();
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_ROUTINE).build();
 
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_WORKOUT;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ROUTINE;
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" +  CONTENT_AUTHORITY + "/" + PATH_WORKOUT;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" +  CONTENT_AUTHORITY + "/" + PATH_ROUTINE;
 
-        public static final String TABLE_NAME = "workout";
+        public static final String TABLE_NAME = "routine";
 
         public static final String COLUMN_NAME = "name";
 
-        public static Uri buildWorkoutId(long id) {
+        public static Uri buildRoutineId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static long getWorkoutIdFromUri(Uri uri) {
+        public static long getRoutineIdFromUri(Uri uri) {
             String workoutIdString = uri.getPathSegments().get(1);
             if (null != workoutIdString && workoutIdString.length() > 0)
                 return Long.parseLong(workoutIdString);
@@ -41,11 +41,11 @@ public class WorkoutContract {
                 return 0;
         }
 
-        public static Uri buildWorkoutName(String name) {
+        public static Uri buildRoutineName(String name) {
             return CONTENT_URI.buildUpon().appendQueryParameter(PATH_NAME, name).build();
         }
 
-        public static String getWorkoutNameFromUri(Uri uri) {
+        public static String getRoutineNameFromUri(Uri uri) {
             String name = uri.getPathSegments().get(2);
             return uri.getPathSegments().get(2);
         }
@@ -62,20 +62,20 @@ public class WorkoutContract {
 
         public static final String TABLE_NAME = "day";
 
-        public static final String COLUMN_WORKOUT_KEY = "workout_id";
+        public static final String COLUMN_ROUTINE_KEY = "workout_id";
         public static final String COLUMN_DAY_OF_WEEK = "day_of_week";
 
         public static Uri buildDayId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static Uri buildWorkoutId(long id) {
-            return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(id))
+        public static Uri buildRoutineId(long id) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_ROUTINE).appendPath(Long.toString(id))
                     .build();
         }
 
-        public static Uri buildWorkoutIdDayOfWeek(long id, long day) {
-            return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(id))
+        public static Uri buildRoutineIdDayOfWeek(long id, long day) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_ROUTINE).appendPath(Long.toString(id))
                     .appendPath(PATH_DAY).appendPath(Long.toString(day)).build();
         }
 
@@ -87,10 +87,10 @@ public class WorkoutContract {
                 return 0;
         }
 
-        public static long getWorkoutIdFromUri(Uri uri) {
-            String workoutIdString = uri.getPathSegments().get(2);
-            if (null != workoutIdString && workoutIdString.length() > 0)
-                return Long.parseLong(workoutIdString);
+        public static long getRoutineIdFromUri(Uri uri) {
+            String routineIdString = uri.getPathSegments().get(2);
+            if (null != routineIdString && routineIdString.length() > 0)
+                return Long.parseLong(routineIdString);
             else
                 return 0;
         }
@@ -128,8 +128,8 @@ public class WorkoutContract {
                     .build();
         }
 
-        public static Uri buildWorkoutIdDayOfWeek(long workoutId, int day) {
-            return CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).appendPath(Long.toString(workoutId))
+        public static Uri buildRoutineIdDayOfWeek(long routineId, int day) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_ROUTINE).appendPath(Long.toString(routineId))
                     .appendPath(PATH_DAY).appendPath(Integer.toString(day)).build();
         }
 
@@ -149,10 +149,10 @@ public class WorkoutContract {
                 return 0;
         }
 
-        public static long getWorkoutIdFromUri(Uri uri) {
-            String workoutIdString = uri.getPathSegments().get(2);
-            if (null != workoutIdString && workoutIdString.length() > 0)
-                return Long.parseLong(workoutIdString);
+        public static long getRoutineIdFromUri(Uri uri) {
+            String routineIdString = uri.getPathSegments().get(2);
+            if (null != routineIdString && routineIdString.length() > 0)
+                return Long.parseLong(routineIdString);
             else
                 return 0;
         }

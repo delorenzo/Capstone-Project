@@ -28,9 +28,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class EditDayFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String ARG_WORKOUT_ID = "workoutId";
+    private static final String ARG_ROUTINE_ID = "routineId";
     private static final String ARG_CALLBACK = "callback";
-    private long mWorkoutId;
+    private long mRoutineId;
     private DayAdapter mAdapter;
     @BindView(R.id.empty_workout_textview) TextView mEmptyView;
     @BindView(R.id.add_workout_recycler_view) RecyclerView mRecyclerView;
@@ -42,7 +42,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     private static final String[] DAY_COLUMNS = {
             WorkoutContract.DayEntry.TABLE_NAME + "." + WorkoutContract.DayEntry._ID,
             WorkoutContract.DayEntry.COLUMN_DAY_OF_WEEK,
-            WorkoutContract.DayEntry.COLUMN_WORKOUT_KEY
+            WorkoutContract.DayEntry.COLUMN_ROUTINE_KEY
     };
 
     public static final int COL_DAY_ID = 0;
@@ -56,7 +56,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     public static EditDayFragment newInstance(long workoutId, SelectDayListener listener) {
         EditDayFragment fragment = new EditDayFragment();
         Bundle b = new Bundle();
-        b.putLong(ARG_WORKOUT_ID, workoutId);
+        b.putLong(ARG_ROUTINE_ID, workoutId);
         b.putSerializable(ARG_CALLBACK, listener);
         fragment.setArguments(b);
         return fragment;
@@ -66,14 +66,14 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
+            mRoutineId = getArguments().getLong(ARG_ROUTINE_ID);
         }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
+            mRoutineId = getArguments().getLong(ARG_ROUTINE_ID);
         }
         getLoaderManager().initLoader(DAY_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
@@ -81,7 +81,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putLong(ARG_WORKOUT_ID, mWorkoutId);
+        outState.putLong(ARG_ROUTINE_ID, mRoutineId);
         super.onSaveInstanceState(outState);
     }
 
@@ -104,6 +104,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
 
     //This deprecated method left in place to support older APIs
     @Override
+    @SuppressWarnings("deprecated")
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
@@ -132,7 +133,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
             @Override
             public void onDelete(Long id, DayAdapter.DayAdapterViewHolder vh) {
                 DatabaseIntentService.startActionDeleteDay(getActivity(), id);
-                getActivity().getContentResolver().notifyChange(WorkoutContract.DayEntry.buildWorkoutId(mWorkoutId), null);
+                getActivity().getContentResolver().notifyChange(WorkoutContract.DayEntry.buildRoutineId(mRoutineId), null);
             }
         }, mEmptyView);
         mRecyclerView.setAdapter(mAdapter);
@@ -150,7 +151,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String sortOrder = WorkoutContract.DayEntry.COLUMN_DAY_OF_WEEK + " ASC";
-        Uri dayForWorkoutUri = WorkoutContract.DayEntry.buildWorkoutId(mWorkoutId);
+        Uri dayForWorkoutUri = WorkoutContract.DayEntry.buildRoutineId(mRoutineId);
         return new CursorLoader(getActivity(),
                 dayForWorkoutUri,
                 DAY_COLUMNS,

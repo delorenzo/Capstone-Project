@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class EditWorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String ARG_WORKOUT_ID = "workoutId";
+    private static final String ARG_ROUTINE_ID = "routineId";
     private static final String ARG_DAY_ID = "dayId";
     private static final String ARG_CALLBACK = "callback";
     private static final String FTAG_EDIT_EXERCISE = "editExerciseFragment";
@@ -54,7 +54,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
     public static EditWorkoutFragment newInstance(long workoutId, long dayId) {
         EditWorkoutFragment fragment = new EditWorkoutFragment();
         Bundle b = new Bundle();
-        b.putLong(ARG_WORKOUT_ID, workoutId);
+        b.putLong(ARG_ROUTINE_ID, workoutId);
         b.putLong(ARG_DAY_ID, dayId);
         fragment.setArguments(b);
         return fragment;
@@ -64,7 +64,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
+            mWorkoutId = getArguments().getLong(ARG_ROUTINE_ID);
             mDayId = getArguments().getLong(ARG_DAY_ID);
         }
     }
@@ -73,7 +73,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
+            mWorkoutId = getArguments().getLong(ARG_ROUTINE_ID);
             mDayId = getArguments().getLong(ARG_DAY_ID);
         }
         getLoaderManager().initLoader(WORKOUT_LOADER, null, this);
@@ -81,7 +81,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putLong(ARG_WORKOUT_ID, mWorkoutId);
+        outState.putLong(ARG_ROUTINE_ID, mWorkoutId);
         outState.putLong(ARG_DAY_ID, mDayId);
         super.onSaveInstanceState(outState);
     }

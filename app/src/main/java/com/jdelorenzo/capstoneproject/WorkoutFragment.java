@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
@@ -22,7 +23,6 @@ import com.jdelorenzo.capstoneproject.data.WorkoutContract.ExerciseEntry;
 import com.jdelorenzo.capstoneproject.dialogs.ModifyWeightDialogFragment;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,8 +34,8 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String ARG_WORKOUT_ID = "workoutId";
-    private long mWorkoutId;
+    private static final String ARG_ROUTINE_ID = "routineId";
+    private long mRoutineId;
     private ExerciseAdapter mExerciseAdapter;
     private long mDay;
     @BindView(R.id.workout_recycler_view) RecyclerView mRecyclerView;
@@ -68,7 +68,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     public static WorkoutFragment newInstance(long workoutId) {
         WorkoutFragment fragment = new WorkoutFragment();
         Bundle args = new Bundle();
-        args.putLong(ARG_WORKOUT_ID, workoutId);
+        args.putLong(ARG_ROUTINE_ID, workoutId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,7 +77,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
+            mRoutineId = getArguments().getLong(ARG_ROUTINE_ID);
         }
     }
 
@@ -90,9 +90,14 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         mRecyclerView.setHasFixedSize(true);
         mExerciseAdapter = new ExerciseAdapter(getActivity(), new ExerciseAdapter.ExerciseAdapterOnClickHandler() {
             @Override
-            public void onClick(Long id, ExerciseAdapter.ExerciseAdapterViewHolder vh) {
-                ModifyWeightDialogFragment fragment = new ModifyWeightDialogFragment();
+            public void onClick(long id, double weight, ExerciseAdapter.ExerciseAdapterViewHolder vh) {
+                ModifyWeightDialogFragment fragment = ModifyWeightDialogFragment.newInstance(id, weight);
                 fragment.show(getFragmentManager(), FTAG_MODIFY_WEIGHT);
+            }
+
+            @Override
+            public void allItemsChecked() {
+                endWorkout();
             }
         }, mEmptyView, AbsListView.CHOICE_MODE_NONE);
         mRecyclerView.setAdapter(mExerciseAdapter);
@@ -102,11 +107,15 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         return rootView;
     }
 
+    private void endWorkout() {
+        Toast.makeText(getActivity(), "YAYYY", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            mWorkoutId = getArguments().getLong(ARG_WORKOUT_ID);
+            mRoutineId = getArguments().getLong(ARG_ROUTINE_ID);
         }
         getLoaderManager().initLoader(WORKOUT_LOADER, null, this);
     }
@@ -122,10 +131,10 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         Calendar calendar = Calendar.getInstance();
         //the days are indexed by 0, calendar is indexed by 1
         int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        Uri exerciseUri = WorkoutContract.ExerciseEntry.buildWorkoutIdDayOfWeek(mWorkoutId, day);
+        Uri exerciseUri = WorkoutContract.ExerciseEntry.buildRoutineIdDayOfWeek(mRoutineId, day);
         return new CursorLoader(getActivity(),
                 exerciseUri,
-                null,
+                EXERCISE_COLUMNS,
                 null,
                 null,
                 null);

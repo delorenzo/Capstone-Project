@@ -16,8 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
-import com.jdelorenzo.capstoneproject.dialogs.CreateWorkoutDialogFragment;
-import com.jdelorenzo.capstoneproject.dialogs.SelectWorkoutDialogFragment;
+import com.jdelorenzo.capstoneproject.dialogs.CreateRoutineDialogFragment;
+import com.jdelorenzo.capstoneproject.dialogs.SelectRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
 import java.util.List;
@@ -28,11 +28,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements
-        CreateWorkoutDialogFragment.CreateWorkoutDialogListener {
+        CreateRoutineDialogFragment.CreateWorkoutDialogListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
-    private static final String FTAG_DIALOG_FRAGMENT = "CreateWorkoutDialogFragment";
-    String [] mWorkoutLabels;
-    long [] mWorkoutIds;
+    private static final String FTAG_DIALOG_FRAGMENT = "CreateRoutineDialogFragment";
+    String [] mRoutineLabels;
+    long [] mRoutineIds;
     @BindViews({R.id.button_work_out, R.id.button_edit_workout, R.id.button_view_stats}) List<Button> workoutButtons;
 
     @Override
@@ -70,51 +70,51 @@ public class MainActivity extends AppCompatActivity implements
 
     @OnClick(R.id.button_work_out)
     public void onWorkOut() {
-        if (mWorkoutIds == null || mWorkoutIds.length == 0) {
+        if (mRoutineIds == null || mRoutineIds.length == 0) {
             Toast.makeText(this, getString(R.string.no_workouts_text), Toast.LENGTH_SHORT).show();
         }
-        else if (mWorkoutIds.length > 1) {
-            DialogFragment selectWorkoutFragment = SelectWorkoutDialogFragment.newInstance(new SelectWorkoutDialogFragment.SelectWorkoutListener() {
+        else if (mRoutineIds.length > 1) {
+            DialogFragment selectWorkoutFragment = SelectRoutineDialogFragment.newInstance(new SelectRoutineDialogFragment.SelectRoutineListener() {
                 @Override
-                public void onWorkoutSelected(long id) {
+                public void onRoutineSelected(long id) {
                     workOut(id);
                 }
-            }, mWorkoutLabels, mWorkoutIds);
+            }, mRoutineLabels, mRoutineIds);
             selectWorkoutFragment.show(getFragmentManager(), FTAG_DIALOG_FRAGMENT);
         }
         else {
-            workOut(mWorkoutIds[0]);
+            workOut(mRoutineIds[0]);
         }
     }
 
     private void workOut(long workoutId) {
         Intent intent = new Intent(this, WorkoutActivity.class);
-        intent.putExtra(WorkoutActivity.ARG_WORKOUT_ID, workoutId);
+        intent.putExtra(WorkoutActivity.ARG_ROUTINE_ID, workoutId);
         startActivity(intent);
     }
 
     @OnClick(R.id.button_create_workout)
     public void onCreateWorkout() {
-        DialogFragment dialog = new CreateWorkoutDialogFragment();
+        DialogFragment dialog = new CreateRoutineDialogFragment();
         dialog.show(getFragmentManager(), FTAG_DIALOG_FRAGMENT);
     }
 
     @OnClick(R.id.button_edit_workout)
     public void onEditWorkout() {
-        if (mWorkoutIds == null) return;
-        if (mWorkoutIds.length == 0) {
+        if (mRoutineIds == null) return;
+        if (mRoutineIds.length == 0) {
             Toast.makeText(MainActivity.this, getString(R.string.no_workouts_text), Toast.LENGTH_SHORT).show();
         }
-        else if (mWorkoutIds.length == 1) {
-            modifyWorkout(mWorkoutIds[0]);
+        else if (mRoutineIds.length == 1) {
+            modifyWorkout(mRoutineIds[0]);
         }
         else {
-            DialogFragment selectWorkoutFragment = SelectWorkoutDialogFragment.newInstance(new SelectWorkoutDialogFragment.SelectWorkoutListener() {
+            DialogFragment selectWorkoutFragment = SelectRoutineDialogFragment.newInstance(new SelectRoutineDialogFragment.SelectRoutineListener() {
                 @Override
-                public void onWorkoutSelected(long id) {
+                public void onRoutineSelected(long id) {
                     modifyWorkout(id);
                 }
-            }, mWorkoutLabels, mWorkoutIds);
+            }, mRoutineLabels, mRoutineIds);
             selectWorkoutFragment.show(getFragmentManager(), FTAG_DIALOG_FRAGMENT);
         }
     }
@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private class RetrieveWorkoutsTask extends AsyncTask<Void, Void, long[]> {
         public String WORKOUT_COLUMNS[] = {
-                WorkoutContract.WorkoutEntry.TABLE_NAME + "." + WorkoutContract.WorkoutEntry._ID,
-                WorkoutContract.WorkoutEntry.COLUMN_NAME
+                WorkoutContract.RoutineEntry.TABLE_NAME + "." + WorkoutContract.RoutineEntry._ID,
+                WorkoutContract.RoutineEntry.COLUMN_NAME
         };
         public int COL_ID = 0;
         public int COL_NAME = 1;
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         protected long [] doInBackground(Void... params) {
             Cursor retCursor = getContentResolver().query(
-                    WorkoutContract.WorkoutEntry.CONTENT_URI,
+                    WorkoutContract.RoutineEntry.CONTENT_URI,
                     WORKOUT_COLUMNS,
                     null,
                     null,
@@ -166,16 +166,16 @@ public class MainActivity extends AppCompatActivity implements
             );
             if (retCursor != null && retCursor.moveToFirst()) {
                 int count = retCursor.getCount();
-                mWorkoutIds = new long[count];
-                mWorkoutLabels = new String[count];
+                mRoutineIds = new long[count];
+                mRoutineLabels = new String[count];
                 for (int i = 0; i < count; i++) {
-                    mWorkoutIds[i] = retCursor.getLong(COL_ID);
-                    mWorkoutLabels[i] = retCursor.getString(COL_NAME);
+                    mRoutineIds[i] = retCursor.getLong(COL_ID);
+                    mRoutineLabels[i] = retCursor.getString(COL_NAME);
                     retCursor.moveToNext();
                 }
                 retCursor.close();
             }
-            return mWorkoutIds;
+            return mRoutineIds;
         }
 
         @Override

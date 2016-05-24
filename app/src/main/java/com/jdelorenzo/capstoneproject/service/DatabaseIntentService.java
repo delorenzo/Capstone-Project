@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
 
-import com.jdelorenzo.capstoneproject.Utility;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
 
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ public class DatabaseIntentService extends IntentService {
     private static final String ACTION_ADD_EXERCISE = "com.jdelorenzo.capstoneproject.service.action.ADD_EXERCISE";
     private static final String ACTION_EDIT_EXERCISE = "com.jdelorenzo.capstoneproject.service.action.EDIT_EXERCISE";
     private static final String ACTION_DELETE_EXERCISE = "com.jdelorenzo.capstoneproject.service.action.DELETE_EXERCISE";
+    private static final String ACTION_EDIT_EXERCISE_WEIGHT = "com.jdelorenzo.capstone.service.action_EDIT_EXERCISE_WEIGHT";
 
     private static final String EXTRA_DAY_ID = "com.jdelorenzo.capstoneproject.service.extra.DAY_ID";
     private static final String EXTRA_DAY_OF_WEEK = "com.jdelorenzo.capstoneproject.service.extra.DAY_OF_WEEK";
@@ -51,7 +51,7 @@ public class DatabaseIntentService extends IntentService {
     public static void startActionAddWorkout(Context context, String name) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_ADD_WORKOUT);
-        intent.setData(WorkoutEntry.CONTENT_URI);
+        intent.setData(RoutineEntry.CONTENT_URI);
         intent.putExtra(EXTRA_NAME, name);
         context.startService(intent);
     }
@@ -59,14 +59,14 @@ public class DatabaseIntentService extends IntentService {
     public static void startActionDeleteWorkout(Context context, long id) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_DELETE_WORKOUT);
-        intent.setData(WorkoutEntry.buildWorkoutId(id));
+        intent.setData(RoutineEntry.buildRoutineId(id));
         context.startService(intent);
     }
 
     public static void startActionRenameWorkout(Context context, long id, String name) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_RENAME_WORKOUT);
-        intent.setData(WorkoutEntry.buildWorkoutId(id));
+        intent.setData(RoutineEntry.buildRoutineId(id));
         intent.putExtra(EXTRA_NAME, name);
         context.startService(intent);
     }
@@ -119,10 +119,18 @@ public class DatabaseIntentService extends IntentService {
         context.startService(intent);
     }
 
+    public static void startActionEditExerciseWeight(Context context, long id, double weight) {
+        Intent intent = new Intent(context, DatabaseIntentService.class);
+        intent.setAction(ACTION_EDIT_EXERCISE_WEIGHT);
+        intent.setData(ExerciseEntry.buildExerciseId(id));
+        intent.putExtra(EXTRA_WEIGHT, weight);
+        context.startService(intent);
+    }
+
     public static void startActionEditDays(Context context, ArrayList<Integer> days, long workoutId) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_EDIT_DAYS);
-        intent.setData(DayEntry.buildWorkoutId(workoutId));
+        intent.setData(DayEntry.buildRoutineId(workoutId));
         intent.putExtra(EXTRA_WORKOUT_ID, workoutId);
         intent.putExtra(EXTRA_DAY_OF_WEEK, days);
         context.startService(intent);
@@ -137,7 +145,7 @@ public class DatabaseIntentService extends IntentService {
 
                 case ACTION_ADD_WORKOUT:
                     contentValues = new ContentValues();
-                    contentValues.put(WorkoutEntry.COLUMN_NAME,
+                    contentValues.put(RoutineEntry.COLUMN_NAME,
                             intent.getStringExtra(EXTRA_NAME));
                     getApplicationContext().getContentResolver().insert(
                             intent.getData(),
@@ -154,7 +162,7 @@ public class DatabaseIntentService extends IntentService {
 
                 case ACTION_RENAME_WORKOUT:
                     contentValues = new ContentValues();
-                    contentValues.put(WorkoutEntry.COLUMN_NAME,
+                    contentValues.put(RoutineEntry.COLUMN_NAME,
                             intent.getStringExtra(EXTRA_NAME));
                     getContentResolver().update(
                             intent.getData(),
@@ -166,7 +174,7 @@ public class DatabaseIntentService extends IntentService {
 
                 case ACTION_ADD_DAY:
                     contentValues = new ContentValues();
-                    contentValues.put(DayEntry.COLUMN_WORKOUT_KEY,
+                    contentValues.put(DayEntry.COLUMN_ROUTINE_KEY,
                             intent.getLongExtra(EXTRA_WORKOUT_ID, 0));
                     contentValues.put(DayEntry.COLUMN_DAY_OF_WEEK,
                             intent.getIntExtra(EXTRA_DAY_OF_WEEK, 0));
@@ -191,7 +199,7 @@ public class DatabaseIntentService extends IntentService {
                     ContentValues[] values = new ContentValues[days.size()];
                     for (int i = 0; i < days.size(); i++) {
                         ContentValues v = new ContentValues();
-                        v.put(DayEntry.COLUMN_WORKOUT_KEY, workoutKey);
+                        v.put(DayEntry.COLUMN_ROUTINE_KEY, workoutKey);
                         v.put(DayEntry.COLUMN_DAY_OF_WEEK, days.get(i));
                         values[i] = v;
                     }
@@ -225,6 +233,18 @@ public class DatabaseIntentService extends IntentService {
                             intent.getIntExtra(EXTRA_REPS, 0));
                     contentValues.put(ExerciseEntry.COLUMN_SETS,
                             intent.getIntExtra(EXTRA_SETS, 0));
+                    contentValues.put(ExerciseEntry.COLUMN_WEIGHT,
+                            intent.getDoubleExtra(EXTRA_WEIGHT, 0));
+                    getContentResolver().update(
+                            intent.getData(),
+                            contentValues,
+                            null,
+                            null
+                    );
+                    break;
+
+                case ACTION_EDIT_EXERCISE_WEIGHT:
+                    contentValues = new ContentValues();
                     contentValues.put(ExerciseEntry.COLUMN_WEIGHT,
                             intent.getDoubleExtra(EXTRA_WEIGHT, 0));
                     getContentResolver().update(

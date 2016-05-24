@@ -1,21 +1,27 @@
 package com.jdelorenzo.capstoneproject;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.jdelorenzo.capstoneproject.data.WorkoutContract;
+import com.jdelorenzo.capstoneproject.dialogs.ModifyWeightDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.RestDialogFragment;
+import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
+
+import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WorkoutActivity extends AppCompatActivity {
-    private long mWorkoutId;
-    public static final String ARG_WORKOUT_ID = "workoutId";
+public class WorkoutActivity extends AppCompatActivity implements
+        ModifyWeightDialogFragment.ModifyWeightListener {
+    private long mRoutineId;
+    public static final String ARG_ROUTINE_ID = "routineId";
     private static final String FTAG_WORKOUT = "workoutFragment";
     private static final String FTAG_REST_DIALOG = "restDialogFragment";
 
@@ -32,10 +38,10 @@ public class WorkoutActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         if (b!= null) {
-            mWorkoutId = b.getLong(ARG_WORKOUT_ID);
+            mRoutineId = b.getLong(ARG_ROUTINE_ID);
         }
         if (savedInstanceState == null) {
-            WorkoutFragment workoutFragment = WorkoutFragment.newInstance(mWorkoutId);
+            WorkoutFragment workoutFragment = WorkoutFragment.newInstance(mRoutineId);
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, workoutFragment, FTAG_WORKOUT)
@@ -70,5 +76,15 @@ public class WorkoutActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onWeightModified(long id, double weight) {
+        DatabaseIntentService.startActionEditExerciseWeight(this, id, weight);
+        Calendar calendar = Calendar.getInstance();
+        //the days are indexed by 0, calendar is indexed by 1
+        int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        Uri exerciseUri = WorkoutContract.ExerciseEntry.buildRoutineIdDayOfWeek(mRoutineId, day);
+        getContentResolver().notifyChange(exerciseUri, null);
     }
 }

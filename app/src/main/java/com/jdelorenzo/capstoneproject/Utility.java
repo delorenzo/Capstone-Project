@@ -68,6 +68,18 @@ public class Utility {
         }
     }
 
+    public static double convertWeight(Context context, double weight) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String unit = preferences.getString(context.getString(R.string.prefs_weight_unit_key),
+                context.getString(R.string.prefs_weight_unit_default));
+        if (unit.equals(context.getString(R.string.prefs_weight_unit_imperial_value))) {
+            return toImperial(weight);
+        }
+        else {
+            return weight;
+        }
+    }
+
     private static double toImperial(double kg) {
         return kg * 2.205;
     }

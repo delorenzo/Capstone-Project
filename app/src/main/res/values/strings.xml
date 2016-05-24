@@ -6,8 +6,8 @@
     <string name="action_add_day">Add Day</string>
     <string name="action_work_out">Work Out</string>
     <string name="action_view_stats">View Stats</string>
-    <string name="action_create_workout">Create Workout</string>
-    <string name="action_edit_workout">Edit Workout</string>
+    <string name="action_create_workout">Create Routine</string>
+    <string name="action_edit_workout">Edit Routine</string>
     <string name="action_submit">Submit</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_accept">Accept</string>
@@ -15,19 +15,19 @@
 
     <!-- titles -->
     <string name="title_activity_workout">Work Out</string>
-    <string name="title_activity_modify_workout">Modify Workout</string>
-    <string name="title_activity_add_workout">Add Workout</string>
+    <string name="title_activity_modify_workout">Modify Routine</string>
+    <string name="title_activity_add_workout">Add Routine</string>
     <string name="title_activity_view_stats">Your Progress</string>
     <string name="title_activity_settings">Settings</string>
 
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- accessibility strings -->
-    <string name="accessibility_string_delete_workout_day">Delete Workout Day</string>
+    <string name="accessibility_string_delete_workout_day">Delete Routine Day</string>
 
     <!-- empty view strings -->
-    <string name="empty_day_text">You have no days for this workout.  Add a day!</string>
-    <string name="no_workouts_text">You have no workouts.  Create a workout!</string>
+    <string name="empty_day_text">You have no days for this routine.  Add a day!</string>
+    <string name="no_workouts_text">You have no workout routines.  Create a routine!</string>
     <string name="empty_exercise_text">You have no exercises for this day.  Add an exercise!</string>
     <string name="empty_workout_text">You have no exercises scheduled for today.</string>
 
@@ -67,9 +67,7 @@
     <string name="weight_format_imperial" example="20 lb">
         <xliff:g>%1$.1f</xliff:g> lb
     </string>
-    <string name="weight_format" translatable="false" example="23.45">
-        <xliff:g>%1$.1f</xliff:g>
-    </string>
+    <string name="weight_format" example="23.45" translatable="false"><xliff:g>%1$.1f</xliff:g></string>
     <string name="weight_units_metric">kg</string>
     <string name="weight_units_imperial">lb</string>
     <string name="format_reps" example="10 reps">
@@ -86,9 +84,9 @@
     </string>
 
     <!-- dialog strings -->
-    <string name="dialog_create_workout_title">Create Workout</string>
-    <string name="dialog_name_workout_text">Enter a name for your new workout:</string>
-    <string name="dialog_select_workout_title">Select Workout</string>
+    <string name="dialog_create_workout_title">Create Routine</string>
+    <string name="dialog_name_workout_text">Enter a name for your new routine:</string>
+    <string name="dialog_select_workout_title">Select Routine</string>
     <string name="dialog_select_days_title">Select Days</string>
     <string name="dialog_create_exercise_title">Create Exercise</string>
     <string name="dialog_create_exercise_text">Enter the details of your new exercise:</string>
@@ -102,7 +100,7 @@
     <string name="dialog_default_name">Exercise 1</string>
 
     <!-- hint strings -->
-    <string name="hint_workout_name">Workout Name</string>
+    <string name="hint_workout_name">Routine Name</string>
 
     <!-- provider string -->
     <string name="content_authority">com.jdelorenzo.capstoneproject.app</string>
@@ -126,5 +124,23 @@
     <string name="default_sets">3</string>
     <string name="default_reps">10</string>
     <string name="default_weight">0</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="error_connection_failed">Failed to connect.  Please verify your network connection.</string>
+    <string name="action_no_sign_in">Continue without signing in</string>
+    <string name="button_why_sign_in">Why sign in?</string>
+    <string name="sign_in_text">Signing in is not required, but allows the application to back up your workout routine data in the event that your phone is lost or damaged.  If that\'s not important to you, you can opt to skip this screen in settings.</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 
 </resources>

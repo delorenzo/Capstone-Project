@@ -4,13 +4,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jdelorenzo.capstoneproject.EditWorkoutFragment;
 import com.jdelorenzo.capstoneproject.ItemChoiceManager;
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.Utility;
@@ -28,6 +31,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     private ItemChoiceManager mICM;
     final private ExerciseAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
+    private int itemsChecked;
 
     public ExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
                            View emptyView, int choiceMode) {
@@ -38,7 +42,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     }
 
     public interface ExerciseAdapterOnClickHandler {
-        void onClick(Long id, ExerciseAdapterViewHolder vh);
+        void onClick(long id, double weight, ExerciseAdapterViewHolder vh);
+        void allItemsChecked();
     }
 
     public class ExerciseAdapterViewHolder extends RecyclerView.ViewHolder
@@ -61,8 +66,10 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-            int exerciseId = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry._ID);
-            mClickHandler.onClick(mCursor.getLong(exerciseId), this);
+            int exerciseIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry._ID);
+            int weightIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_WEIGHT);
+            mClickHandler.onClick(mCursor.getLong(exerciseIndex), mCursor.getDouble(weightIndex),
+                    this);
             mICM.onClick(this);
         }
     }
@@ -101,6 +108,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
                 }
                 if (holder.setCount > 0) {
                     buttonView.setChecked(false);
+                }
+                else {
+                    itemsChecked++;
+                    Log.e("ExerciseAdapter", itemsChecked + ":  " + mCursor.getCount());
+                    if (itemsChecked >= mCursor.getCount()) {
+                        mClickHandler.allItemsChecked();
+                    }
                 }
             }
         });
