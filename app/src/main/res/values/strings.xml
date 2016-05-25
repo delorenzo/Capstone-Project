@@ -59,6 +59,11 @@
     <string name="prefs_rest_summary_format">
         <xliff:g>%1$d</xliff:g> sec
     </string>
+    <!-- login -->
+    <string name="prefs_login_key">login</string>
+    <string name="prefs_login_title">Show Login Screen</string>
+    <string name="prefs_login_label_true">Show</string>
+    <string name="prefs_login_label_false">Don\'t show</string>
 
     <!-- format strings -->
     <string name="weight_format_metric" example="20 kg">
@@ -144,4 +149,8 @@
     </string>
 
     <string name="dot">.</string>
+
+    <!-- widget strings -->
+    <string name="widget_title">Today\'s Workout</string>
+    <string name="add_widget">Add widget</string>
 </resources>

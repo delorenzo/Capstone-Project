@@ -23,4 +23,11 @@
         android:defaultValue="@integer/prefs_rest_default"
         android:key="@string/prefs_rest_key"
         android:title="@string/prefs_rest_title"/>
+
+    <SwitchPreference
+        android:defaultValue="@bool/prefs_login_default_value"
+        android:key="@string/prefs_login_key"
+        android:summaryOn="@string/prefs_login_label_true"
+        android:summaryOff="@string/prefs_login_label_false"
+        android:title="@string/prefs_login_title"/>
 </PreferenceScreen>
