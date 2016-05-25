@@ -87,6 +87,7 @@
     <string name="format_rest_seconds" example="Seconds remaining:  20">
         Seconds remaining:  <xliff:g>%1$d</xliff:g>
     </string>
+    <string name="reps_sets_format" example="10R x 3S"><xliff:g>%1$d</xliff:g>R x <xliff:g>%2$d</xliff:g>S</string>
 
     <!-- dialog strings -->
     <string name="dialog_create_workout_title">Create Routine</string>
@@ -103,6 +104,8 @@
     <string name="dialog_sets_label">Sets:</string>
     <string name="dialog_weight_label">Weight:</string>
     <string name="dialog_default_name">Exercise 1</string>
+    <string name="dialog_workout_complete_title">Workout Complete</string>
+    <string name="dialog_workout_complete_text">You have completed this workout.  Nice work!</string>
 
     <!-- hint strings -->
     <string name="hint_workout_name">Routine Name</string>

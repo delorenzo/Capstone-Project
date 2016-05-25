@@ -154,7 +154,8 @@ public class LoginActivity extends AppCompatActivity implements
 //            updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
-            Toast.makeText(this, "Authentication unsuccessful.", Toast.LENGTH_SHORT).show();
+            Log.e(LOG_TAG, "Google sign in unsuccessful:  " + result.getStatus().getStatusMessage());
+            Toast.makeText(this, "Authentication unsuccessful:  " + result.getStatus().getStatusMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="prefs_rest_default">120</integer>
+    <integer name="widget_update_millis">86400000</integer>
 </resources>

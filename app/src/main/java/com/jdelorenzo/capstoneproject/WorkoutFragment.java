@@ -21,6 +21,7 @@ import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.ExerciseEntry;
 import com.jdelorenzo.capstoneproject.dialogs.ModifyWeightDialogFragment;
+import com.jdelorenzo.capstoneproject.dialogs.WorkoutCompleteDialogFragment;
 
 import java.util.Calendar;
 
@@ -43,6 +44,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     private Unbinder unbinder;
     private final static int WORKOUT_LOADER = 0;
     private static final String FTAG_MODIFY_WEIGHT = "modifyWeightDialogFragment";
+    private static final String FTAG_WORKOUT_COMPLETE = "workoutCompleteDialogFragment";
 
     public String[] EXERCISE_COLUMNS = {
             ExerciseEntry.TABLE_NAME + "." + ExerciseEntry._ID,
@@ -108,7 +110,8 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void endWorkout() {
-        Toast.makeText(getActivity(), "YAYYY", Toast.LENGTH_SHORT).show();
+        WorkoutCompleteDialogFragment fragment = new WorkoutCompleteDialogFragment();
+        fragment.show(getFragmentManager(), FTAG_WORKOUT_COMPLETE);
     }
 
     @Override

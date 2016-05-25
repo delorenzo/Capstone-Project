@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.dialogs.ModifyWeightDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.RestDialogFragment;
+import com.jdelorenzo.capstoneproject.dialogs.WorkoutCompleteDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
 import java.util.Calendar;
@@ -19,7 +20,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WorkoutActivity extends AppCompatActivity implements
-        ModifyWeightDialogFragment.ModifyWeightListener {
+        ModifyWeightDialogFragment.ModifyWeightListener,
+        WorkoutCompleteDialogFragment.WorkoutCompleteListener {
     private long mRoutineId;
     public static final String ARG_ROUTINE_ID = "routineId";
     private static final String FTAG_WORKOUT = "workoutFragment";
@@ -86,5 +88,11 @@ public class WorkoutActivity extends AppCompatActivity implements
         int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
         Uri exerciseUri = WorkoutContract.ExerciseEntry.buildRoutineIdDayOfWeek(mRoutineId, day);
         getContentResolver().notifyChange(exerciseUri, null);
+    }
+
+    @Override
+    public void onWorkoutComplete() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

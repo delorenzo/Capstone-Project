@@ -72,7 +72,8 @@
             android:enabled="true"
             android:exported="false" />
 
-        <receiver android:name=".WorkoutWidget">
+        <receiver
+            android:name=".widget.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
