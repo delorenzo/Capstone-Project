@@ -4,30 +4,39 @@
     android:layout_width="match_parent"
     android:background="@android:color/white"
     android:layout_height="match_parent"
-    android:id="@+id/widget"
     android:orientation="vertical"
     android:layout_margin="@dimen/widget_margin">
-    <TextView
-        android:text="@string/widget_title"
-        android:layout_gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:padding="@dimen/widget_padding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/widget"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:layout_gravity="center"
+            android:padding="@dimen/widget_padding"
+            android:src="@drawable/logo_wide"
+            android:layout_height="@dimen/widget_logo_height" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
         <ListView
             android:id="@+id/widget_list"
             android:dividerHeight="0dp"
             tools:listitem="@layout/widget_list_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
         <TextView
-            android:id="@+id/widget_empty_textview"
+            android:id="@+id/widget_empty_text"
             android:gravity="center"
+            android:textColor="@android:color/black"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/empty_workout_text"
             android:layout_width="match_parent"

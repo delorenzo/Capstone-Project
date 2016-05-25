@@ -26,7 +26,7 @@ public class CreateRoutineDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View rootView = inflater.inflate(R.layout.dialog_create_workout, null);
+        final View rootView = inflater.inflate(R.layout.dialog_create_routine, null);
         builder.setTitle(R.string.dialog_create_workout_title)
                 .setIcon(R.drawable.run)
                 .setMessage(R.string.dialog_name_workout_text)

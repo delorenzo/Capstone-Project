@@ -1,37 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:id="@+id/widget_list_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:textAppearance="?android:textAppearanceListItem"
-        android:layout_weight="2"
-        android:layout_gravity="center_vertical"
-        android:id="@+id/widget_exercise_name"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        tools:text="Curls"/>
-    <TextView
-        android:textAppearance="?android:textAppearanceListItemSmall"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:id="@+id/widget_weight"
-        tools:text="15.5 lb"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:textAppearance="?android:textAppearanceListItemSmall"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:id="@+id/widget_reps_sets"
-        tools:text="10R x 3S"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textAppearance="?android:textAppearanceListItem"
+            android:layout_weight="2"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/widget_exercise_name"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Curls"/>
+
+        <TextView
+            android:textAppearance="?android:textAppearanceListItemSmall"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/widget_weight"
+            tools:text="15.5 lb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textAppearance="?android:textAppearanceListItemSmall"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/widget_reps_sets"
+            tools:text="10R x 3S"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</FrameLayout>

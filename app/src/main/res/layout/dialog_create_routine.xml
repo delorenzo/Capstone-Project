@@ -9,6 +9,7 @@
         android:layout_marginLeft="@dimen/dialog_horizontal_padding"
         android:id="@+id/workout_name_edit_text"
         android:hint="@string/hint_workout_name"
+        android:text="@string/dialog_default_routine_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />

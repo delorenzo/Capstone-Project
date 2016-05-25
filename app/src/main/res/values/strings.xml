@@ -103,7 +103,8 @@
     <string name="dialog_reps_label">Reps:</string>
     <string name="dialog_sets_label">Sets:</string>
     <string name="dialog_weight_label">Weight:</string>
-    <string name="dialog_default_name">Exercise 1</string>
+    <string name="dialog_default_exercise_name">Exercise 1</string>
+    <string name="dialog_default_routine_name">Routine 1</string>
     <string name="dialog_workout_complete_title">Workout Complete</string>
     <string name="dialog_workout_complete_text">You have completed this workout.  Nice work!</string>
 

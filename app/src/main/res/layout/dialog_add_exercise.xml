@@ -32,7 +32,7 @@
             android:layout_marginLeft="@dimen/dialog_text_horizontal_margin"
             android:layout_marginStart="@dimen/dialog_text_horizontal_margin"
             app:layout_columnSpan="2"
-            android:text="@string/dialog_default_name"
+            android:text="@string/dialog_default_exercise_name"
             android:gravity="center"
             android:id="@+id/exercise"
             android:inputType="textAutoComplete"
