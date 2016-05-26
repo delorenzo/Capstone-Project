@@ -9,5 +9,5 @@
     android:minResizeWidth="@dimen/widget_min_resize_width"
     android:previewImage="@drawable/widget_preview"
     android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="@integer/widget_update_millis"
+    android:updatePeriodMillis="@integer/hour_in_millis"
     android:widgetCategory="home_screen|keyguard"/>

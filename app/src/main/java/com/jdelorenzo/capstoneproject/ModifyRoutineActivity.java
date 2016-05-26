@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class ModifyWorkoutActivity extends AppCompatActivity implements
+public class ModifyRoutineActivity extends AppCompatActivity implements
         SelectDaysDialogFragment.SelectDaysListener, EditDayFragment.SelectDayListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
     private String mWorkoutName;

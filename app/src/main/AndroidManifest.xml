@@ -25,7 +25,7 @@
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
         </activity>
         <activity
-            android:name=".ModifyWorkoutActivity"
+            android:name=".ModifyRoutineActivity"
             android:label="@string/title_activity_modify_workout"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.SlideAnimation" >

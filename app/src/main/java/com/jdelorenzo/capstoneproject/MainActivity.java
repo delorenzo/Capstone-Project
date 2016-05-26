@@ -20,7 +20,6 @@ import com.jdelorenzo.capstoneproject.dialogs.CreateRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.SelectRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -118,11 +117,18 @@ public class MainActivity extends AppCompatActivity implements
             }, mRoutineLabels, mRoutineIds);
             selectWorkoutFragment.show(getFragmentManager(), FTAG_DIALOG_FRAGMENT);
         }
+        EditRoutineFragment fragment = EditRoutineFragment.newInstance(new EditRoutineFragment.EditRoutineListener() {
+            @Override
+            public void onRoutineSelected(long id) {
+                modifyWorkout(id);
+            }
+        });
+
     }
 
     private void modifyWorkout(long workout) {
-        Intent intent = new Intent(this, ModifyWorkoutActivity.class);
-        intent.putExtra(ModifyWorkoutActivity.ARG_WORKOUT_ID, workout);
+        Intent intent = new Intent(this, ModifyRoutineActivity.class);
+        intent.putExtra(ModifyRoutineActivity.ARG_WORKOUT_ID, workout);
         startActivity(intent);
     }
 
@@ -135,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onRoutineCreated(String name) {
         DatabaseIntentService.startActionAddWorkout(getApplicationContext(), name);
-        Intent intent = new Intent(this, ModifyWorkoutActivity.class);
-        intent.putExtra(ModifyWorkoutActivity.ARG_WORKOUT_NAME, name);
+        Intent intent = new Intent(this, ModifyRoutineActivity.class);
+        intent.putExtra(ModifyRoutineActivity.ARG_WORKOUT_NAME, name);
         startActivity(intent);
     }
 

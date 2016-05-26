@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    tools:context="com.jdelorenzo.capstoneproject.ModifyWorkoutActivity">
+    tools:context=".ModifyRoutineActivity">
 
     <LinearLayout
         android:fitsSystemWindows="true"

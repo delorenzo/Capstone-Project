@@ -31,7 +31,7 @@ public class EditRoutineFragment extends Fragment implements LoaderManager.Loade
     private RoutineAdapter mAdapter;
     @BindView(R.id.empty_routine_textview) TextView mEmptyView;
     @BindView(R.id.add_routine_recyclerview) RecyclerView mRecyclerView;
-    private SelectRoutineListener mCallback;
+    private EditRoutineListener mCallback;
     private Unbinder unbinder;
 
     private static final int ROUTINE_LOADER = 0;
@@ -44,11 +44,11 @@ public class EditRoutineFragment extends Fragment implements LoaderManager.Loade
     public static final int COL_ROUTINE_ID = 0;
     public static final int COL_NAME = 1;
 
-    public interface SelectRoutineListener extends Serializable {
+    public interface EditRoutineListener extends Serializable {
         void onRoutineSelected(long id);
     }
 
-    public static EditRoutineFragment newInstance(long workoutId, SelectRoutineListener listener) {
+    public static EditRoutineFragment newInstance(EditRoutineListener listener) {
         EditRoutineFragment fragment = new EditRoutineFragment();
         Bundle b = new Bundle();
         b.putSerializable(ARG_CALLBACK, listener);
@@ -67,11 +67,11 @@ public class EditRoutineFragment extends Fragment implements LoaderManager.Loade
     public void onAttach(Context context) {
         super.onAttach(context);
         if (getArguments() != null) {
-            mCallback = (SelectRoutineListener) getArguments().getSerializable(ARG_CALLBACK);
+            mCallback = (EditRoutineListener) getArguments().getSerializable(ARG_CALLBACK);
         }
         try {
             if (null == mCallback) {
-                mCallback = (SelectRoutineListener) context;
+                mCallback = (EditRoutineListener) context;
             }
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
@@ -86,7 +86,7 @@ public class EditRoutineFragment extends Fragment implements LoaderManager.Loade
         super.onAttach(activity);
         try {
             if (null == mCallback) {
-                mCallback = (SelectRoutineListener) activity;
+                mCallback = (EditRoutineListener) activity;
             }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() +
