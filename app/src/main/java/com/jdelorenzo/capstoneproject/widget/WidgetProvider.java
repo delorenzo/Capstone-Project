@@ -24,7 +24,7 @@ public class WidgetProvider extends AppWidgetProvider {
         //create the intent to login
         Intent intent = new Intent(context, LoginActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        //views.setOnClickPendingIntent(R.id.widget, pendingIntent);
+        views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
         setRemoteAdapter(context, views);
 
@@ -36,7 +36,7 @@ public class WidgetProvider extends AppWidgetProvider {
         views.setEmptyView(R.id.widget_list, R.id.widget_empty_text);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
-        //appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
     }
 
     @Override
