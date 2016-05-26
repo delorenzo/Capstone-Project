@@ -30,6 +30,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -181,13 +182,22 @@ public class LoginActivity extends AppCompatActivity implements
 //            updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
-            Log.e(LOG_TAG, "Google sign in unsuccessful:  " + result.getStatus().getStatusMessage());
-            Toast.makeText(this, "Authentication unsuccessful:  " + result.getStatus().getStatusMessage(), Toast.LENGTH_SHORT).show();
+            String resultMessage = result.getStatus().getStatusMessage();
+            int code = result.getStatus().getStatusCode();
+            String errorMessage = getString(R.string.authentication_generic_failure);
+            if (code == GoogleSignInStatusCodes.SIGN_IN_REQUIRED) {
+                errorMessage = getString(R.string.common_google_play_services_sign_in_failed_text);
+            }
+            else if (code == GoogleSignInStatusCodes.NETWORK_ERROR) {
+                errorMessage = getString(R.string.common_google_play_services_network_error_text);
+            }
+            Log.e(LOG_TAG, "Google sign in unsuccessful.  Code " + code);
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        Log.d(LOG_TAG, "Authenticating firebase with Google:  " + account.getId());
+        Log.d(LOG_TAG, "Authenticating Firebase with Google:  " + account.getId());
         showProgress(true);
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)

@@ -12,14 +12,14 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@android:color/transparent"
-        android:id="@+id/delete_day_button"
+        android:id="@+id/delete_routine_button"
         android:scaleType="fitXY"
         android:layout_margin="4dp"
-        android:contentDescription="@string/accessibility_string_delete_workout_day"
+        android:contentDescription="@string/accessibility_string_delete_routine"
         android:src="@drawable/ic_delete_24dp_color_primary"/>
     <Button
-        android:id="@+id/day"
-        tools:text="Monday"
+        android:id="@+id/routine"
+        tools:text="Routine 1"
         android:gravity="center"
         android:background="?colorPrimary"
         android:textColor="@android:color/white"

@@ -196,7 +196,7 @@ public class WorkoutProvider extends ContentProvider {
                 retCursor = sExerciseByDayQueryBuilder.query(
                         mOpenHelper.getReadableDatabase(),
                         projection,
-                        sExerciseRoutineIdDayOfWeekSelection,
+                        sExerciseDayOfWeekSelection,
                         new String[] {Integer.toString(day)},
                         null,
                         null,

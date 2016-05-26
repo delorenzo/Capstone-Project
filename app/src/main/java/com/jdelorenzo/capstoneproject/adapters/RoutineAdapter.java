@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.jdelorenzo.capstoneproject.EditDayFragment;
+import com.jdelorenzo.capstoneproject.EditRoutineFragment;
 import com.jdelorenzo.capstoneproject.ItemChoiceManager;
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
@@ -19,33 +20,31 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHolder> {
+public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RoutineAdapterViewHolder> {
     private Cursor mCursor;
     private Context mContext;
     private ItemChoiceManager mICM;
-    final private DayAdapterOnClickHandler mClickHandler;
+    final private RoutineAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
-    private String[] dayStrings;
 
-    public DayAdapter(Context context, DayAdapterOnClickHandler clickHandler,
-                           View emptyView) {
+    public RoutineAdapter(Context context, RoutineAdapterOnClickHandler clickHandler,
+                          View emptyView) {
         mContext = context;
         mICM = new ItemChoiceManager(this);
         mClickHandler = clickHandler;
         mEmptyView = emptyView;
-        dayStrings = context.getResources().getStringArray(R.array.days);
     }
 
-    public interface DayAdapterOnClickHandler {
-        void onClick(Long id, DayAdapterViewHolder vh);
-        void onDelete(Long id, DayAdapterViewHolder vh);
+    public interface RoutineAdapterOnClickHandler {
+        void onClick(Long id, RoutineAdapterViewHolder vh);
+        void onDelete(Long id, RoutineAdapterViewHolder vh);
     }
 
-    public class DayAdapterViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.delete_day_button) ImageButton deleteButton;
-        @BindView(R.id.day) Button dayButton;
+    public class RoutineAdapterViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.delete_routine_button) ImageButton deleteButton;
+        @BindView(R.id.routine) Button routineButton;
 
-        public DayAdapterViewHolder(View view)
+        public RoutineAdapterViewHolder(View view)
         {
             super(view);
             ButterKnife.bind(this, view);
@@ -55,8 +54,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
         public void onClick() {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-            int dayId = mCursor.getColumnIndex(WorkoutContract.DayEntry._ID);
-            mClickHandler.onClick(mCursor.getLong(dayId), this);
+            int idIndex = mCursor.getColumnIndex(WorkoutContract.RoutineEntry._ID);
+            mClickHandler.onClick(mCursor.getLong(idIndex), this);
             mICM.onClick(this);
         }
 
@@ -70,22 +69,21 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     }
 
     @Override
-    public DayAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RoutineAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (parent instanceof RecyclerView) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_day, parent, false);
             view.setFocusable(true);
-            return new DayAdapterViewHolder(view);
+            return new RoutineAdapterViewHolder(view);
         } else {
-            throw new RuntimeException("DayAdapter not bound to RecyclerView");
+            throw new RuntimeException("RoutineAdapter not bound to RecyclerView");
         }
     }
 
     @Override
-    public void onBindViewHolder(final DayAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(final RoutineAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        int dayIndex = mCursor.getInt(EditDayFragment.COL_DAY_OF_WEEK);
-        holder.dayButton.setText(dayStrings[dayIndex]);
+        holder.routineButton.setText(mCursor.getString(EditRoutineFragment.COL_NAME));
         mICM.onBindViewHolder(holder, position);
     }
 
@@ -113,13 +111,4 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
         return mCursor;
     }
 
-    public boolean[] getChecked() {
-        boolean[] checked = new boolean[7];
-        mCursor.moveToFirst();
-        while (!mCursor.isAfterLast()) {
-            checked[mCursor.getInt(EditDayFragment.COL_DAY_OF_WEEK)] = true;
-            mCursor.moveToNext();
-        }
-        return checked;
-    }
 }

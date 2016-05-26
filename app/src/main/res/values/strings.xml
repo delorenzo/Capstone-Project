@@ -23,11 +23,13 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- accessibility strings -->
-    <string name="accessibility_string_delete_workout_day">Delete Routine Day</string>
+    <string name="accessibility_string_delete_day">Delete Day</string>
+    <string name="accessibility_string_delete_routine">Delete Routine</string>
+    <string name="accessibility_string_delete_exercise">Delete Exercise</string>
 
     <!-- empty view strings -->
     <string name="empty_day_text">You have no days for this routine.  Add a day!</string>
-    <string name="no_workouts_text">You have no workout routines.  Create a routine!</string>
+    <string name="empty_routines_text">You have no workout routines.  Create a routine!</string>
     <string name="empty_exercise_text">You have no exercises for this day.  Add an exercise!</string>
     <string name="empty_workout_text">You have no exercises scheduled for today.</string>
 
@@ -128,6 +130,8 @@
     <string name="error_message_exercise_name">Exercise name is required.</string>
     <string name="error_message_sets">At least one set is required.</string>
     <string name="error_message_repetitions">At least one repetition is required.</string>
+    <string name="error_message_empty_routine_name">Routine name is required.</string>
+    <string name="error_message_duplicate_routine_name">Routine name exists.</string>
 
     <!-- default dialog values -->
     <string name="default_sets">3</string>
@@ -148,9 +152,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="authentication_generic_failure">Authentication unsuccessful.</string>
 
     <string name="dot">.</string>
 

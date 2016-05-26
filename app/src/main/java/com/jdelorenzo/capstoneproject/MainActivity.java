@@ -20,6 +20,7 @@ import com.jdelorenzo.capstoneproject.dialogs.CreateRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.SelectRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,11 +29,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements
-        CreateRoutineDialogFragment.CreateWorkoutDialogListener {
+        CreateRoutineDialogFragment.CreateRoutineDialogListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
     private static final String FTAG_DIALOG_FRAGMENT = "CreateRoutineDialogFragment";
-    String [] mRoutineLabels;
-    long [] mRoutineIds;
+    String[] mRoutineLabels = new String[]{};
+    long[] mRoutineIds = new long[]{};
     @BindViews({R.id.button_work_out, R.id.button_edit_workout, R.id.button_view_stats}) List<Button> workoutButtons;
 
     @Override
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements
     @OnClick(R.id.button_work_out)
     public void onWorkOut() {
         if (mRoutineIds == null || mRoutineIds.length == 0) {
-            Toast.makeText(this, getString(R.string.no_workouts_text), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.empty_routines_text), Toast.LENGTH_SHORT).show();
         }
         else if (mRoutineIds.length > 1) {
             DialogFragment selectWorkoutFragment = SelectRoutineDialogFragment.newInstance(new SelectRoutineDialogFragment.SelectRoutineListener() {
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @OnClick(R.id.button_create_workout)
     public void onCreateWorkout() {
-        DialogFragment dialog = new CreateRoutineDialogFragment();
+        DialogFragment dialog = CreateRoutineDialogFragment.newInstance(mRoutineLabels);
         dialog.show(getFragmentManager(), FTAG_DIALOG_FRAGMENT);
     }
 
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onEditWorkout() {
         if (mRoutineIds == null) return;
         if (mRoutineIds.length == 0) {
-            Toast.makeText(MainActivity.this, getString(R.string.no_workouts_text), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.empty_routines_text), Toast.LENGTH_SHORT).show();
         }
         else if (mRoutineIds.length == 1) {
             modifyWorkout(mRoutineIds[0]);
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onDialogPositiveClick(String name) {
+    public void onRoutineCreated(String name) {
         DatabaseIntentService.startActionAddWorkout(getApplicationContext(), name);
         Intent intent = new Intent(this, ModifyWorkoutActivity.class);
         intent.putExtra(ModifyWorkoutActivity.ARG_WORKOUT_NAME, name);
