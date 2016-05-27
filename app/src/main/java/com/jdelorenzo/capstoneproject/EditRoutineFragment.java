@@ -1,6 +1,7 @@
 package com.jdelorenzo.capstoneproject;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.adapters.RoutineAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
+import com.jdelorenzo.capstoneproject.dialogs.CreateRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
 import java.io.Serializable;
@@ -33,6 +35,7 @@ public class EditRoutineFragment extends Fragment implements LoaderManager.Loade
     @BindView(R.id.add_routine_recyclerview) RecyclerView mRecyclerView;
     private EditRoutineListener mCallback;
     private Unbinder unbinder;
+    private static final String FTAG_DIALOG_FRAGMENT = "dialogFragment";
 
     private static final int ROUTINE_LOADER = 0;
 
@@ -46,6 +49,7 @@ public class EditRoutineFragment extends Fragment implements LoaderManager.Loade
 
     public interface EditRoutineListener extends Serializable {
         void onRoutineSelected(long id);
+        void onNoRoutineExists();
     }
 
     public static EditRoutineFragment newInstance(EditRoutineListener listener) {
@@ -137,12 +141,21 @@ public class EditRoutineFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mAdapter.swapCursor(data);
+        if (data != null && data.getCount() == 0) {
+            mCallback.onNoRoutineExists();
+        }
+        if (data != null && data.getCount() == 1) {
+            long id = data.getLong(COL_ROUTINE_ID);
+            data.close();
+            mCallback.onRoutineSelected(id);
+        }
+        else {
+            mAdapter.swapCursor(data);
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
-
 }

@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @OnClick(R.id.button_create_workout)
     public void onCreateWorkout() {
-        DialogFragment dialog = CreateRoutineDialogFragment.newInstance(mRoutineLabels);
+        DialogFragment dialog = new CreateRoutineDialogFragment();
         dialog.show(getFragmentManager(), FTAG_DIALOG_FRAGMENT);
     }
 
@@ -117,12 +117,6 @@ public class MainActivity extends AppCompatActivity implements
             }, mRoutineLabels, mRoutineIds);
             selectWorkoutFragment.show(getFragmentManager(), FTAG_DIALOG_FRAGMENT);
         }
-        EditRoutineFragment fragment = EditRoutineFragment.newInstance(new EditRoutineFragment.EditRoutineListener() {
-            @Override
-            public void onRoutineSelected(long id) {
-                modifyWorkout(id);
-            }
-        });
 
     }
 
@@ -145,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements
         intent.putExtra(ModifyRoutineActivity.ARG_WORKOUT_NAME, name);
         startActivity(intent);
     }
+
+
 
     static final ButterKnife.Action<View> DISABLE = new ButterKnife.Action<View>() {
         @Override

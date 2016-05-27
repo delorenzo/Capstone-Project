@@ -20,7 +20,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_ROUTINE_TABLE = "CREATE TABLE " +
                 RoutineEntry.TABLE_NAME + " (" +
                 RoutineEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RoutineEntry.COLUMN_NAME + " TEXT UNIQUE NOT NULL " +
+                RoutineEntry.COLUMN_NAME + " TEXT NOT NULL " +
                 " );";
 
         final String SQL_CREATE_DAY_TABLE = "CREATE TABLE " +

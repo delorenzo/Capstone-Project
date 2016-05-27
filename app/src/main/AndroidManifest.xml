@@ -74,6 +74,7 @@
             android:exported="false" />
 
         <receiver
+            android:enabled="true"
             android:name=".widget.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -82,6 +83,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/workout_widget_info" />
         </receiver>
+
+        <service
+            android:name=".widget.WidgetService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>
