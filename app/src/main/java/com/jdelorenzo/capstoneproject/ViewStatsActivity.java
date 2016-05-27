@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+
 public class ViewStatsActivity extends AppCompatActivity {
 
     /**
@@ -43,6 +45,7 @@ public class ViewStatsActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -103,7 +106,7 @@ public class ViewStatsActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_view_stats, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_graph_view, container, false);
             return rootView;
         }
     }
