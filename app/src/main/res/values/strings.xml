@@ -118,7 +118,7 @@
     <string name="hint_workout_name">Routine Name</string>
 
     <!-- provider string -->
-    <string name="content_authority">com.jdelorenzo.capstoneproject.app</string>
+    <string name="content_authority" translatable="false">com.jdelorenzo.capstoneproject.app</string>
 
     <!-- week days -->
     <string name="sunday">Sunday</string>
@@ -162,4 +162,7 @@
     <!-- widget strings -->
     <string name="widget_title">Today\'s Workout</string>
     <string name="add_widget">Add widget</string>
+
+    <!-- sync strings -->
+    <string name="sync_account_type" translatable="false">com.google</string>
 </resources>

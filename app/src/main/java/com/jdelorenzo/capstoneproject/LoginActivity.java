@@ -1,10 +1,13 @@
 package com.jdelorenzo.capstoneproject;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -38,6 +41,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.jdelorenzo.capstoneproject.dialogs.SignInInfoDialogFragment;
+import com.jdelorenzo.capstoneproject.sync.SyncAdapter;
 
 
 import butterknife.BindView;
@@ -89,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     if (user != null) {
                         Log.d(LOG_TAG, "Signed in with :  " + user.getUid());
+                        SyncAdapter.initializeSyncAdapter(getApplicationContext());
                     } else {
                         Log.d(LOG_TAG, "Signed out");
                     }
@@ -207,6 +212,7 @@ public class LoginActivity extends AppCompatActivity implements
                     }
                 });
     }
+
 
     /**
      * Shows the progress UI and hides the login form.

@@ -85,6 +85,7 @@
             android:name=".widget.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.jdelorenzo.capstoneproject.app.ACTION_DATA_UPDATED"/>
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"

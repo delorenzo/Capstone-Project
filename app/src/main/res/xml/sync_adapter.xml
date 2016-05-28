@@ -2,8 +2,7 @@
 <sync-adapter
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:contentAuthority="com.jdelorenzo.capstoneproject.sync.provider"
-    android:accountType="com.android.example.datasync"
+    android:accountType="com.google"
     android:userVisible="false"
     android:supportsUploading="true"
-    android:allowParallelSyncs="false"
-    android:isAlwaysSyncable="true"/>
+    android:allowParallelSyncs="false"/>
