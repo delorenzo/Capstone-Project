@@ -7,11 +7,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
 
+import org.joda.time.LocalDate;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 
 /**
@@ -45,6 +47,11 @@ public class DatabaseIntentService extends IntentService {
 
     public DatabaseIntentService() {
         super("DatabaseIntentService");
+    }
+
+    private static String getCurrentDateString(Context context) {
+        LocalDate date = new LocalDate();
+        return date.toString(context.getString(R.string.date_format));
     }
 
     /**
@@ -141,13 +148,12 @@ public class DatabaseIntentService extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionCompleteWorkout(Context context, long routineId, int day) {
+    public static void startActionCompleteWorkout(Context context, long dayId) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
         intent.setAction(ACTION_COMPLETE_WORKOUT);
-        Uri exerciseUri = WorkoutContract.ExerciseEntry.buildRoutineIdDayOfWeek(routineId, day);
+        Uri exerciseUri = WorkoutContract.DayEntry.buildDayId(dayId);
         intent.setData(exerciseUri);
-        Date date = new Date();
-        intent.putExtra(EXTRA_DATE, date.toString());
+        intent.putExtra(EXTRA_DATE, getCurrentDateString(context));
         context.startService(intent);
     }
 

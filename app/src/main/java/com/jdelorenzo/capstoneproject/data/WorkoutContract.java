@@ -11,7 +11,7 @@ public class WorkoutContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_ROUTINE = "routine";
-    public static final String PATH_DAY = "day";
+    public static final String PATH_DAY = "dayId";
     public static final String PATH_DAY_OF_WEEK = "dayOfWeek";
     public static final String PATH_EXERCISE = "exercise";
     public static final String PATH_NAME = "name";
@@ -31,6 +31,7 @@ public class WorkoutContract {
         public static final String TABLE_NAME = "routine";
 
         public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_LAST_MODIFIED = "last_modified";
 
         public static Uri buildRoutineId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

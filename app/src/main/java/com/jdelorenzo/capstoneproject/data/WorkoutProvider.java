@@ -241,10 +241,10 @@ public class WorkoutProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri:  " + uri);
         }
-        if (getContext() != null) {
+                     if (getContext() != null) {
             retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         }
-        return retCursor;
+         return retCursor;
     }
 
     @Nullable
@@ -397,11 +397,11 @@ public class WorkoutProvider extends ContentProvider {
 
         switch (match) {
             case ROUTINE_WITH_ID:
-                long workoutId = RoutineEntry.getRoutineIdFromUri(uri);
+                long routineId = RoutineEntry.getRoutineIdFromUri(uri);
                 rowsUpdated = db.update(RoutineEntry.TABLE_NAME,
                         values,
                         sRoutineIdSelection,
-                        new String[] {Long.toString(workoutId)});
+                        new String[] {Long.toString(routineId)});
                 break;
             case DAY_WITH_ID:
                 long dayId = DayEntry.getDayIdFromUri(uri);

@@ -86,16 +86,16 @@ public class WorkoutActivity extends AppCompatActivity implements
         Calendar calendar = Calendar.getInstance();
         //the days are indexed by 0, calendar is indexed by 1
         int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        //update the correct URI so that the recyclerview is updated
         Uri exerciseUri = WorkoutContract.ExerciseEntry.buildRoutineIdDayOfWeek(mRoutineId, day);
         getContentResolver().notifyChange(exerciseUri, null);
     }
 
+    //update the workout day to mark it as complete
     @Override
-    public void onWorkoutComplete() {
+    public void onWorkoutComplete(long dayId) {
         Calendar calendar = Calendar.getInstance();
-        //the days are indexed by 0, calendar is indexed by 1
-        int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        DatabaseIntentService.startActionCompleteWorkout(this, mRoutineId, day);
+        DatabaseIntentService.startActionCompleteWorkout(this, dayId);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

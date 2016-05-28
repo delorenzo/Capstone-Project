@@ -3,6 +3,7 @@ package com.jdelorenzo.capstoneproject.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,9 @@ import com.jdelorenzo.capstoneproject.Utility;
 import com.jdelorenzo.capstoneproject.WorkoutFragment;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
-import java.util.Date;
+import org.joda.time.LocalDate;
+
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -92,7 +95,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     @Override
     public void onBindViewHolder(final ExerciseAdapterViewHolder holder, int position) {
-        if (completed) return;
         mCursor.moveToPosition(position);
         holder.exerciseName.setText(mCursor.getString(WorkoutFragment.COL_DESCRIPTION));
         holder.repetitions.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_reps),
@@ -101,28 +103,35 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         holder.sets.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_sets), holder.setCount));
         holder.weight.setText(Utility.getFormattedWeightString(mContext,
                 mCursor.getDouble(WorkoutFragment.COL_WEIGHT)));
-        holder.completeCheckbox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked && holder.setCount > 0) {
-                    holder.setCount--;
-                    holder.sets.setText(String.format(Locale.getDefault(),
-                            mContext.getString(R.string.format_sets),
-                            holder.setCount));
-                }
-                if (holder.setCount > 0) {
-                    buttonView.setChecked(false);
-                }
-                else {
-                    itemsChecked++;
-                    Log.e("ExerciseAdapter", itemsChecked + ":  " + mCursor.getCount());
-                    if (itemsChecked >= mCursor.getCount()) {
-                        mClickHandler.allItemsChecked();
-                    }
-                }
-            }
-        });
+        if (completed) {
+            holder.completeCheckbox.setChecked(true);
+            holder.completeCheckbox.setClickable(false);
+            holder.completeCheckbox.setAlpha(0.5f);
+            holder.itemView.setClickable(false);
+        }
+        else {
+            holder.completeCheckbox.setOnCheckedChangeListener(
+                    new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked && holder.setCount > 0) {
+                                holder.setCount--;
+                                holder.sets.setText(String.format(Locale.getDefault(),
+                                        mContext.getString(R.string.format_sets),
+                                        holder.setCount));
+                            }
+                            if (holder.setCount > 0) {
+                                buttonView.setChecked(false);
+                            } else {
+                                itemsChecked++;
+                                Log.e("ExerciseAdapter", itemsChecked + ":  " + mCursor.getCount());
+                                if (itemsChecked >= mCursor.getCount()) {
+                                    mClickHandler.allItemsChecked();
+                                }
+                            }
+                        }
+                    });
+        }
         mICM.onBindViewHolder(holder, position);
     }
 
@@ -143,16 +152,22 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     public void swapCursor(Cursor newCursor) {
         mCursor = newCursor;
         notifyDataSetChanged();
-        if (getItemCount() > 0) {
+        //check to see if the workout has been completed by checking its last date against
+        //the current date
+        if (getItemCount() > 0 && newCursor.moveToFirst()) {
             mEmptyView.setVisibility(View.GONE);
-            String lastDateString = newCursor.getString(WorkoutFragment.COL_LAST_DATE);
-            Date date = new Date();
-            if (lastDateString != null && lastDateString.equals(date.toString())) {
+            String lastDateString = null;
+            if (!newCursor.isNull(WorkoutFragment.COL_LAST_DATE)) {
+                lastDateString = newCursor.getString(WorkoutFragment.COL_LAST_DATE);
+            }
+            LocalDate date = new LocalDate();
+            if (lastDateString != null && lastDateString.equals(
+                    date.toString(mContext.getString(R.string.date_format)))) {
                 mCompletedView.setVisibility(View.VISIBLE);
                 completed = true;
             } else {
                 mCompletedView.setVisibility(View.GONE);
-                completed = false;
+                              completed = false;
             }
         }
         else {
@@ -163,5 +178,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     public Cursor getCursor() {
         return mCursor;
+    }
+
+    public long getDayId() {
+        if (mCursor != null && mCursor.moveToFirst()) {
+            return mCursor.getLong(WorkoutFragment.COL_DAY_ID);
+        }
+        return 0;
     }
 }

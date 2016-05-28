@@ -18,8 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
-import com.jdelorenzo.capstoneproject.data.WorkoutContract;
-import com.jdelorenzo.capstoneproject.data.WorkoutContract.ExerciseEntry;
+import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
 import com.jdelorenzo.capstoneproject.dialogs.ModifyWeightDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.WorkoutCompleteDialogFragment;
 
@@ -53,7 +52,8 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
             ExerciseEntry.COLUMN_SETS,
             ExerciseEntry.COLUMN_REPS,
             ExerciseEntry.COLUMN_DESCRIPTION,
-            WorkoutContract.DayEntry.COLUMN_LAST_DATE
+            DayEntry.COLUMN_LAST_DATE,
+            DayEntry.TABLE_NAME + DayEntry._ID
     };
     public final static int COL_EXERCISE_ID = 0;
     public final static int COL_WEIGHT = 1;
@@ -61,6 +61,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     public final static int COL_REPS = 3;
     public final static int COL_DESCRIPTION = 4;
     public static final int COL_LAST_DATE = 5;
+    public static final int COL_DAY_ID = 6;
 
     public WorkoutFragment() {
         // Required empty public constructor
@@ -113,7 +114,8 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void endWorkout() {
-        WorkoutCompleteDialogFragment fragment = new WorkoutCompleteDialogFragment();
+        WorkoutCompleteDialogFragment fragment =
+                WorkoutCompleteDialogFragment.newInstance(mExerciseAdapter.getDayId());
         fragment.show(getFragmentManager(), FTAG_WORKOUT_COMPLETE);
     }
 
@@ -137,7 +139,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         Calendar calendar = Calendar.getInstance();
         //the days are indexed by 0, calendar is indexed by 1
         int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        Uri exerciseUri = WorkoutContract.ExerciseEntry.buildRoutineIdDayOfWeek(mRoutineId, day);
+        Uri exerciseUri = ExerciseEntry.buildRoutineIdDayOfWeek(mRoutineId, day);
         return new CursorLoader(getActivity(),
                 exerciseUri,
                 EXERCISE_COLUMNS,
