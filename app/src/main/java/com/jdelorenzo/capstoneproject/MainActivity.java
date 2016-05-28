@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, ModifyRoutineActivity.class);
         intent.putExtra(ModifyRoutineActivity.ARG_WORKOUT_NAME, name);
         startActivity(intent);
+        new RetrieveWorkoutsTask().execute();
     }
 
 

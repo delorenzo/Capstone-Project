@@ -15,10 +15,10 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:contentDescription="@string/app_name"
+            android:contentDescription="@string/title_widget"
             android:layout_gravity="center"
             android:padding="@dimen/widget_padding"
-            android:src="@drawable/logo_wide"
+            android:src="@drawable/logo_widget"
             android:layout_height="@dimen/widget_logo_height" />
     </FrameLayout>
 

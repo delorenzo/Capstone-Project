@@ -34,6 +34,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     private View mEmptyView;
     private View mCompletedView;
     private int itemsChecked;
+    private boolean completed;
 
     public ExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
                            View emptyView, View completedView, int choiceMode) {
@@ -91,6 +92,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     @Override
     public void onBindViewHolder(final ExerciseAdapterViewHolder holder, int position) {
+        if (completed) return;
         mCursor.moveToPosition(position);
         holder.exerciseName.setText(mCursor.getString(WorkoutFragment.COL_DESCRIPTION));
         holder.repetitions.setText(String.format(Locale.getDefault(), mContext.getString(R.string.format_reps),
@@ -141,14 +143,21 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     public void swapCursor(Cursor newCursor) {
         mCursor = newCursor;
         notifyDataSetChanged();
-        mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
-        String lastDateString = newCursor.getString(WorkoutFragment.COL_LAST_DATE);
-        Date date = new Date();
-        if (lastDateString.equals(date.toString())) {
-            mCompletedView.setVisibility(View.VISIBLE);
+        if (getItemCount() > 0) {
+            mEmptyView.setVisibility(View.GONE);
+            String lastDateString = newCursor.getString(WorkoutFragment.COL_LAST_DATE);
+            Date date = new Date();
+            if (lastDateString != null && lastDateString.equals(date.toString())) {
+                mCompletedView.setVisibility(View.VISIBLE);
+                completed = true;
+            } else {
+                mCompletedView.setVisibility(View.GONE);
+                completed = false;
+            }
         }
         else {
             mCompletedView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
         }
     }
 

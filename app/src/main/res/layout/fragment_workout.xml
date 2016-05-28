@@ -26,7 +26,7 @@
         <TextView
             android:gravity="center"
             android:textAppearance="?textAppearanceLargePopupMenu"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/empty_text_vertical_margin"
             android:layout_marginBottom="@dimen/space_between_content_areas"
             android:text="@string/completed_workout_text"
