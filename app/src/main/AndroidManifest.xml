@@ -19,7 +19,7 @@
             android:name=".WorkoutActivity"
             android:label="@string/title_activity_workout"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme.SlideAnimation" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
@@ -37,7 +37,7 @@
             android:name=".ViewStatsActivity"
             android:label="@string/title_activity_view_stats"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme.SlideAnimation" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
@@ -52,6 +52,7 @@
                 android:value="com.jdelorenzo.capstoneproject.MainActivity" />
         </activity>
         <activity
+            android:noHistory="true"
             android:name=".LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.SlideAnimation" >
@@ -74,6 +75,7 @@
             android:exported="false" />
 
         <receiver
+            android:enabled="true"
             android:name=".widget.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -82,6 +84,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/workout_widget_info" />
         </receiver>
+
+        <service
+            android:name=".widget.WidgetService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>

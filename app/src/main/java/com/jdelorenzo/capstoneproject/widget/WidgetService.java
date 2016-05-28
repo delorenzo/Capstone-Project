@@ -1,9 +1,11 @@
 package com.jdelorenzo.capstoneproject.widget;
 
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -21,7 +23,7 @@ WidgetService is the {@link RemoteViewsService} that will return the widget's Re
 public class WidgetService extends RemoteViewsService {
     private static final String LOG_TAG = WidgetService.class.getSimpleName();
 
-    public String[] EXERCISE_COLUMNS = {
+    public static final String[] EXERCISE_COLUMNS = {
             WorkoutContract.ExerciseEntry.TABLE_NAME + "." + WorkoutContract.ExerciseEntry._ID,
             WorkoutContract.ExerciseEntry.COLUMN_WEIGHT,
             WorkoutContract.ExerciseEntry.COLUMN_SETS,
@@ -41,11 +43,11 @@ public class WidgetService extends RemoteViewsService {
 
             @Override
             public void onCreate() {
-                //do nothing for now
             }
 
             @Override
             public void onDataSetChanged() {
+                Log.v(LOG_TAG, "Widget data set changed");
                 if (data != null) {
                     data.close();
                 }

@@ -9,4 +9,11 @@
     <color name="colorAccent">#7C4DFF</color>
 
     <color name="white">#ffffff</color>
+
+    <!-- material design text color guidelines -->
+    <!-- @see https://www.google.com/design/spec/style/color.html#color-text-background-colors -->
+    <color name="primary_text">#FF000000</color>
+    <color name="secondary_text">#D9000000</color>
+    <color name="disabled_text">#62000000</color>
+    <color name="divider_color">#1F000000</color>
 </resources>

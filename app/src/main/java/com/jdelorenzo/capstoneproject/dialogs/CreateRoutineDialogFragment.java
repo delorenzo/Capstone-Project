@@ -21,21 +21,9 @@ public class CreateRoutineDialogFragment extends DialogFragment {
     }
 
     CreateRoutineDialogListener mListener;
-    String[] workouts;
-    private static final String ARG_ROUTINES = "routines";
-
-    public static CreateRoutineDialogFragment newInstance(String[] workouts) {
-        Bundle b = new Bundle();
-        b.putStringArray(ARG_ROUTINES, workouts);
-        CreateRoutineDialogFragment fragment = new CreateRoutineDialogFragment();
-        fragment.setArguments(b);
-        return fragment;
-    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        workouts = getArguments() != null ? getArguments().getStringArray(ARG_ROUTINES) :
-                new String[]{};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View rootView = inflater.inflate(R.layout.dialog_create_routine, null);
@@ -51,12 +39,6 @@ public class CreateRoutineDialogFragment extends DialogFragment {
                         if (name.isEmpty()) {
                             nameEditText.setError(getString(R.string.error_message_empty_routine_name));
                             return;
-                        }
-                        for (String workout : workouts) {
-                            if (workout.equals(name)) {
-                                nameEditText.setError(getString(R.string.error_message_duplicate_routine_name));
-                                return;
-                            }
                         }
                          mListener.onRoutineCreated(name);
                     }
