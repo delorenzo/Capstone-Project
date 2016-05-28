@@ -33,6 +33,9 @@
     <string name="empty_exercise_text">You have no exercises for this day.  Add an exercise!</string>
     <string name="empty_workout_text">You have no exercises scheduled for today.</string>
 
+    <!-- completed view string -->
+    <string name="completed_workout_text">You completed your workout for today.  Nice work!</string>
+
     <!-- name strings -->
     <string name="weight">Weight</string>
     <string name="repetitions">Reps</string>
@@ -124,7 +127,6 @@
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
-
 
     <!-- error messages -->
     <string name="error_message_exercise_name">Exercise name is required.</string>

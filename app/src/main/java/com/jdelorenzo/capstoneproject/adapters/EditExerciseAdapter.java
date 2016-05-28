@@ -83,6 +83,7 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
         public void onDelete() {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
+            notifyItemRemoved(adapterPosition);
             int exerciseId = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry._ID);
             mClickHandler.onDelete(mCursor.getLong(exerciseId), this);
         }

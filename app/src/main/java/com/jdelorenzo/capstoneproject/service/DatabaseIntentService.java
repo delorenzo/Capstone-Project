@@ -4,11 +4,14 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
+import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -27,6 +30,7 @@ public class DatabaseIntentService extends IntentService {
     private static final String ACTION_EDIT_EXERCISE = "com.jdelorenzo.capstoneproject.service.action.EDIT_EXERCISE";
     private static final String ACTION_DELETE_EXERCISE = "com.jdelorenzo.capstoneproject.service.action.DELETE_EXERCISE";
     private static final String ACTION_EDIT_EXERCISE_WEIGHT = "com.jdelorenzo.capstone.service.action_EDIT_EXERCISE_WEIGHT";
+    private static final String ACTION_COMPLETE_WORKOUT = "com.jdelorenzo.capstone.service.action_COMPLETE_WORKOUT";
 
     private static final String EXTRA_DAY_ID = "com.jdelorenzo.capstoneproject.service.extra.DAY_ID";
     private static final String EXTRA_DAY_OF_WEEK = "com.jdelorenzo.capstoneproject.service.extra.DAY_OF_WEEK";
@@ -35,6 +39,7 @@ public class DatabaseIntentService extends IntentService {
     private static final String EXTRA_REPS = "com.jdelorenzo.capstoneproject.service.extra.REPS";
     private static final String EXTRA_SETS = "com.jdelorenzo.capstoneproject.service.extra.SETS";
     private static final String EXTRA_WEIGHT = "com.jdelorenzo.capstoneproject.service.extra.WEIGHT";
+    private static final String EXTRA_DATE = "com.jdelorenzo.capstoneproject.service.extra.DATE";
 
     private static final String LOG_TAG = DatabaseIntentService.class.getSimpleName();
 
@@ -133,6 +138,16 @@ public class DatabaseIntentService extends IntentService {
         intent.setData(DayEntry.buildRoutineId(workoutId));
         intent.putExtra(EXTRA_WORKOUT_ID, workoutId);
         intent.putExtra(EXTRA_DAY_OF_WEEK, days);
+        context.startService(intent);
+    }
+
+    public static void startActionCompleteWorkout(Context context, long routineId, int day) {
+        Intent intent = new Intent(context, DatabaseIntentService.class);
+        intent.setAction(ACTION_COMPLETE_WORKOUT);
+        Uri exerciseUri = WorkoutContract.ExerciseEntry.buildRoutineIdDayOfWeek(routineId, day);
+        intent.setData(exerciseUri);
+        Date date = new Date();
+        intent.putExtra(EXTRA_DATE, date.toString());
         context.startService(intent);
     }
 
@@ -262,6 +277,17 @@ public class DatabaseIntentService extends IntentService {
                             null
                     );
                     break;
+
+                case ACTION_COMPLETE_WORKOUT:
+                    contentValues = new ContentValues();
+                    contentValues.put(DayEntry.COLUMN_LAST_DATE,
+                            intent.getStringExtra(EXTRA_DATE));
+                    getContentResolver().update(
+                            intent.getData(),
+                            contentValues,
+                            null,
+                            null
+                    );
 
                 default:
                     Log.e(LOG_TAG, "Service called with unknown action " + action);

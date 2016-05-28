@@ -92,6 +92,10 @@ public class WorkoutActivity extends AppCompatActivity implements
 
     @Override
     public void onWorkoutComplete() {
+        Calendar calendar = Calendar.getInstance();
+        //the days are indexed by 0, calendar is indexed by 1
+        int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        DatabaseIntentService.startActionCompleteWorkout(this, mRoutineId, day);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

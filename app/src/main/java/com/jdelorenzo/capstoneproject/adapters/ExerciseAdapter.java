@@ -20,6 +20,7 @@ import com.jdelorenzo.capstoneproject.Utility;
 import com.jdelorenzo.capstoneproject.WorkoutFragment;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -31,14 +32,16 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     private ItemChoiceManager mICM;
     final private ExerciseAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
+    private View mCompletedView;
     private int itemsChecked;
 
     public ExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
-                           View emptyView, int choiceMode) {
+                           View emptyView, View completedView, int choiceMode) {
         mContext = context;
         mICM = new ItemChoiceManager(this);
         mClickHandler = clickHandler;
         mEmptyView = emptyView;
+        mCompletedView = completedView;
     }
 
     public interface ExerciseAdapterOnClickHandler {
@@ -139,6 +142,14 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         mCursor = newCursor;
         notifyDataSetChanged();
         mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
+        String lastDateString = newCursor.getString(WorkoutFragment.COL_LAST_DATE);
+        Date date = new Date();
+        if (lastDateString.equals(date.toString())) {
+            mCompletedView.setVisibility(View.VISIBLE);
+        }
+        else {
+            mCompletedView.setVisibility(View.GONE);
+        }
     }
 
     public Cursor getCursor() {

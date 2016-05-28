@@ -41,6 +41,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     private long mDay;
     @BindView(R.id.workout_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.workout_empty_view) TextView mEmptyView;
+    @BindView(R.id.workout_completed_view) TextView mCompletedView;
     private Unbinder unbinder;
     private final static int WORKOUT_LOADER = 0;
     private static final String FTAG_MODIFY_WEIGHT = "modifyWeightDialogFragment";
@@ -51,13 +52,15 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
             ExerciseEntry.COLUMN_WEIGHT,
             ExerciseEntry.COLUMN_SETS,
             ExerciseEntry.COLUMN_REPS,
-            ExerciseEntry.COLUMN_DESCRIPTION
+            ExerciseEntry.COLUMN_DESCRIPTION,
+            WorkoutContract.DayEntry.COLUMN_LAST_DATE
     };
     public final static int COL_EXERCISE_ID = 0;
     public final static int COL_WEIGHT = 1;
     public final static int COL_SETS = 2;
     public final static int COL_REPS = 3;
     public final static int COL_DESCRIPTION = 4;
+    public static final int COL_LAST_DATE = 5;
 
     public WorkoutFragment() {
         // Required empty public constructor
@@ -101,7 +104,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
             public void allItemsChecked() {
                 endWorkout();
             }
-        }, mEmptyView, AbsListView.CHOICE_MODE_NONE);
+        }, mEmptyView, mCompletedView, AbsListView.CHOICE_MODE_NONE);
         mRecyclerView.setAdapter(mExerciseAdapter);
         if (savedInstanceState != null) {
             mExerciseAdapter.onRestoreInstanceState(savedInstanceState);

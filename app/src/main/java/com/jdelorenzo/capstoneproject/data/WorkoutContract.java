@@ -67,6 +67,7 @@ public class WorkoutContract {
 
         public static final String COLUMN_ROUTINE_KEY = "workout_id";
         public static final String COLUMN_DAY_OF_WEEK = "day_of_week";
+        public static final String COLUMN_LAST_DATE = "last_date";
 
         public static Uri buildDayId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.adapters.EditExerciseAdapter;
+import com.jdelorenzo.capstoneproject.animators.SlideAnimator;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.dialogs.EditExerciseDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
@@ -93,6 +94,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
         unbinder = ButterKnife.bind(this, rootView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setItemAnimator(new SlideAnimator());
         mAdapter = new EditExerciseAdapter(getActivity(), new EditExerciseAdapter.ExerciseAdapterOnClickHandler() {
             @Override
             public void onClick(final Long id, String name, int reps, int sets, double weight,

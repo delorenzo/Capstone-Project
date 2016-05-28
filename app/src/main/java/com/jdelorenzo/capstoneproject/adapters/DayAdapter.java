@@ -1,12 +1,19 @@
 package com.jdelorenzo.capstoneproject.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.transition.TransitionManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -26,6 +33,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     final private DayAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
     private String[] dayStrings;
+    private int lastPosition = -1;
 
     public DayAdapter(Context context, DayAdapterOnClickHandler clickHandler,
                            View emptyView) {
@@ -42,6 +50,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     }
 
     public class DayAdapterViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.list_item_day) View rootView;
         @BindView(R.id.delete_day_button) ImageButton deleteButton;
         @BindView(R.id.day) Button dayButton;
 
@@ -62,9 +71,12 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
 
         @OnClick(R.id.delete_day_button)
         public void onDelete() {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_out_right);
+            dayButton.startAnimation(animation);
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
             int dayId = mCursor.getColumnIndex(WorkoutContract.DayEntry._ID);
+            notifyItemRemoved(adapterPosition);
             mClickHandler.onDelete(mCursor.getLong(dayId), this);
         }
     }
@@ -87,6 +99,15 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
         int dayIndex = mCursor.getInt(EditDayFragment.COL_DAY_OF_WEEK);
         holder.dayButton.setText(dayStrings[dayIndex]);
         mICM.onBindViewHolder(holder, position);
+        setAnimation(holder.rootView, position);
+    }
+
+    private void setAnimation(View view, int position) {
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
+            view.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {

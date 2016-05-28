@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.adapters.DayAdapter;
+import com.jdelorenzo.capstoneproject.animators.SlideAnimator;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
@@ -123,6 +124,7 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
         View rootView = inflater.inflate(R.layout.fragment_add_workout, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setItemAnimator(new SlideAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new DayAdapter(getActivity(), new DayAdapter.DayAdapterOnClickHandler() {
             @Override
