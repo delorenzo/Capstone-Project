@@ -42,6 +42,7 @@ import com.jdelorenzo.capstoneproject.sync.SyncAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 
 /**
  * A login screen that offers login via Google Sign In.
@@ -153,11 +154,11 @@ public class LoginActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-    @OnClick(R.id.button_why_sign_in)
-    public void whySignIn() {
-        DialogFragment fragment = new SignInInfoDialogFragment();
-        fragment.show(getFragmentManager(), "SignInInfoDialogFragment");
-    }
+//    @Optional @OnClick(R.id.button_why_sign_in)
+//    public void whySignIn() {
+//        DialogFragment fragment = new SignInInfoDialogFragment();
+//        fragment.show(getFragmentManager(), "SignInInfoDialogFragment");
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

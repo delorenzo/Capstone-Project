@@ -106,14 +106,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
         }
     }
 
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        mSelectedPosition = savedInstanceState.getInt(ARG_SELECTED);
-    }
-
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(ARG_SELECTED, mSelectedPosition);
-    }
-
     @Override
     public int getItemCount() {
         if ( null == mCursor ) return 0;

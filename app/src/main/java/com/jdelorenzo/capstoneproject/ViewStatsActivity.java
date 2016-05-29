@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
@@ -46,6 +47,7 @@ public class ViewStatsActivity extends AppCompatActivity
     private int startingPosition;
     @BindView(R.id.pager) ViewPager mPager;
     @BindView(R.id.pager_tab_strip) PagerTabStrip pagerTabStrip;
+    @BindView(R.id.pager_empty_view) TextView emptyView;
     private static final String CURRENT_POSITION = "startingPosition";
 
     public String[] EXERCISE_COLUMNS = {
@@ -143,7 +145,7 @@ public class ViewStatsActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            if (mCursor == null) return null;
+            if (mCursor == null) return GraphFragment.newInstance(-1);
             mCursor.moveToPosition(position);
             return GraphFragment.newInstance(mCursor.getLong(COL_EXERCISE_ID));
         }
@@ -160,6 +162,13 @@ public class ViewStatsActivity extends AppCompatActivity
             }
             mCursor.moveToPosition(position);
             return mCursor.getString(COL_NAME);
+        }
+
+        //this is called when notifyDataSetChanged() is called
+        @Override
+        public int getItemPosition(Object object) {
+            // refresh all fragments when data set changed
+            return FragmentPagerAdapter.POSITION_NONE;
         }
     }
 
@@ -178,8 +187,14 @@ public class ViewStatsActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursor = data;
         mPagerAdapter.notifyDataSetChanged();
-        mCursor.moveToPosition(currentPosition);
-        mPager.setCurrentItem(currentPosition, false);
+        if (mCursor != null && mCursor.moveToFirst()) {
+            mCursor.moveToPosition(currentPosition);
+            mPager.setCurrentItem(currentPosition, false);
+            emptyView.setVisibility(View.GONE);
+        }
+        else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

@@ -36,7 +36,7 @@
     <string name="empty_exercise_text">You have no exercises for this day.  Add an exercise!</string>
     <string name="empty_workout_text">You have no exercises scheduled for today.</string>
     <string name="empty_graph_text">Unable to find data for this exercise.</string>
-    <string name="empty_progress_text">No Exercises Exist</string>
+    <string name="empty_progress_text">No exercise data exists :(</string>
 
     <!-- completed view string -->
     <string name="completed_workout_text">You\'ve completed your workout for today.</string>
