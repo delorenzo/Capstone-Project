@@ -8,7 +8,6 @@
     android:layout_marginTop="@dimen/button_bar_vertical_spacing"
     android:layout_marginBottom="@dimen/button_bar_vertical_spacing"
     android:id="@+id/list_item_day"
-    android:animateLayoutChanges="true"
     android:layout_height="wrap_content">
     <ImageButton
         android:layout_width="40dp"

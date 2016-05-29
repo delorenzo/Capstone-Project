@@ -33,6 +33,7 @@
     <string name="empty_routines_text">You have no workout routines.  Create a routine!</string>
     <string name="empty_exercise_text">You have no exercises for this day.  Add an exercise!</string>
     <string name="empty_workout_text">You have no exercises scheduled for today.</string>
+    <string name="empty_graph_text">Unable to find data for this exercise.</string>
 
     <!-- completed view string -->
     <string name="completed_workout_text">You\'ve completed your workout for today.</string>

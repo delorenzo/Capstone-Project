@@ -3,8 +3,10 @@ package com.jdelorenzo.capstoneproject;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,8 +14,10 @@ import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.dialogs.ModifyWeightDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.RestDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.WorkoutCompleteDialogFragment;
+import com.jdelorenzo.capstoneproject.model.Weight;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.ButterKnife;
@@ -26,6 +30,7 @@ public class WorkoutActivity extends AppCompatActivity implements
     public static final String ARG_ROUTINE_ID = "routineId";
     private static final String FTAG_WORKOUT = "workoutFragment";
     private static final String FTAG_REST_DIALOG = "restDialogFragment";
+    private static final String LOG_TAG = WorkoutActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,7 @@ public class WorkoutActivity extends AppCompatActivity implements
 
     @Override
     public void onWeightModified(long id, double weight) {
+        weight = Utility.convertWeightToMetric(getApplicationContext(), weight);
         DatabaseIntentService.startActionEditExerciseWeight(this, id, weight);
         Calendar calendar = Calendar.getInstance();
         //the days are indexed by 0, calendar is indexed by 1
@@ -96,6 +102,15 @@ public class WorkoutActivity extends AppCompatActivity implements
     public void onWorkoutComplete(long dayId) {
         Calendar calendar = Calendar.getInstance();
         DatabaseIntentService.startActionCompleteWorkout(this, dayId);
+
+        WorkoutFragment workoutFragment = (WorkoutFragment) getFragmentManager().findFragmentByTag(FTAG_WORKOUT);
+        if (workoutFragment != null) {
+            ArrayList<Weight> weights = workoutFragment.getWeights();
+            DatabaseIntentService.startActionRecordWeights(this, weights);
+        }
+        else {
+            Log.e(LOG_TAG, "Unable to find child fragment to record weights");
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

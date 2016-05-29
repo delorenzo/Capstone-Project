@@ -4,6 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:animateLayoutChanges="true"
+    android:id="@+id/list_item_add_exercise"
     android:layout_height="wrap_content">
     <ImageButton
         android:layout_width="40dp"

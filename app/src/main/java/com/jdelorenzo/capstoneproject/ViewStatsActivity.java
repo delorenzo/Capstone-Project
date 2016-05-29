@@ -1,8 +1,14 @@
 package com.jdelorenzo.capstoneproject;
 
-import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.PersistableBundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -17,11 +23,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
+import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
+import java.util.Calendar;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ViewStatsActivity extends AppCompatActivity {
+public class ViewStatsActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -31,28 +41,52 @@ public class ViewStatsActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private StatisticsPagerAdapter mPagerAdapter;
+    private int currentPosition;
+    private int startingPosition;
+    @BindView(R.id.pager) ViewPager mPager;
+    @BindView(R.id.pager_tab_strip) PagerTabStrip pagerTabStrip;
+    private static final String CURRENT_POSITION = "startingPosition";
+
+    public String[] EXERCISE_COLUMNS = {
+            WorkoutContract.ExerciseEntry.TABLE_NAME + "." + WorkoutContract.ExerciseEntry._ID,
+            WorkoutContract.ExerciseEntry.COLUMN_DESCRIPTION
+    };
+    public static final int COL_EXERCISE_ID = 0;
+    public static final int COL_NAME = 1;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private Cursor mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_stats);
+        ButterKnife.bind(this);
+
+        getLoaderManager().initLoader(0, null, this);
+        mPagerAdapter = new StatisticsPagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        startingPosition = 0;
+        currentPosition = savedInstanceState == null ? startingPosition : savedInstanceState.getInt(CURRENT_POSITION);
+        mPager.setCurrentItem(currentPosition);
+        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if (mCursor != null) {
+                    currentPosition = position;
+                    mCursor.moveToPosition(position);
+                }
+            }
+        });
+        pagerTabStrip.setTabIndicatorColorResource(R.color.colorAccent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
 
@@ -78,74 +112,77 @@ public class ViewStatsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_POSITION, currentPosition);
+        super.onSaveInstanceState(outState);
+    }
 
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_graph_view, container, false);
-            return rootView;
-        }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        currentPosition = savedInstanceState.getInt(CURRENT_POSITION);
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class StatisticsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        public StatisticsPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
         }
 
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            if (mCursor == null) return null;
+            mCursor.moveToPosition(position);
+            return GraphFragment.newInstance(mCursor.getLong(COL_EXERCISE_ID));
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            return (mCursor != null) ? mCursor.getCount() : 0;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-            }
-            return null;
+            if (mCursor == null) return null;
+            mCursor.moveToPosition(position);
+            return mCursor.getString(COL_NAME);
         }
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Uri exerciseUri = WorkoutContract.ExerciseEntry.CONTENT_URI;
+        return new CursorLoader(this,
+                exerciseUri,
+                EXERCISE_COLUMNS,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mCursor = data;
+        mPagerAdapter.notifyDataSetChanged();
+        mCursor.moveToPosition(currentPosition);
+        mPager.setCurrentItem(currentPosition, false);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursor = null;
+        mPagerAdapter.notifyDataSetChanged();
+    }
 }

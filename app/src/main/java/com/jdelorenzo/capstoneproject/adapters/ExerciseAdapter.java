@@ -3,12 +3,16 @@ package com.jdelorenzo.capstoneproject.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -20,9 +24,11 @@ import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.Utility;
 import com.jdelorenzo.capstoneproject.WorkoutFragment;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
+import com.jdelorenzo.capstoneproject.model.Weight;
 
 import org.joda.time.LocalDate;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -38,6 +44,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     private View mCompletedView;
     private int itemsChecked;
     private boolean completed;
+    private int lastPosition = -1;
 
     public ExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
                            View emptyView, View completedView, int choiceMode) {
@@ -55,6 +62,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     public class ExerciseAdapterViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
+        @BindView(R.id.list_item_exercise) View rootView;
         @BindView(R.id.complete_checkbox) CheckBox completeCheckbox;
         @BindView(R.id.exercise_name) TextView exerciseName;
         @BindView(R.id.repetitions) TextView repetitions;
@@ -107,7 +115,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             holder.completeCheckbox.setChecked(true);
             holder.completeCheckbox.setClickable(false);
             holder.completeCheckbox.setAlpha(0.5f);
-            holder.itemView.setClickable(false);
+            holder.rootView.setClickable(false);
+            int disabledColor = ContextCompat.getColor(mContext, R.color.disabled_text);
+            holder.exerciseName.setTextColor(disabledColor);
+            holder.repetitions.setTextColor(disabledColor);
+            holder.sets.setTextColor(disabledColor);
         }
         else {
             holder.completeCheckbox.setOnCheckedChangeListener(
@@ -133,6 +145,15 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
                     });
         }
         mICM.onBindViewHolder(holder, position);
+        setAnimation(holder.rootView, position);
+    }
+
+    private void setAnimation(View view, int position) {
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
+            view.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -153,7 +174,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         mCursor = newCursor;
         notifyDataSetChanged();
         //check to see if the workout has been completed by checking its last date against
-        //the current date
+        //the current date.  display completed text if that's the case.
         if (getItemCount() > 0 && newCursor.moveToFirst()) {
             mEmptyView.setVisibility(View.GONE);
             String lastDateString = null;
@@ -185,5 +206,19 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             return mCursor.getLong(WorkoutFragment.COL_DAY_ID);
         }
         return 0;
+    }
+
+    public ArrayList<Weight> getWeights() {
+        ArrayList<Weight> weights = new ArrayList<>();
+        if (mCursor != null && mCursor.moveToFirst()) {
+            while (!mCursor.isAfterLast()) {
+                weights.add(new Weight(
+                        mCursor.getLong(WorkoutFragment.COL_EXERCISE_ID),
+                        mCursor.getDouble(WorkoutFragment.COL_WEIGHT)
+                ));
+                mCursor.moveToNext();
+            }
+        }
+        return weights;
     }
 }

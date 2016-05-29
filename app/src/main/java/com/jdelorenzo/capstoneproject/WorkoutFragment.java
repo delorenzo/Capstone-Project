@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +22,9 @@ import com.jdelorenzo.capstoneproject.adapters.ExerciseAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
 import com.jdelorenzo.capstoneproject.dialogs.ModifyWeightDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.WorkoutCompleteDialogFragment;
+import com.jdelorenzo.capstoneproject.model.Weight;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -156,5 +159,9 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mExerciseAdapter.swapCursor(null);
+    }
+
+    public ArrayList<Weight> getWeights() {
+        return mExerciseAdapter.getWeights();
     }
 }

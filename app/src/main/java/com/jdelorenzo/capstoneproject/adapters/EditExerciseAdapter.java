@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
     private ItemChoiceManager mICM;
     final private ExerciseAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
+    private int lastPosition = -1;
 
     public EditExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
                                View emptyView, int choiceMode) {
@@ -52,6 +55,7 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
         @BindView(R.id.repetitions) TextView repetitions;
         @BindView(R.id.weight) TextView weight;
         @BindView(R.id.sets) TextView sets;
+        @BindView(R.id.list_item_add_exercise) View rootView;
 
         public ExerciseAdapterViewHolder(View view)
         {
@@ -81,6 +85,8 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
 
         @OnClick(R.id.delete_exercise_button)
         public void onDelete() {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_out_right);
+            deleteExerciseButton.startAnimation(animation);
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
             notifyItemRemoved(adapterPosition);
@@ -114,6 +120,14 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
         holder.weight.setText(Utility.getFormattedWeightString(mContext,
                 mCursor.getDouble(EditWorkoutFragment.COL_WEIGHT)));
         mICM.onBindViewHolder(holder, position);
+        setAnimation(holder.rootView, position);
+    }
+    private void setAnimation(View view, int position) {
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
+            view.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {

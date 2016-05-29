@@ -190,14 +190,13 @@ public class WorkoutContract {
         public static final String TABLE_NAME = "workout";
 
         public static final String COLUMN_DAY_KEY = "day_id";
-        public static final String COLUMN_STATUS = "status";
         public static final String COLUMN_DATE = "date";
 
-        public static Uri WorkoutId(long id) {
+        public static Uri buildWorkoutId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static long geWorkoutIdFromUri(Uri uri) {
+        public static long getWorkoutIdFromUri(Uri uri) {
             String workoutIdString = uri.getPathSegments().get(1);
             if (null != workoutIdString && workoutIdString.length() > 0)
                 return Long.parseLong(workoutIdString);
@@ -222,13 +221,27 @@ public class WorkoutContract {
         public static final String COLUMN_WORKOUT_KEY = "workout_id";
         public static final String COLUMN_WEIGHT = "weight";
         public static final String COLUMN_EXERCISE_KEY = "exercise_id";
+        public static final String COLUMN_DATE = "date";
 
         public static Uri buildWeightId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static long geWeightIdFromUri(Uri uri) {
+        public static long getWeightIdFromUri(Uri uri) {
             String weightIdString = uri.getPathSegments().get(1);
+            if (null != weightIdString && weightIdString.length() > 0)
+                return Long.parseLong(weightIdString);
+            else
+                return 0;
+        }
+
+        public static Uri buildExerciseId(long id) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_EXERCISE).appendPath(Long.toString(id))
+                    .build();
+        }
+
+        public static long getExerciseIdFromUri(Uri uri) {
+            String weightIdString = uri.getPathSegments().get(2);
             if (null != weightIdString && weightIdString.length() > 0)
                 return Long.parseLong(weightIdString);
             else

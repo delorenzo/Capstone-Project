@@ -104,6 +104,7 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
                         new EditExerciseDialogFragment.EditExerciseDialogFragmentListener() {
                             @Override
                             public void onEditExercise(int sets, int reps, String description, double weight) {
+                                weight = Utility.convertWeightToMetric(getActivity(), weight);
                                 DatabaseIntentService.startActionEditExercise(getActivity(),
                                         id, description, sets, reps, weight);
                                 getActivity().getContentResolver().notifyChange(

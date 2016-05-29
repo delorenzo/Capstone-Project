@@ -59,9 +59,8 @@ public class ModifyWeightDialogFragment extends DialogFragment {
         Bundle args = getArguments();
         if (args != null) {
             exerciseId = args.getLong(ARG_ID);
-            double weight = Utility.convertWeight(getActivity(), args.getDouble(ARG_WEIGHT));
-            //String weightString = Double.toString(weight);
-            String weightString = Utility.getFormattedWeightStringWithoutUnits(getActivity(), args.getDouble(ARG_WEIGHT));
+            String weightString = Utility.getFormattedWeightStringWithoutUnits(getActivity(),
+                    args.getDouble(ARG_WEIGHT));
             String[] weightParts = weightString.split("\\.");
             if (weightParts.length == 2) {
                 currentWeight = Integer.parseInt(weightParts[0]);

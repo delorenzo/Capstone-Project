@@ -5,11 +5,13 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
+import com.jdelorenzo.capstoneproject.model.Weight;
 
 import org.joda.time.LocalDate;
 
@@ -33,6 +35,7 @@ public class DatabaseIntentService extends IntentService {
     private static final String ACTION_DELETE_EXERCISE = "com.jdelorenzo.capstoneproject.service.action.DELETE_EXERCISE";
     private static final String ACTION_EDIT_EXERCISE_WEIGHT = "com.jdelorenzo.capstone.service.action_EDIT_EXERCISE_WEIGHT";
     private static final String ACTION_COMPLETE_WORKOUT = "com.jdelorenzo.capstone.service.action_COMPLETE_WORKOUT";
+    private static final String ACTION_RECORD_WEIGHTS = "com.jdelorenzo.capstone.service.action_RECORD_WEIGHTS";
 
     private static final String EXTRA_DAY_ID = "com.jdelorenzo.capstoneproject.service.extra.DAY_ID";
     private static final String EXTRA_DAY_OF_WEEK = "com.jdelorenzo.capstoneproject.service.extra.DAY_OF_WEEK";
@@ -42,6 +45,7 @@ public class DatabaseIntentService extends IntentService {
     private static final String EXTRA_SETS = "com.jdelorenzo.capstoneproject.service.extra.SETS";
     private static final String EXTRA_WEIGHT = "com.jdelorenzo.capstoneproject.service.extra.WEIGHT";
     private static final String EXTRA_DATE = "com.jdelorenzo.capstoneproject.service.extra.DATE";
+    private static final String EXTRA_WEIGHTS = "com.jdelorenzo.capstoneproject.service.extra.WEIGHTS";
 
     private static final String LOG_TAG = DatabaseIntentService.class.getSimpleName();
 
@@ -154,6 +158,15 @@ public class DatabaseIntentService extends IntentService {
         Uri exerciseUri = WorkoutContract.DayEntry.buildDayId(dayId);
         intent.setData(exerciseUri);
         intent.putExtra(EXTRA_DATE, getCurrentDateString(context));
+        context.startService(intent);
+    }
+
+    public static void startActionRecordWeights(Context context, ArrayList<Weight> weights) {
+        Intent intent = new Intent(context, DatabaseIntentService.class);
+        intent.setAction(ACTION_RECORD_WEIGHTS);
+        Uri weightUri = WeightEntry.CONTENT_URI;
+        intent.setData(weightUri);
+        intent.putExtra(EXTRA_WEIGHTS, weights);
         context.startService(intent);
     }
 
@@ -285,6 +298,7 @@ public class DatabaseIntentService extends IntentService {
                     break;
 
                 case ACTION_COMPLETE_WORKOUT:
+                    //update day with date
                     contentValues = new ContentValues();
                     contentValues.put(DayEntry.COLUMN_LAST_DATE,
                             intent.getStringExtra(EXTRA_DATE));
@@ -293,6 +307,32 @@ public class DatabaseIntentService extends IntentService {
                             contentValues,
                             null,
                             null
+                    );
+                    //insert workout entry
+                    ContentValues workoutValues = new ContentValues();
+                    contentValues.put(WorkoutEntry.COLUMN_DAY_KEY, WorkoutContract.DayEntry.getDayIdFromUri(intent.getData()));
+                    contentValues.put(WorkoutEntry.COLUMN_DATE, intent.getStringExtra(EXTRA_DATE));
+                    getContentResolver().insert(
+                            WorkoutEntry.CONTENT_URI,
+                            workoutValues
+                    );
+
+                case ACTION_RECORD_WEIGHTS:
+                    ArrayList<Weight> weights = intent.getParcelableArrayListExtra(EXTRA_WEIGHTS);
+                    ContentValues[] contentValueList = new ContentValues[weights.size()];
+                    String date = getCurrentDateString(getApplicationContext());
+                    for (int i = 0; i < weights.size(); i++) {
+                        Weight w = weights.get(i);
+                        ContentValues value = new ContentValues();
+                        value.put(WeightEntry.COLUMN_EXERCISE_KEY, w.getExerciseId());
+                        value.put(WeightEntry.COLUMN_WEIGHT, w.getWeight());
+                        value.put(WeightEntry.COLUMN_DATE, date);
+                        value.put(WeightEntry.COLUMN_WORKOUT_KEY, 0);
+                        contentValueList[i] = value;
+                    }
+                    getContentResolver().bulkInsert(
+                            intent.getData(),
+                            contentValueList
                     );
 
                 default:

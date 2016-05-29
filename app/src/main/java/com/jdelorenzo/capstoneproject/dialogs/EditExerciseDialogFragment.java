@@ -25,7 +25,7 @@ import butterknife.Unbinder;
 
 /*
 This fragment is used to create a new exercise.
-The CreateExerciseDialogFragmentListener callback can be eithehr passed in on newInstance() or
+The CreateExerciseDialogFragmentListener callback can be either passed in on newInstance() or
 implemented in the calling activity.
  */
 public class EditExerciseDialogFragment extends DialogFragment {
@@ -73,8 +73,8 @@ public class EditExerciseDialogFragment extends DialogFragment {
             exerciseEditText.setText(args.getString(ARG_DESCRIPTION, ""));
             repetitionsEditText.setText(String.format(Locale.getDefault(), "%d", args.getInt(ARG_REPS, 0)));
             setsEditText.setText(String.format(Locale.getDefault(), "%d", args.getInt(ARG_SETS, 0)));
-            double weight = args.getDouble(ARG_WEIGHT, 0);
-            weightEditText.setText(String.format(Locale.getDefault(), "%.1f", weight));
+            String weightString = Utility.getFormattedWeightStringWithoutUnits(getActivity(), args.getDouble(ARG_WEIGHT));
+            weightEditText.setText(weightString);
         }
         weightUnits.setText(Utility.getWeightUnits(getActivity()));
         builder.setTitle(R.string.dialog_edit_exercise_title)

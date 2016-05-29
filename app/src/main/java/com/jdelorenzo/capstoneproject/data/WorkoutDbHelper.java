@@ -20,8 +20,8 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_ROUTINE_TABLE = "CREATE TABLE " +
                 RoutineEntry.TABLE_NAME + " (" +
                 RoutineEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RoutineEntry.COLUMN_NAME + " TEXT NOT NULL " +
-                RoutineEntry.COLUMN_LAST_MODIFIED + " TEXT NOT NULL " +
+                RoutineEntry.COLUMN_NAME + " TEXT NOT NULL, " +
+                RoutineEntry.COLUMN_LAST_MODIFIED + " TEXT" +
                 " );";
 
         final String SQL_CREATE_DAY_TABLE = "CREATE TABLE " +
@@ -53,7 +53,6 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 WorkoutEntry.COLUMN_DAY_KEY + " INTEGER NOT NULL, " +
                 WorkoutEntry.COLUMN_DATE + " TEXT, " +
-                WorkoutEntry.COLUMN_STATUS + " INTEGER, " +
                 "FOREIGN KEY (" + WorkoutEntry.COLUMN_DAY_KEY + ") REFERENCES " +
                 DayEntry.TABLE_NAME + "(" + DayEntry._ID + ") );";
 
@@ -63,6 +62,7 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 WeightEntry.COLUMN_EXERCISE_KEY + " INTEGER NOT NULL, " +
                 WeightEntry.COLUMN_WORKOUT_KEY + " INTEGER NOT NULL, " +
                 WeightEntry.COLUMN_WEIGHT + " REAL NOT NULL, " +
+                WeightEntry.COLUMN_DATE + " TEXT, " +
                 "FOREIGN KEY (" + WeightEntry.COLUMN_WORKOUT_KEY + ") REFERENCES " +
                 WorkoutEntry.TABLE_NAME + "(" + WorkoutEntry._ID + "), " +
                 "FOREIGN KEY (" + WeightEntry.COLUMN_EXERCISE_KEY + ") REFERENCES " +

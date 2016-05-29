@@ -34,6 +34,8 @@ public class WorkoutProvider extends ContentProvider {
     private static final String sExerciseRoutineIdDayOfWeekSelection = DayEntry.TABLE_NAME + "." +
             DayEntry.COLUMN_ROUTINE_KEY + " = ? AND " + DayEntry.TABLE_NAME + "." +
             DayEntry.COLUMN_DAY_OF_WEEK + " = ?";
+    private static final String sWeightExerciseIdSelection = WeightEntry.TABLE_NAME + "." +
+            WeightEntry.COLUMN_EXERCISE_KEY + " = ?";
 
     static final int ROUTINES = 100;
     static final int ROUTINE_WITH_ID = 101;
@@ -49,6 +51,7 @@ public class WorkoutProvider extends ContentProvider {
     static final int EXERCISES_WITH_ROUTINE_ID_AND_DAY_OF_WEEK = 305;
     static final int WORKOUTS = 400;
     static final int WEIGHTS = 500;
+    static final int WEIGHTS_WITH_EXERCISE_ID = 501;
 
     private static final SQLiteQueryBuilder sDayByRoutineQueryBuilder;
 
@@ -238,6 +241,18 @@ public class WorkoutProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
+            case WEIGHTS_WITH_EXERCISE_ID:
+                exerciseId = WeightEntry.getExerciseIdFromUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        WeightEntry.TABLE_NAME,
+                        projection,
+                        sWeightExerciseIdSelection,
+                        new String[] { Long.toString(exerciseId)},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri:  " + uri);
         }
@@ -295,11 +310,11 @@ public class WorkoutProvider extends ContentProvider {
 
         switch (match) {
             case ROUTINES:
-                long workoutId = db.insert(RoutineEntry.TABLE_NAME, null, values);
-                if (workoutId > 0)
-                    returnUri = RoutineEntry.buildRoutineId(workoutId);
+                long routineId = db.insert(RoutineEntry.TABLE_NAME, null, values);
+                if (routineId > 0)
+                    returnUri = RoutineEntry.buildRoutineId(routineId);
                 else
-                    throw new android.database.SQLException("Failed to insert workout row into " + uri);
+                    throw new android.database.SQLException("Failed to insert routine row into " + uri);
                 break;
             case DAYS:
                 long dayId = db.insert(DayEntry.TABLE_NAME, null, values);
@@ -321,6 +336,21 @@ public class WorkoutProvider extends ContentProvider {
                     returnUri = ExerciseEntry.buildExerciseId(exerciseId);
                 else
                     throw new android.database.SQLException("Failed to insert exercise row into " + uri);
+                break;
+            case WORKOUTS:
+                long workoutId = db.insert(WorkoutEntry.TABLE_NAME, null, values);
+                if (workoutId > 0)
+                    returnUri = WorkoutEntry.buildWorkoutId(workoutId);
+                else
+                    throw new android.database.SQLException("Failed to insert workout row into " + uri);
+                break;
+            case WEIGHTS:
+                long weightId = db.insert(WeightEntry.TABLE_NAME, null, values);
+                if (weightId > 0) {
+                    returnUri = WeightEntry.buildWeightId(weightId);
+                }
+                else
+                    throw new android.database.SQLException("Failed to insert weight row into " + uri);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri in inset:  " + uri);
@@ -516,6 +546,20 @@ public class WorkoutProvider extends ContentProvider {
                     db.endTransaction();
                 }
                 break;
+            case WEIGHTS:
+                db.beginTransaction();
+                returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(WeightEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
             default:
                 throw new UnsupportedOperationException("Unknown uri in bulk insert");
         }
@@ -552,6 +596,8 @@ public class WorkoutProvider extends ContentProvider {
                 WorkoutContract.PATH_DAY_OF_WEEK + "/#", EXERCISES_WITH_DAY_OF_WEEK);
 
         matcher.addURI(authority, WorkoutContract.PATH_WEIGHT, WEIGHTS);
+        matcher.addURI(authority, WorkoutContract.PATH_WEIGHT + "/" +
+                WorkoutContract.PATH_EXERCISE + "/#", WEIGHTS_WITH_EXERCISE_ID);
 
         matcher.addURI(authority, WorkoutContract.PATH_WORKOUT, WORKOUTS);
 
