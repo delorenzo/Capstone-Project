@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_add_day">Add Day</string>
     <string name="action_work_out">Work Out</string>
-    <string name="action_view_stats">View Stats</string>
+    <string name="action_view_progress">Your Progress</string>
     <string name="action_create_workout">Create Routine</string>
     <string name="action_edit_workout">Edit Routine</string>
     <string name="action_submit">Submit</string>
@@ -96,6 +96,7 @@
     </string>
     <string name="reps_sets_format" example="10R x 3S"><xliff:g>%1$d</xliff:g>R x <xliff:g>%2$d</xliff:g>S</string>
     <string name="date_format" translatable="false">yyyy-MM-dd</string>
+    <string name="format_button_text"><xliff:g>%1$s\'s Progress</xliff:g></string>
 
     <!-- dialog strings -->
     <string name="dialog_create_workout_title">Create Routine</string>

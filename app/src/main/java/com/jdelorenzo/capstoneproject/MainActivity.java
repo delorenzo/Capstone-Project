@@ -21,6 +21,7 @@ import com.jdelorenzo.capstoneproject.dialogs.SelectRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -34,12 +35,24 @@ public class MainActivity extends AppCompatActivity implements
     String[] mRoutineLabels = new String[]{};
     long[] mRoutineIds = new long[]{};
     @BindViews({R.id.button_work_out, R.id.button_edit_workout, R.id.button_view_stats}) List<Button> workoutButtons;
+    @BindView(R.id.button_view_stats) Button viewStatsButton;
+    public static final String ARG_NAME = "name";
+    private String displayName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            displayName = args.getString(ARG_NAME);
+        }
+        if (displayName != null && !displayName.isEmpty()) {
+            viewStatsButton.setText(String.format(Locale.getDefault(),
+                    getString(R.string.format_button_text), displayName));
+        }
 
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -51,6 +64,18 @@ public class MainActivity extends AppCompatActivity implements
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(ARG_NAME, displayName);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        displayName = savedInstanceState.getString(ARG_NAME);
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override

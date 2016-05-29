@@ -310,8 +310,8 @@ public class DatabaseIntentService extends IntentService {
                     );
                     //insert workout entry
                     ContentValues workoutValues = new ContentValues();
-                    contentValues.put(WorkoutEntry.COLUMN_DAY_KEY, WorkoutContract.DayEntry.getDayIdFromUri(intent.getData()));
-                    contentValues.put(WorkoutEntry.COLUMN_DATE, intent.getStringExtra(EXTRA_DATE));
+                    workoutValues.put(WorkoutEntry.COLUMN_DAY_KEY, WorkoutContract.DayEntry.getDayIdFromUri(intent.getData()));
+                    workoutValues.put(WorkoutEntry.COLUMN_DATE, intent.getStringExtra(EXTRA_DATE));
                     getContentResolver().insert(
                             WorkoutEntry.CONTENT_URI,
                             workoutValues

@@ -120,6 +120,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             holder.exerciseName.setTextColor(disabledColor);
             holder.repetitions.setTextColor(disabledColor);
             holder.sets.setTextColor(disabledColor);
+            holder.weight.setTextColor(disabledColor);
         }
         else {
             holder.completeCheckbox.setOnCheckedChangeListener(

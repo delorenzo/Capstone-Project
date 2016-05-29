@@ -176,6 +176,9 @@ public class LoginActivity extends AppCompatActivity implements
             firebaseAuthWithGoogle(acct);
             Toast.makeText(this, "Authentication successful.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
+            if (acct != null) {
+                intent.putExtra(MainActivity.ARG_NAME, acct.getGivenName());
+            }
             startActivity(intent);
 //            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
 //            updateUI(true);

@@ -1,13 +1,13 @@
 package com.jdelorenzo.capstoneproject;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +40,7 @@ public class GraphFragment extends Fragment implements LoaderManager.LoaderCallb
     private static final String ARG_EXERCISE_ID = "exerciseId";
     private long mExerciseId;
     private Cursor mCursor;
+    private static final int PROGRESS_LOADER = 100;
 
     public String[] WEIGHT_COLUMNS = {
             WorkoutContract.WeightEntry.TABLE_NAME + "." + WorkoutContract.WeightEntry._ID,
@@ -73,6 +74,7 @@ public class GraphFragment extends Fragment implements LoaderManager.LoaderCallb
         if (savedInstanceState != null) {
             mExerciseId = savedInstanceState.getLong(ARG_EXERCISE_ID);
         }
+        getLoaderManager().initLoader(PROGRESS_LOADER, null, this);
     }
 
     @Override
@@ -121,6 +123,7 @@ public class GraphFragment extends Fragment implements LoaderManager.LoaderCallb
 
     //set up the graph based on the data points
     private void bindViews() {
+        if (graphView == null) return;
         if (mCursor == null || !mCursor.moveToFirst()) {
             mEmptyView.setVisibility(View.VISIBLE);
             graphView.setVisibility(View.GONE);
