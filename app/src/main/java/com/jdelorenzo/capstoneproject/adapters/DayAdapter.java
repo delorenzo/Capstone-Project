@@ -26,7 +26,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     final private DayAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
     private String[] dayStrings;
-    private int mSelectedPosition = 0;
+    private int mSelectedPosition = -1;
     private int lastPosition = -1;
     private static final String ARG_SELECTED = "selected";
 
@@ -76,6 +76,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
             mClickHandler.onDelete(mCursor.getLong(dayId), this);
         }
     }
+
+
 
     @Override
     public DayAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -130,5 +132,12 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
             mCursor.moveToNext();
         }
         return checked;
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
     }
 }

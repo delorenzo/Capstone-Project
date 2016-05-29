@@ -60,6 +60,27 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
                     .replace(R.id.fragment_master_container, selectDayFragment, FTAG_EDIT_DAY)
                     .commit();
         }
+        //if we moved from single pane to two pane, the fragments have to be re-arranged.
+        else if ((savedInstanceState.getBoolean(EXTRA_TWO_PANE) != mTwoPane) && mTwoPane) {
+            FragmentManager fm = getFragmentManager();
+            if (fm.findFragmentByTag(FTAG_EDIT_WORKOUT) != null) {
+                EditWorkoutFragment editWorkoutFragment = (EditWorkoutFragment)
+                        getFragmentManager().findFragmentByTag(FTAG_EDIT_WORKOUT);
+                fm.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fm.beginTransaction().remove(editWorkoutFragment).commit();
+                fm.executePendingTransactions();
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_detail_container, editWorkoutFragment,
+                                FTAG_EDIT_WORKOUT)
+                        .commit();
+                EditDayFragment selectDayFragment = EditDayFragment.newInstance(mRoutineId, null);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_master_container, selectDayFragment, FTAG_EDIT_DAY)
+                        .commit();
+            }
+        }
     }
 
     @Override
@@ -127,7 +148,6 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
         outState.putBooleanArray(EXTRA_CHECKED_DAYS, mCheckedDays);
         outState.putLong(EXTRA_WORKOUT_ID, mRoutineId);
-        outState.putBoolean(EXTRA_TWO_PANE, mTwoPane);
     }
 
     @Override
@@ -135,7 +155,6 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
         super.onRestoreInstanceState(savedInstanceState);
         mRoutineId = savedInstanceState.getLong(EXTRA_WORKOUT_ID);
         mCheckedDays = savedInstanceState.getBooleanArray(EXTRA_CHECKED_DAYS);
-        mTwoPane = savedInstanceState.getBoolean(EXTRA_TWO_PANE);
     }
 
     @Override
