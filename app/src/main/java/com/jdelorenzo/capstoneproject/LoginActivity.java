@@ -34,6 +34,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
 import com.jdelorenzo.capstoneproject.dialogs.SignInInfoDialogFragment;
 import com.jdelorenzo.capstoneproject.sync.SyncAdapter;
 
@@ -113,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements
                     }
                 });
             }
-            mSignInButton.setSize(SignInButton.SIZE_STANDARD);
+            //mSignInButton.setSize(SignInButton.SIZE_STANDARD);
             mSignInButton.setScopes(gso.getScopeArray());
         }
         else {
@@ -197,10 +198,8 @@ public class LoginActivity extends AppCompatActivity implements
             else if (code == GoogleSignInStatusCodes.NETWORK_ERROR) {
                 errorMessage = getString(R.string.common_google_play_services_network_error_text);
             }
-            Log.e(LOG_TAG, "Google sign in unsuccessful.  Code " + code);
+            FirebaseCrash.logcat(Log.ERROR, LOG_TAG, "Google sign in unsuccessful.  Code " + code);
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
-            mFirebaseAnalytics.setUserProperty(getString(R.string.analytics_google_sign_on_error),
-                    "Code " + code);
         }
     }
 
@@ -215,12 +214,10 @@ public class LoginActivity extends AppCompatActivity implements
                         Log.d(LOG_TAG, "Completed firebase sign on with Google:  " +
                                 task.isSuccessful());
                         if (!task.isSuccessful()) {
-                            Log.w(LOG_TAG, "Firebase sign on unsuccessful:  " + task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            mFirebaseAnalytics.setUserProperty(
-                                    getString(R.string.analytics_firebase_sign_on_error),
-                                    task.getException().toString());
+                            FirebaseCrash.logcat(Log.WARN, LOG_TAG,
+                                    "Firebase sign on unsuccessful:  " + task.getException());
                         }
                         showProgress(false);
                     }

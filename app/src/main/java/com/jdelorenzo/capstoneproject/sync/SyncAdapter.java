@@ -13,10 +13,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.jdelorenzo.capstoneproject.R;
 
 import org.json.JSONArray;
 
+//TODO:  Sync SQLITE database with Firebase database
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private ContentResolver mContentResolver;
     public static final String ACTION_DATA_UPDATED =
@@ -25,15 +29,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
     private final static String LOG_TAG = SyncAdapter.class.getSimpleName();
+    private Context mContext;
+    private DatabaseReference mDatabase;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         mContentResolver = context.getContentResolver();
+        mContext = context;
     }
 
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
         mContentResolver = context.getContentResolver();
+        mContext = context;
     }
 
     @Override
@@ -41,6 +49,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider, SyncResult syncResult) {
 
         Log.d(LOG_TAG, "Performing sync");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     private JSONArray formJSONString() {

@@ -178,6 +178,10 @@
     <string name="analytics_sign_in_none" translatable="false">none</string>
     <string name="analytics_sign_in__google" translatable="false">google</string>
     <string name="analytics_user_name" translatable="false">name</string>
-    <string name="analytics_google_sign_on_error" translatable="false">google_sign_on_error</string>
-    <string name="analytics_firebase_sign_on_error" translatable="false">firebase_sign_on_error</string>
+
+    <!-- firebase data strings -->
+    <string name="routines" translatable="false">routines</string>
+    <string name="exercises" translatable="false">exercises</string>
+    <string name="days" translatable="false">days</string>
+    <string name="weights" translatable="false">weights</string>
 </resources>
