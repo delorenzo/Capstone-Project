@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".ModifyRoutineActivity">
 
     <LinearLayout

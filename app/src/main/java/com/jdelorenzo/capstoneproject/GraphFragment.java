@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -45,11 +46,13 @@ public class GraphFragment extends Fragment implements LoaderManager.LoaderCallb
     public String[] WEIGHT_COLUMNS = {
             WorkoutContract.WeightEntry.TABLE_NAME + "." + WorkoutContract.WeightEntry._ID,
             WorkoutContract.WeightEntry.COLUMN_WEIGHT,
-            WorkoutContract.WeightEntry.COLUMN_DATE
+            WorkoutContract.WeightEntry.COLUMN_DATE,
+            WorkoutContract.WeightEntry.COLUMN_EXERCISE_KEY
     };
     public final static int COL_WEIGHT_ID = 0;
     public final static int COL_WEIGHT = 1;
     public final static int COL_DATE = 2;
+    public final static int COL_EXERCISE_KEY = 3;
 
     public static GraphFragment newInstance(long itemId) {
         Bundle arguments = new Bundle();
@@ -139,6 +142,7 @@ public class GraphFragment extends Fragment implements LoaderManager.LoaderCallb
                 points[i] = new DataPoint(date.toDate(), weight);
             }
             LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
+            series.setColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
             graphView.addSeries(series);
             graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         }
