@@ -70,15 +70,15 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/button_why_sign_in"
-                android:layout_marginTop="@dimen/space_between_content_areas"
-                style="?buttonBarButtonStyle"
-                android:textColor="@android:color/white"
-                android:background="@color/colorPrimary"
-                android:text="@string/button_why_sign_in"
-                android:layout_width="@dimen/button_bar_max_width"
-                android:layout_height="wrap_content" />
+            <!--<Button-->
+                <!--android:id="@+id/button_why_sign_in"-->
+                <!--android:layout_marginTop="@dimen/space_between_content_areas"-->
+                <!--style="?buttonBarButtonStyle"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:background="@color/colorPrimary"-->
+                <!--android:text="@string/button_why_sign_in"-->
+                <!--android:layout_width="@dimen/button_bar_max_width"-->
+                <!--android:layout_height="wrap_content" />-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
