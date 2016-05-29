@@ -155,7 +155,9 @@ public class ViewStatsActivity extends AppCompatActivity
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (mCursor == null) return null;
+            if (mCursor == null || !mCursor.moveToFirst()) {
+                return getString(R.string.empty_progress_text);
+            }
             mCursor.moveToPosition(position);
             return mCursor.getString(COL_NAME);
         }

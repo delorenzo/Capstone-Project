@@ -35,6 +35,7 @@
     <string name="empty_exercise_text">You have no exercises for this day.  Add an exercise!</string>
     <string name="empty_workout_text">You have no exercises scheduled for today.</string>
     <string name="empty_graph_text">Unable to find data for this exercise.</string>
+    <string name="empty_progress_text">No Exercises Exist</string>
 
     <!-- completed view string -->
     <string name="completed_workout_text">You\'ve completed your workout for today.</string>
@@ -72,6 +73,8 @@
     <string name="prefs_login_title">Show Login Screen</string>
     <string name="prefs_login_label_true">Show</string>
     <string name="prefs_login_label_false">Don\'t show</string>
+    <!-- display name -->
+    <string name="prefs_display_name_key">name</string>
 
     <!-- format strings -->
     <string name="weight_format_metric" example="20 kg">
@@ -169,4 +172,12 @@
 
     <!-- sync strings -->
     <string name="sync_account_type" translatable="false">com.google</string>
+
+    <!-- firebase analytics strings -->
+    <string name="analytics_sign_in_key" translatable="false">sign-in</string>
+    <string name="analytics_sign_in_none" translatable="false">none</string>
+    <string name="analytics_sign_in__google" translatable="false">google</string>
+    <string name="analytics_user_name" translatable="false">name</string>
+    <string name="analytics_google_sign_on_error" translatable="false">google_sign_on_error</string>
+    <string name="analytics_firebase_sign_on_error" translatable="false">firebase_sign_on_error</string>
 </resources>

@@ -15,6 +15,8 @@ import android.util.Log;
 
 import com.jdelorenzo.capstoneproject.R;
 
+import org.json.JSONArray;
+
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private ContentResolver mContentResolver;
     public static final String ACTION_DATA_UPDATED =
@@ -39,6 +41,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider, SyncResult syncResult) {
 
         Log.d(LOG_TAG, "Performing sync");
+    }
+
+    private JSONArray formJSONString() {
+        JSONArray result = new JSONArray();
+        return result;
+    }
+
+    private void handleJSONString(String json) {
+
     }
 
     private void updateWidgets() {

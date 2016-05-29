@@ -53,7 +53,7 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
             EditDayFragment selectDayFragment = EditDayFragment.newInstance(mRoutineId, null);
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, selectDayFragment, FTAG_EDIT_DAY)
+                    .replace(R.id.fragment_master_container, selectDayFragment, FTAG_EDIT_DAY)
                     .commit();
         }
     }
@@ -63,7 +63,7 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
         EditWorkoutFragment editWorkoutFragment = EditWorkoutFragment.newInstance(mRoutineId, dayId);
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, editWorkoutFragment, FTAG_EDIT_WORKOUT)
+                .replace(R.id.fragment_master_container, editWorkoutFragment, FTAG_EDIT_WORKOUT)
                 .addToBackStack(null)
                 .commit();
     }

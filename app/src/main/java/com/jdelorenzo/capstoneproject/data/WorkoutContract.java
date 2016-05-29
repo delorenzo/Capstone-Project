@@ -15,7 +15,6 @@ public class WorkoutContract {
     public static final String PATH_DAY_OF_WEEK = "dayOfWeek";
     public static final String PATH_EXERCISE = "exercise";
     public static final String PATH_NAME = "name";
-    public static final String PATH_WORKOUT = "workout";
     public static final String PATH_WEIGHT = "weight";
 
     public static final class RoutineEntry implements BaseColumns {
@@ -176,35 +175,6 @@ public class WorkoutContract {
         }
     }
 
-    public static final class WorkoutEntry implements BaseColumns {
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_WORKOUT).build();
-
-        public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +
-                        PATH_WORKOUT;
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +
-                        PATH_WORKOUT;
-
-        public static final String TABLE_NAME = "workout";
-
-        public static final String COLUMN_DAY_KEY = "day_id";
-        public static final String COLUMN_DATE = "date";
-
-        public static Uri buildWorkoutId(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
-        public static long getWorkoutIdFromUri(Uri uri) {
-            String workoutIdString = uri.getPathSegments().get(1);
-            if (null != workoutIdString && workoutIdString.length() > 0)
-                return Long.parseLong(workoutIdString);
-            else
-                return 0;
-        }
-    }
-
     public static final class WeightEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_WEIGHT).build();
@@ -218,7 +188,6 @@ public class WorkoutContract {
 
         public static final String TABLE_NAME = "weight";
 
-        public static final String COLUMN_WORKOUT_KEY = "workout_id";
         public static final String COLUMN_WEIGHT = "weight";
         public static final String COLUMN_EXERCISE_KEY = "exercise_id";
         public static final String COLUMN_DATE = "date";

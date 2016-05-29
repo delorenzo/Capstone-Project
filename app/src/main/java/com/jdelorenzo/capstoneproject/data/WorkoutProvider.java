@@ -52,9 +52,8 @@ public class WorkoutProvider extends ContentProvider {
     static final int EXERCISES_WITH_DAY_ID = 303;
     static final int EXERCISES_WITH_DAY_OF_WEEK = 304;
     static final int EXERCISES_WITH_ROUTINE_ID_AND_DAY_OF_WEEK = 305;
-    static final int WORKOUTS = 400;
-    static final int WEIGHTS = 500;
-    static final int WEIGHTS_WITH_EXERCISE_ID = 501;
+    static final int WEIGHTS = 400;
+    static final int WEIGHTS_WITH_EXERCISE_ID = 401;
 
     private static final SQLiteQueryBuilder sDayByRoutineQueryBuilder;
 
@@ -222,17 +221,6 @@ public class WorkoutProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case WORKOUTS:
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        WorkoutEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
-                break;
             case WEIGHTS:
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         WeightEntry.TABLE_NAME,
@@ -297,8 +285,8 @@ public class WorkoutProvider extends ContentProvider {
                 return ExerciseEntry.CONTENT_TYPE;
             case WEIGHTS:
                 return WorkoutContract.WeightEntry.CONTENT_TYPE;
-            case WORKOUTS:
-                return WorkoutContract.WorkoutEntry.CONTENT_TYPE;
+            case WEIGHTS_WITH_EXERCISE_ID:
+                return WeightEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri:  " + uri);
         }
@@ -339,13 +327,6 @@ public class WorkoutProvider extends ContentProvider {
                     returnUri = ExerciseEntry.buildExerciseId(exerciseId);
                 else
                     throw new android.database.SQLException("Failed to insert exercise row into " + uri);
-                break;
-            case WORKOUTS:
-                long workoutId = db.insert(WorkoutEntry.TABLE_NAME, null, values);
-                if (workoutId > 0)
-                    returnUri = WorkoutEntry.buildWorkoutId(workoutId);
-                else
-                    throw new android.database.SQLException("Failed to insert workout row into " + uri);
                 break;
             case WEIGHTS:
                 long weightId = db.insert(WeightEntry.TABLE_NAME, null, values);
@@ -603,8 +584,6 @@ public class WorkoutProvider extends ContentProvider {
         matcher.addURI(authority, WorkoutContract.PATH_WEIGHT, WEIGHTS);
         matcher.addURI(authority, WorkoutContract.PATH_WEIGHT + "/" +
                 WorkoutContract.PATH_EXERCISE + "/#", WEIGHTS_WITH_EXERCISE_ID);
-
-        matcher.addURI(authority, WorkoutContract.PATH_WORKOUT, WORKOUTS);
 
         return matcher;
     }

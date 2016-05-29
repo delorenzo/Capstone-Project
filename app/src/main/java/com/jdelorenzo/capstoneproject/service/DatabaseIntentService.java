@@ -307,14 +307,6 @@ public class DatabaseIntentService extends IntentService {
                             null,
                             null
                     );
-                    //insert workout entry
-                    ContentValues workoutValues = new ContentValues();
-                    workoutValues.put(WorkoutEntry.COLUMN_DAY_KEY, WorkoutContract.DayEntry.getDayIdFromUri(intent.getData()));
-                    workoutValues.put(WorkoutEntry.COLUMN_DATE, intent.getStringExtra(EXTRA_DATE));
-                    getContentResolver().insert(
-                            WorkoutEntry.CONTENT_URI,
-                            workoutValues
-                    );
                     break;
 
                 case ACTION_RECORD_WEIGHTS:
@@ -327,7 +319,6 @@ public class DatabaseIntentService extends IntentService {
                         value.put(WeightEntry.COLUMN_EXERCISE_KEY, w.getExerciseId());
                         value.put(WeightEntry.COLUMN_WEIGHT, w.getWeight());
                         value.put(WeightEntry.COLUMN_DATE, date);
-                        value.put(WeightEntry.COLUMN_WORKOUT_KEY, 0);
                         contentValueList[i] = value;
                     }
                     getContentResolver().bulkInsert(

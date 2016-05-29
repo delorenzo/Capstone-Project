@@ -1,20 +1,13 @@
 package com.jdelorenzo.capstoneproject;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.app.LoaderManager.LoaderCallbacks;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +28,7 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements
     private static final int RC_SIGN_IN = 100;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean showLogin = prefs.getBoolean(getString(R.string.prefs_login_key),
                 getResources().getBoolean(R.bool.prefs_login_default_value));
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         if (showLogin) {
             // Configure sign-in to request the user's ID, email address, and basic
             // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -141,12 +137,16 @@ public class LoginActivity extends AppCompatActivity implements
 
     @OnClick(R.id.sign_in_button)
     public void signIn() {
+        mFirebaseAnalytics.setUserProperty(getString(R.string.analytics_sign_in_key),
+                getString(R.string.analytics_sign_in__google));
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @OnClick(R.id.button_no_sign_in)
     public void noSignIn() {
+        mFirebaseAnalytics.setUserProperty(getString(R.string.analytics_sign_in_key),
+                getString(R.string.analytics_sign_in_none));
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -177,11 +177,15 @@ public class LoginActivity extends AppCompatActivity implements
             Toast.makeText(this, "Authentication successful.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
             if (acct != null) {
-                intent.putExtra(MainActivity.ARG_NAME, acct.getGivenName());
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                preferences.edit()
+                        .putString(getString(R.string.prefs_display_name_key), acct.getGivenName())
+                        .apply();
+                mFirebaseAnalytics.setUserProperty(getString(R.string.analytics_user_name),
+                        acct.getGivenName());
+                mFirebaseAnalytics.setUserId(acct.getId());
             }
             startActivity(intent);
-//            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-//            updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
             String resultMessage = result.getStatus().getStatusMessage();
@@ -195,6 +199,8 @@ public class LoginActivity extends AppCompatActivity implements
             }
             Log.e(LOG_TAG, "Google sign in unsuccessful.  Code " + code);
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            mFirebaseAnalytics.setUserProperty(getString(R.string.analytics_google_sign_on_error),
+                    "Code " + code);
         }
     }
 
@@ -206,10 +212,15 @@ public class LoginActivity extends AppCompatActivity implements
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(LOG_TAG, "Completed firebase sign on with Google:  " + task.isSuccessful());
+                        Log.d(LOG_TAG, "Completed firebase sign on with Google:  " +
+                                task.isSuccessful());
                         if (!task.isSuccessful()) {
                             Log.w(LOG_TAG, "Firebase sign on unsuccessful:  " + task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            mFirebaseAnalytics.setUserProperty(
+                                    getString(R.string.analytics_firebase_sign_on_error),
+                                    task.getException().toString());
                         }
                         showProgress(false);
                     }
@@ -227,16 +238,6 @@ public class LoginActivity extends AppCompatActivity implements
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//                }
-//            });
-
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -246,10 +247,7 @@ public class LoginActivity extends AppCompatActivity implements
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            //mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 

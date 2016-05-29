@@ -3,10 +3,12 @@ package com.jdelorenzo.capstoneproject;
 import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.dialogs.CreateRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.dialogs.SelectRoutineDialogFragment;
@@ -48,9 +51,8 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         Bundle args = getIntent().getExtras();
-        if (args != null) {
-            displayName = args.getString(ARG_NAME);
-        }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        displayName = sharedPreferences.getString(getString(R.string.prefs_display_name_key), "");
         if (displayName != null && !displayName.isEmpty()) {
             viewStatsButton.setText(String.format(Locale.getDefault(),
                     getString(R.string.format_button_text), displayName));

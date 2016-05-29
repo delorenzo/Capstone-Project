@@ -48,25 +48,12 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 "ON DELETE CASCADE ON UPDATE CASCADE " +
                 " );";
 
-        final String SQL_CREATE_WORKOUT_TABLE = "CREATE TABLE " +
-                WorkoutEntry.TABLE_NAME + " ( " +
-                WorkoutEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                WorkoutEntry.COLUMN_DAY_KEY + " INTEGER NOT NULL, " +
-                WorkoutEntry.COLUMN_DATE + " TEXT, " +
-                "FOREIGN KEY (" + WorkoutEntry.COLUMN_DAY_KEY + ") REFERENCES " +
-                DayEntry.TABLE_NAME + "(" + DayEntry._ID + ") " +
-                "ON DELETE CASCADE ON UPDATE CASCADE );";
-
         final String SQL_CREATE_WEIGHT_TABLE = "CREATE TABLE " +
                 WeightEntry.TABLE_NAME + " ( " +
                 WeightEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 WeightEntry.COLUMN_EXERCISE_KEY + " INTEGER NOT NULL, " +
-                WeightEntry.COLUMN_WORKOUT_KEY + " INTEGER NOT NULL, " +
                 WeightEntry.COLUMN_WEIGHT + " REAL NOT NULL, " +
                 WeightEntry.COLUMN_DATE + " TEXT, " +
-                "FOREIGN KEY (" + WeightEntry.COLUMN_WORKOUT_KEY + ") REFERENCES " +
-                WorkoutEntry.TABLE_NAME + "(" + WorkoutEntry._ID + ") " +
-                "ON DELETE CASCADE ON UPDATE CASCADE, " +
                 "FOREIGN KEY (" + WeightEntry.COLUMN_EXERCISE_KEY + ") REFERENCES " +
                 ExerciseEntry.TABLE_NAME + "(" + ExerciseEntry._ID + ") " +
                 "ON DELETE CASCADE ON UPDATE CASCADE);";
@@ -74,7 +61,6 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_ROUTINE_TABLE);
         db.execSQL(SQL_CREATE_DAY_TABLE);
         db.execSQL(SQL_CREATE_EXERCISE_TABLE);
-        db.execSQL(SQL_CREATE_WORKOUT_TABLE);
         db.execSQL(SQL_CREATE_WEIGHT_TABLE);
     }
 
@@ -83,7 +69,6 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + RoutineEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DayEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ExerciseEntry.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + WorkoutEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + WeightEntry.TABLE_NAME);
         onCreate(db);
     }
