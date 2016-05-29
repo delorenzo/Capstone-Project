@@ -10,6 +10,8 @@
 
     <color name="white">#ffffff</color>
 
+    <color name="graphSeriesBackground">#627C4DFF</color>
+
     <!-- material design text color guidelines -->
     <!-- @see https://www.google.com/design/spec/style/color.html#color-text-background-colors -->
     <color name="primary_text">#FF000000</color>

@@ -1,5 +1,6 @@
 package com.jdelorenzo.capstoneproject;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,11 +23,16 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -117,7 +123,7 @@ public class GraphFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursor = data;
         if (mCursor != null && !mCursor.moveToFirst()) {
-            Log.e(LOG_TAG, "Error reading from cursor");
+            Log.d(LOG_TAG, "No graph data.");
             mCursor.close();
             mCursor = null;
         }
@@ -132,19 +138,64 @@ public class GraphFragment extends Fragment implements LoaderManager.LoaderCallb
             graphView.setVisibility(View.GONE);
         }
         else {
-            graphView.setVisibility(View.VISIBLE);
             mEmptyView.setVisibility(View.GONE);
-            DataPoint[] points = new DataPoint[mCursor.getCount()];
-            for (int i = 0; i < points.length; i++) {
+            DataPoint[] points;
+            if (mCursor.getCount() > 1) {
+                points = new DataPoint[mCursor.getCount()];
+                for (int i = 0; i < points.length && !mCursor.isAfterLast(); i++) {
+                    Double weight = mCursor.getDouble(COL_WEIGHT);
+                    String dateString = mCursor.getString(COL_DATE);
+                    LocalDate date = new LocalDate(dateString);
+                    //this hacky way of storing the date is a consequence of the
+                    //library being finicky on how it handles dates
+                    String dateFormatString = date.toString("MMddYYYY");
+                    double dateDouble = Double.parseDouble(dateFormatString);
+                    points[i] = new DataPoint(dateDouble, weight);
+                    mCursor.moveToNext();
+                }
+            }
+            //if only one point exists, make it two to force the graph
+            //to display something
+            else {
+                points = new DataPoint[2];
                 Double weight = mCursor.getDouble(COL_WEIGHT);
                 String dateString = mCursor.getString(COL_DATE);
                 LocalDate date = new LocalDate(dateString);
-                points[i] = new DataPoint(date.toDate(), weight);
+                //this hacky way of storing the date is a consequence of the
+                //library being finicky on how it handles dates
+                String dateFormatString = date.toString("MMddYYYY");
+                double dateDouble = Double.parseDouble(dateFormatString);
+                DataPoint point = new DataPoint(dateDouble, weight);
+                points[0] = point;
+                points[1] = point;
             }
             LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
             series.setColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            series.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.graphSeriesBackground));
+            series.setDrawBackground(true);
+            series.setDrawDataPoints(true);
             graphView.addSeries(series);
-            graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+            graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if (isValueX) {
+                        if (value % 1 != 0) {
+                            return "";
+                        }
+                        //this hacky way of displaying the string is a consequence of the
+                        //library being finicky on how it handles dates
+                        String dateString = String.valueOf(value);
+                        return dateString.substring(0, 1) + "/" + dateString.substring(1, 2);
+                    }
+                    else {
+                        return Utility.getFormattedWeightString(getContext(), value);
+                    }
+                }
+            });
+            if (mCursor.getCount() == 1) {
+                //two labels is the minimum required for the graph to display
+                graphView.getGridLabelRenderer().setNumHorizontalLabels(2);
+            }
         }
     }
 
