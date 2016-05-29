@@ -110,9 +110,6 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
             }
         }, mEmptyView, mCompletedView, AbsListView.CHOICE_MODE_NONE);
         mRecyclerView.setAdapter(mExerciseAdapter);
-        if (savedInstanceState != null) {
-            mExerciseAdapter.onRestoreInstanceState(savedInstanceState);
-        }
         return rootView;
     }
 

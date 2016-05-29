@@ -28,7 +28,7 @@ public class CreateRoutineDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View rootView = inflater.inflate(R.layout.dialog_create_routine, null);
         builder.setTitle(R.string.dialog_create_workout_title)
-                .setIcon(R.drawable.run)
+                .setIcon(R.drawable.ic_run_color_primary_24dp)
                 .setMessage(R.string.dialog_name_workout_text)
                 .setView(rootView)
                 .setPositiveButton(R.string.action_accept, new DialogInterface.OnClickListener() {

@@ -90,7 +90,8 @@ public class LoginActivity extends AppCompatActivity implements
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     if (user != null) {
                         Log.d(LOG_TAG, "Signed in with :  " + user.getUid());
-                        SyncAdapter.initializeSyncAdapter(getApplicationContext());
+                        mFirebaseAnalytics.setUserId(user.getUid());
+                        //SyncAdapter.initializeSyncAdapter(getApplicationContext());
                     } else {
                         Log.d(LOG_TAG, "Signed out");
                     }
@@ -181,10 +182,10 @@ public class LoginActivity extends AppCompatActivity implements
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                 preferences.edit()
                         .putString(getString(R.string.prefs_display_name_key), acct.getGivenName())
+                        .putString(getString(R.string.prefs_google_user_id), acct.getId())
                         .apply();
                 mFirebaseAnalytics.setUserProperty(getString(R.string.analytics_user_name),
                         acct.getGivenName());
-                mFirebaseAnalytics.setUserId(acct.getId());
             }
             startActivity(intent);
         } else {

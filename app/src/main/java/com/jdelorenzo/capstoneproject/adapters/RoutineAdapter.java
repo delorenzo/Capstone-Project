@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.jdelorenzo.capstoneproject.EditDayFragment;
 import com.jdelorenzo.capstoneproject.EditRoutineFragment;
-import com.jdelorenzo.capstoneproject.ItemChoiceManager;
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
@@ -23,14 +21,12 @@ import butterknife.OnClick;
 public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RoutineAdapterViewHolder> {
     private Cursor mCursor;
     private Context mContext;
-    private ItemChoiceManager mICM;
     final private RoutineAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
 
     public RoutineAdapter(Context context, RoutineAdapterOnClickHandler clickHandler,
                           View emptyView) {
         mContext = context;
-        mICM = new ItemChoiceManager(this);
         mClickHandler = clickHandler;
         mEmptyView = emptyView;
     }
@@ -56,7 +52,6 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RoutineA
             mCursor.moveToPosition(adapterPosition);
             int idIndex = mCursor.getColumnIndex(WorkoutContract.RoutineEntry._ID);
             mClickHandler.onClick(mCursor.getLong(idIndex), this);
-            mICM.onClick(this);
         }
 
         @OnClick(R.id.delete_day_button)
@@ -84,15 +79,6 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RoutineA
     public void onBindViewHolder(final RoutineAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         holder.routineButton.setText(mCursor.getString(EditRoutineFragment.COL_NAME));
-        mICM.onBindViewHolder(holder, position);
-    }
-
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        mICM.onRestoreInstanceState(savedInstanceState);
-    }
-
-    public void onSaveInstanceState(Bundle outState) {
-        mICM.onSaveInstanceState(outState);
     }
 
     @Override

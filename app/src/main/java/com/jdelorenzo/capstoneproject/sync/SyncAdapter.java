@@ -7,12 +7,15 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -44,6 +47,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         mContext = context;
     }
 
+    //todo
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
@@ -52,11 +56,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    private JSONArray formJSONString() {
-        JSONArray result = new JSONArray();
-        return result;
+    //todo
+    private String formJSONString() {
+        return "";
     }
 
+    //todo
     private void handleJSONString(String json) {
 
     }
@@ -94,12 +99,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static Account createSyncAccount(Context context) {
         // Create the account type and default account
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String id = sharedPreferences.getString(context.getString(R.string.prefs_google_user_id), "");
+        if (id.isEmpty()) {
+            FirebaseCrash.logcat(Log.WARN, LOG_TAG, "Sync adapter called without a valid Google sign on");
+            return null;
+        }
         Account newAccount = new Account(
-                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
+                id, context.getString(R.string.sync_account_type));
         // Get an instance of the Android account manager
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        Context.ACCOUNT_SERVICE);
+        AccountManager accountManager = AccountManager.get(context);
 
         //if the password does not exist, the account is new
         if (null == accountManager.getPassword(newAccount)) {

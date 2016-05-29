@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sync-adapter
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="com.jdelorenzo.capstoneproject.sync.provider"
-    android:accountType="com.google"
-    android:userVisible="false"
+    android:contentAuthority="@string/content_authority"
+    android:accountType="@string/sync_account_type"
+    android:userVisible="true"
     android:supportsUploading="true"
     android:allowParallelSyncs="false"/>

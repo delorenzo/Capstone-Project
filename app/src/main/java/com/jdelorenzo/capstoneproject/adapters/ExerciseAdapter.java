@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,10 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jdelorenzo.capstoneproject.EditWorkoutFragment;
-import com.jdelorenzo.capstoneproject.ItemChoiceManager;
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.Utility;
 import com.jdelorenzo.capstoneproject.WorkoutFragment;
@@ -29,7 +24,6 @@ import com.jdelorenzo.capstoneproject.model.Weight;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -38,7 +32,6 @@ import butterknife.ButterKnife;
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseAdapterViewHolder> {
     private Cursor mCursor;
     private Context mContext;
-    private ItemChoiceManager mICM;
     final private ExerciseAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
     private View mCompletedView;
@@ -49,7 +42,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     public ExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
                            View emptyView, View completedView, int choiceMode) {
         mContext = context;
-        mICM = new ItemChoiceManager(this);
         mClickHandler = clickHandler;
         mEmptyView = emptyView;
         mCompletedView = completedView;
@@ -85,7 +77,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             int weightIndex = mCursor.getColumnIndex(WorkoutContract.ExerciseEntry.COLUMN_WEIGHT);
             mClickHandler.onClick(mCursor.getLong(exerciseIndex), mCursor.getDouble(weightIndex),
                     this);
-            mICM.onClick(this);
         }
     }
 
@@ -145,7 +136,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
                         }
                     });
         }
-        mICM.onBindViewHolder(holder, position);
         setAnimation(holder.rootView, position);
     }
 
@@ -155,14 +145,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             view.startAnimation(animation);
             lastPosition = position;
         }
-    }
-
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        mICM.onRestoreInstanceState(savedInstanceState);
-    }
-
-    public void onSaveInstanceState(Bundle outState) {
-        mICM.onSaveInstanceState(outState);
     }
 
     @Override
@@ -222,4 +204,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         }
         return weights;
     }
+
+
 }

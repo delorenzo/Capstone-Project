@@ -121,15 +121,14 @@ public class EditWorkoutFragment extends Fragment implements LoaderManager.Loade
             }
         }, mEmptyView, ListView.CHOICE_MODE_SINGLE);
         mRecyclerView.setAdapter(mAdapter);
-        if (savedInstanceState != null) {
-            mAdapter.onRestoreInstanceState(savedInstanceState);
-        }
         return rootView;
     }
 
     @Override
     public void onDestroy() {
-        unbinder.unbind();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
         super.onDestroy();
     }
 

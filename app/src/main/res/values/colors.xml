@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#2196F3</color>-->
-    <!--<color name="colorPrimaryDark">#1976D2</color>-->
-    <!--<color name="colorAccent">#64DD17</color>-->
-
     <color name="colorPrimary">#424242</color>
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#7C4DFF</color>
-
-    <color name="white">#ffffff</color>
+    <color name="colorAccentDark">#651FFF</color>
 
     <color name="graphSeriesBackground">#627C4DFF</color>
+
+    <color name="selected_color">#62000000</color>
 
     <!-- material design text color guidelines -->
     <!-- @see https://www.google.com/design/spec/style/color.html#color-text-background-colors -->

@@ -1,14 +1,9 @@
 package com.jdelorenzo.capstoneproject.adapters;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Slide;
-import android.transition.TransitionManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.jdelorenzo.capstoneproject.EditDayFragment;
-import com.jdelorenzo.capstoneproject.ItemChoiceManager;
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 
@@ -29,16 +23,16 @@ import butterknife.OnClick;
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHolder> {
     private Cursor mCursor;
     private Context mContext;
-    private ItemChoiceManager mICM;
     final private DayAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
     private String[] dayStrings;
+    private int mSelectedPosition = 0;
     private int lastPosition = -1;
+    private static final String ARG_SELECTED = "selected";
 
     public DayAdapter(Context context, DayAdapterOnClickHandler clickHandler,
                            View emptyView) {
         mContext = context;
-        mICM = new ItemChoiceManager(this);
         mClickHandler = clickHandler;
         mEmptyView = emptyView;
         dayStrings = context.getResources().getStringArray(R.array.days);
@@ -66,7 +60,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
             mCursor.moveToPosition(adapterPosition);
             int dayId = mCursor.getColumnIndex(WorkoutContract.DayEntry._ID);
             mClickHandler.onClick(mCursor.getLong(dayId), this);
-            mICM.onClick(this);
+            notifyItemChanged(mSelectedPosition);
+            mSelectedPosition = getLayoutPosition();
+            notifyItemChanged(mSelectedPosition);
         }
 
         @OnClick(R.id.delete_day_button)
@@ -98,7 +94,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
         mCursor.moveToPosition(position);
         int dayIndex = mCursor.getInt(EditDayFragment.COL_DAY_OF_WEEK);
         holder.dayButton.setText(dayStrings[dayIndex]);
-        mICM.onBindViewHolder(holder, position);
+        holder.itemView.setSelected(mSelectedPosition == position);
         setAnimation(holder.rootView, position);
     }
 
@@ -111,11 +107,11 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayAdapterViewHo
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        mICM.onRestoreInstanceState(savedInstanceState);
+        mSelectedPosition = savedInstanceState.getInt(ARG_SELECTED);
     }
 
     public void onSaveInstanceState(Bundle outState) {
-        mICM.onSaveInstanceState(outState);
+        outState.putInt(ARG_SELECTED, mSelectedPosition);
     }
 
     @Override

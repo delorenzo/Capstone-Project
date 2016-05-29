@@ -59,7 +59,7 @@ public class CreateExerciseDialogFragment extends DialogFragment {
         unbinder = ButterKnife.bind(this, rootView);
         weightUnits.setText(Utility.getWeightUnits(getActivity()));
         builder.setTitle(R.string.dialog_create_exercise_title)
-                .setIcon(R.drawable.run)
+                .setIcon(R.drawable.ic_run_color_primary_24dp)
                 .setMessage(R.string.dialog_create_exercise_text)
                 .setView(rootView)
                 .setPositiveButton(R.string.action_accept, new DialogInterface.OnClickListener() {

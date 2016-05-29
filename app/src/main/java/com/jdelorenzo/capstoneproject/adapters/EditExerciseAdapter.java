@@ -3,8 +3,6 @@ package com.jdelorenzo.capstoneproject.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.EditWorkoutFragment;
-import com.jdelorenzo.capstoneproject.ItemChoiceManager;
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.Utility;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
@@ -29,7 +26,6 @@ import butterknife.OnClick;
 public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapter.ExerciseAdapterViewHolder> {
     private Cursor mCursor;
     private Context mContext;
-    private ItemChoiceManager mICM;
     final private ExerciseAdapterOnClickHandler mClickHandler;
     private View mEmptyView;
     private int lastPosition = -1;
@@ -37,10 +33,11 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
     public EditExerciseAdapter(Context context, ExerciseAdapterOnClickHandler clickHandler,
                                View emptyView, int choiceMode) {
         mContext = context;
-        mICM = new ItemChoiceManager(this);
         mClickHandler = clickHandler;
         mEmptyView = emptyView;
     }
+
+
 
     public interface ExerciseAdapterOnClickHandler {
         void onClick(Long id, String name, int reps, int sets, double weight,
@@ -80,7 +77,6 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
                     mCursor.getInt(setsIndex),
                     mCursor.getDouble(weightIndex),
                     this);
-            mICM.onClick(this);
         }
 
         @OnClick(R.id.delete_exercise_button)
@@ -119,7 +115,6 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
                 mCursor.getInt(EditWorkoutFragment.COL_SETS)));
         holder.weight.setText(Utility.getFormattedWeightString(mContext,
                 mCursor.getDouble(EditWorkoutFragment.COL_WEIGHT)));
-        mICM.onBindViewHolder(holder, position);
         setAnimation(holder.rootView, position);
     }
     private void setAnimation(View view, int position) {
@@ -128,14 +123,6 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
             view.startAnimation(animation);
             lastPosition = position;
         }
-    }
-
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        mICM.onRestoreInstanceState(savedInstanceState);
-    }
-
-    public void onSaveInstanceState(Bundle outState) {
-        mICM.onSaveInstanceState(outState);
     }
 
     @Override
@@ -153,4 +140,6 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
     public Cursor getCursor() {
         return mCursor;
     }
+
+
 }

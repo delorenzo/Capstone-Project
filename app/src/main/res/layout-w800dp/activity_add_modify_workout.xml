@@ -38,13 +38,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/fragment_master_container"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
 
         <View
             android:layout_width="1dp"
@@ -56,7 +56,7 @@
             android:id="@+id/fragment_detail_container"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <com.github.clans.fab.FloatingActionMenu
@@ -68,21 +68,26 @@
         app:menu_colorNormal="?colorAccent"
         app:menu_colorRipple="@android:color/white"
         app:layout_anchor="@id/app_bar"
+        app:menu_colorPressed="@color/colorAccentDark"
         app:layout_anchorGravity="bottom|end" >
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_alarm_24dp"
-            app:fab_label="Menu item 1"/>
+            app:fab_colorNormal="@android:color/white"
+            app:fab_colorPressed="@color/colorAccent"
+            android:src="@drawable/ic_date_range_color_accent_24dp"
+            app:fab_label="@string/action_add_day"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_exercise"
+            app:fab_colorNormal="@android:color/white"
+            app:fab_colorPressed="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/run"
-            app:fab_label="Menu item 1" />
+            android:src="@drawable/ic_run_color_accent_24dp"
+            app:fab_label="@string/action_add_exercise" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

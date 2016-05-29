@@ -13,6 +13,7 @@
     <string name="action_accept">Accept</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_delete_routine">Delete Routine</string>
+    <string name="action_add_exercise">Add Exercise</string>
 
     <!-- titles -->
     <string name="title_activity_workout">Work Out</string>
@@ -75,6 +76,8 @@
     <string name="prefs_login_label_false">Don\'t show</string>
     <!-- display name -->
     <string name="prefs_display_name_key">name</string>
+    <!-- sign in uid -->
+    <string name="prefs_google_user_id">id</string>
 
     <!-- format strings -->
     <string name="weight_format_metric" example="20 kg">
@@ -184,4 +187,7 @@
     <string name="exercises" translatable="false">exercises</string>
     <string name="days" translatable="false">days</string>
     <string name="weights" translatable="false">weights</string>
+
+    <!-- toast strings -->
+    <string name="toast_select_day">Please select a day first.</string>
 </resources>
