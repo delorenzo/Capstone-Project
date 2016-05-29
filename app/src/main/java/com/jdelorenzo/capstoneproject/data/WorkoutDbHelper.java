@@ -54,7 +54,8 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 WorkoutEntry.COLUMN_DAY_KEY + " INTEGER NOT NULL, " +
                 WorkoutEntry.COLUMN_DATE + " TEXT, " +
                 "FOREIGN KEY (" + WorkoutEntry.COLUMN_DAY_KEY + ") REFERENCES " +
-                DayEntry.TABLE_NAME + "(" + DayEntry._ID + ") );";
+                DayEntry.TABLE_NAME + "(" + DayEntry._ID + ") " +
+                "ON DELETE CASCADE ON UPDATE CASCADE );";
 
         final String SQL_CREATE_WEIGHT_TABLE = "CREATE TABLE " +
                 WeightEntry.TABLE_NAME + " ( " +
@@ -64,9 +65,11 @@ public class WorkoutDbHelper extends SQLiteOpenHelper {
                 WeightEntry.COLUMN_WEIGHT + " REAL NOT NULL, " +
                 WeightEntry.COLUMN_DATE + " TEXT, " +
                 "FOREIGN KEY (" + WeightEntry.COLUMN_WORKOUT_KEY + ") REFERENCES " +
-                WorkoutEntry.TABLE_NAME + "(" + WorkoutEntry._ID + "), " +
+                WorkoutEntry.TABLE_NAME + "(" + WorkoutEntry._ID + ") " +
+                "ON DELETE CASCADE ON UPDATE CASCADE, " +
                 "FOREIGN KEY (" + WeightEntry.COLUMN_EXERCISE_KEY + ") REFERENCES " +
-                ExerciseEntry.TABLE_NAME + "(" + ExerciseEntry._ID + "));";
+                ExerciseEntry.TABLE_NAME + "(" + ExerciseEntry._ID + ") " +
+                "ON DELETE CASCADE ON UPDATE CASCADE);";
 
         db.execSQL(SQL_CREATE_ROUTINE_TABLE);
         db.execSQL(SQL_CREATE_DAY_TABLE);

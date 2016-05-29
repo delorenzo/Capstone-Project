@@ -2,15 +2,11 @@ package com.jdelorenzo.capstoneproject;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
 import com.jdelorenzo.capstoneproject.dialogs.CreateExerciseDialogFragment;
@@ -27,8 +23,8 @@ import butterknife.Optional;
 public class ModifyRoutineActivity extends AppCompatActivity implements
         SelectDaysDialogFragment.SelectDaysListener, EditDayFragment.SelectDayListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
-    private String mWorkoutName;
-    private long mWorkoutId;
+    private String mRoutineName;
+    private long mRoutineId;
     private boolean [] mCheckedDays;
 
     private static final String EXTRA_CHECKED_DAYS = "checkedDays";
@@ -50,11 +46,11 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle b = getIntent().getExtras();
         if (b!= null) {
-            mWorkoutName = b.getString(ARG_WORKOUT_NAME);
-            mWorkoutId = b.getLong(ARG_WORKOUT_ID);
+            mRoutineName = b.getString(ARG_WORKOUT_NAME);
+            mRoutineId = b.getLong(ARG_WORKOUT_ID);
         }
         if (savedInstanceState == null) {
-            EditDayFragment selectDayFragment = EditDayFragment.newInstance(mWorkoutId, null);
+            EditDayFragment selectDayFragment = EditDayFragment.newInstance(mRoutineId, null);
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, selectDayFragment, FTAG_EDIT_DAY)
@@ -64,7 +60,7 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
 
     @Override
     public void onDaySelected(long dayId) {
-        EditWorkoutFragment editWorkoutFragment = EditWorkoutFragment.newInstance(mWorkoutId, dayId);
+        EditWorkoutFragment editWorkoutFragment = EditWorkoutFragment.newInstance(mRoutineId, dayId);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, editWorkoutFragment, FTAG_EDIT_WORKOUT)
@@ -74,7 +70,7 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
 
     @Override
     public void onDaysSelected(ArrayList<Integer> indices) {
-        DatabaseIntentService.startActionEditDays(this, indices, mWorkoutId);
+        DatabaseIntentService.startActionEditDays(this, indices, mRoutineId);
     }
 
     //In single pane mode, there is one FAB button for this activity, and it handles callbacks
@@ -121,13 +117,13 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBooleanArray(EXTRA_CHECKED_DAYS, mCheckedDays);
-        outState.putLong(EXTRA_WORKOUT_ID, mWorkoutId);
+        outState.putLong(EXTRA_WORKOUT_ID, mRoutineId);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mWorkoutId = savedInstanceState.getLong(EXTRA_WORKOUT_ID);
+        mRoutineId = savedInstanceState.getLong(EXTRA_WORKOUT_ID);
         mCheckedDays = savedInstanceState.getBooleanArray(EXTRA_CHECKED_DAYS);
     }
 
@@ -149,6 +145,10 @@ public class ModifyRoutineActivity extends AppCompatActivity implements
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        }
+        else if (id == R.id.action_delete_routine) {
+            DatabaseIntentService.startActionDeleteRoutine(this, mRoutineId);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

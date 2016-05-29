@@ -1,7 +1,6 @@
 package com.jdelorenzo.capstoneproject;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import com.jdelorenzo.capstoneproject.adapters.RoutineAdapter;
 import com.jdelorenzo.capstoneproject.data.WorkoutContract;
-import com.jdelorenzo.capstoneproject.dialogs.CreateRoutineDialogFragment;
 import com.jdelorenzo.capstoneproject.service.DatabaseIntentService;
 
 import java.io.Serializable;
@@ -113,7 +111,7 @@ public class EditRoutineFragment extends Fragment implements LoaderManager.Loade
 
             @Override
             public void onDelete(Long id, RoutineAdapter.RoutineAdapterViewHolder vh) {
-                DatabaseIntentService.startActionDeleteWorkout(getActivity(), id);
+                DatabaseIntentService.startActionDeleteRoutine(getActivity(), id);
                 getActivity().getContentResolver().notifyChange(WorkoutContract.RoutineEntry.CONTENT_URI, null);
             }
         }, mEmptyView);

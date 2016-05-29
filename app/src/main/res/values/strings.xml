@@ -12,6 +12,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_accept">Accept</string>
     <string name="action_dismiss">Dismiss</string>
+    <string name="action_delete_routine">Delete Routine</string>
 
     <!-- titles -->
     <string name="title_activity_workout">Work Out</string>

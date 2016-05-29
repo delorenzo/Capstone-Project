@@ -76,8 +76,8 @@ public class EditExerciseAdapter extends RecyclerView.Adapter<EditExerciseAdapte
             mClickHandler.onClick(
                     mCursor.getLong(exerciseIdIndex),
                     mCursor.getString(descriptionIndex),
-                    mCursor.getInt(setsIndex),
                     mCursor.getInt(repsIndex),
+                    mCursor.getInt(setsIndex),
                     mCursor.getDouble(weightIndex),
                     this);
             mICM.onClick(this);

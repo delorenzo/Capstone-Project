@@ -1,8 +1,10 @@
 package com.jdelorenzo.capstoneproject;
 
 import android.app.DialogFragment;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -159,11 +161,10 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onRoutineCreated(String name) {
-        DatabaseIntentService.startActionAddWorkout(getApplicationContext(), name);
-        Intent intent = new Intent(this, ModifyRoutineActivity.class);
-        intent.putExtra(ModifyRoutineActivity.ARG_WORKOUT_NAME, name);
-        startActivity(intent);
-        new RetrieveWorkoutsTask().execute();
+        //for just this case we're doing the database insert with an async task because
+        //we need the routine ID to start the next activity, which isn't known until the
+        //insert completes.
+        new CreateWorkoutTask().execute(name);
     }
 
 
@@ -212,6 +213,24 @@ public class MainActivity extends AppCompatActivity implements
             if (null == result || result.length == 0) {
                  ButterKnife.apply(workoutButtons, DISABLE);
             }
+        }
+    }
+
+    private class CreateWorkoutTask extends AsyncTask<String, Void, Long> {
+        @Override
+        protected Long doInBackground(String... params) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(WorkoutContract.RoutineEntry.COLUMN_NAME,
+                    params[0]);
+            Uri retUri = getApplicationContext().getContentResolver().insert(
+                    WorkoutContract.RoutineEntry.CONTENT_URI,
+                    contentValues);
+            return WorkoutContract.RoutineEntry.getRoutineIdFromUri(retUri);
+        }
+
+        @Override
+        protected void onPostExecute(Long id) {
+            modifyWorkout(id);
         }
     }
 }

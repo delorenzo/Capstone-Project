@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.jdelorenzo.capstoneproject.R;
@@ -24,9 +23,9 @@ import java.util.ArrayList;
  * <p/>
  */
 public class DatabaseIntentService extends IntentService {
-    private static final String ACTION_ADD_WORKOUT = "com.jdelorenzo.capstoneproject.service.action.ADD_WORKOUT";
-    private static final String ACTION_DELETE_WORKOUT = "com.jdelorenzo.capstoneproject.service.action.DELETE_WORKOUT";
-    private static final String ACTION_RENAME_WORKOUT = "com.jdelorenzo.capstoneproject.service.action.RENAME_WORKOUT";
+    private static final String ACTION_ADD_ROUTINE = "com.jdelorenzo.capstoneproject.service.action.ADD_WORKOUT";
+    private static final String ACTION_DELETE_ROUTINE = "com.jdelorenzo.capstoneproject.service.action.DELETE_WORKOUT";
+    private static final String ACTION_RENAME_ROUTINE = "com.jdelorenzo.capstoneproject.service.action.RENAME_WORKOUT";
     private static final String ACTION_ADD_DAY = "com.jdelorenzo.capstoneproject.service.action.ADD_DAY";
     private static final String ACTION_EDIT_DAYS = "com.jdelorenzo.capstoneproject.service.action_EDIT_DAYS";
     private static final String ACTION_DELETE_DAY = "com.jdelorenzo.capstoneproject.service.action.DELETE_DAY";
@@ -64,24 +63,24 @@ public class DatabaseIntentService extends IntentService {
      *
      * @see IntentService
      */
-    public static void startActionAddWorkout(Context context, String name) {
+    public static void startActionAddRoutine(Context context, String name) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
-        intent.setAction(ACTION_ADD_WORKOUT);
+        intent.setAction(ACTION_ADD_ROUTINE);
         intent.setData(RoutineEntry.CONTENT_URI);
         intent.putExtra(EXTRA_NAME, name);
         context.startService(intent);
     }
 
-    public static void startActionDeleteWorkout(Context context, long id) {
+    public static void startActionDeleteRoutine(Context context, long id) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
-        intent.setAction(ACTION_DELETE_WORKOUT);
+        intent.setAction(ACTION_DELETE_ROUTINE);
         intent.setData(RoutineEntry.buildRoutineId(id));
         context.startService(intent);
     }
 
-    public static void startActionRenameWorkout(Context context, long id, String name) {
+    public static void startActionRenameRoutine(Context context, long id, String name) {
         Intent intent = new Intent(context, DatabaseIntentService.class);
-        intent.setAction(ACTION_RENAME_WORKOUT);
+        intent.setAction(ACTION_RENAME_ROUTINE);
         intent.setData(RoutineEntry.buildRoutineId(id));
         intent.putExtra(EXTRA_NAME, name);
         context.startService(intent);
@@ -177,7 +176,7 @@ public class DatabaseIntentService extends IntentService {
             final String action = intent.getAction();
             switch(action) {
 
-                case ACTION_ADD_WORKOUT:
+                case ACTION_ADD_ROUTINE:
                     contentValues = new ContentValues();
                     contentValues.put(RoutineEntry.COLUMN_NAME,
                             intent.getStringExtra(EXTRA_NAME));
@@ -186,7 +185,7 @@ public class DatabaseIntentService extends IntentService {
                             contentValues);
                     break;
 
-                case ACTION_DELETE_WORKOUT:
+                case ACTION_DELETE_ROUTINE:
                     getContentResolver().delete(
                             intent.getData(),
                             null,
@@ -194,7 +193,7 @@ public class DatabaseIntentService extends IntentService {
                     );
                     break;
 
-                case ACTION_RENAME_WORKOUT:
+                case ACTION_RENAME_ROUTINE:
                     contentValues = new ContentValues();
                     contentValues.put(RoutineEntry.COLUMN_NAME,
                             intent.getStringExtra(EXTRA_NAME));
@@ -316,6 +315,7 @@ public class DatabaseIntentService extends IntentService {
                             WorkoutEntry.CONTENT_URI,
                             workoutValues
                     );
+                    break;
 
                 case ACTION_RECORD_WEIGHTS:
                     ArrayList<Weight> weights = intent.getParcelableArrayListExtra(EXTRA_WEIGHTS);
@@ -334,6 +334,7 @@ public class DatabaseIntentService extends IntentService {
                             intent.getData(),
                             contentValueList
                     );
+                    break;
 
                 default:
                     Log.e(LOG_TAG, "Service called with unknown action " + action);

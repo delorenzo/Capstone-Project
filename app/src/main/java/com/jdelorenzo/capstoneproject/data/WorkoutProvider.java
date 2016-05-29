@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
 import com.jdelorenzo.capstoneproject.data.WorkoutContract.*;
 import com.jdelorenzo.capstoneproject.dialogs.WeightPicker;
 import com.jdelorenzo.capstoneproject.model.Exercise;
@@ -16,6 +18,7 @@ import com.jdelorenzo.capstoneproject.model.Exercise;
 public class WorkoutProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private WorkoutDbHelper mOpenHelper;
+    private static final String LOG_TAG = WorkoutProvider.class.getSimpleName();
 
     private static final String sRoutineIdSelection = RoutineEntry.TABLE_NAME + "." +
             RoutineEntry._ID + " = ?";
@@ -560,12 +563,14 @@ public class WorkoutProvider extends ContentProvider {
                 } finally {
                     db.endTransaction();
                 }
+                break;
             default:
-                throw new UnsupportedOperationException("Unknown uri in bulk insert");
+                throw new UnsupportedOperationException("Unknown uri in bulk insert:  " + uri.toString());
         }
         if (getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
+        Log.d(LOG_TAG, "Inserted " + returnCount + " into database");
         return returnCount;
     }
 

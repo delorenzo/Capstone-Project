@@ -43,7 +43,7 @@ public class EditExerciseDialogFragment extends DialogFragment {
 
     private Unbinder unbinder;
     public interface EditExerciseDialogFragmentListener extends Serializable {
-        void onEditExercise(int sets, int reps, String description, double weight);
+        void onEditExercise(int reps, int sets, String description, double weight);
     }
 
     private EditExerciseDialogFragmentListener mCallback;
@@ -101,7 +101,7 @@ public class EditExerciseDialogFragment extends DialogFragment {
                         int repetitions = Integer.parseInt(repetitionText);
                         String weightText = weightEditText.getText().toString();
                         double weight = weightText.isEmpty() ? 0 : Double.parseDouble(weightText);
-                        mCallback.onEditExercise(sets, repetitions, description, weight);
+                        mCallback.onEditExercise(repetitions, sets, description, weight);
                     }
                 })
                 .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
