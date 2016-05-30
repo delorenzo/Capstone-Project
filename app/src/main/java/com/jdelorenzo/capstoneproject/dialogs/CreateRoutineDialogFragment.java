@@ -63,9 +63,9 @@ public class CreateRoutineDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        final android.app.AlertDialog d = (android.app.AlertDialog)getDialog();
+        final AlertDialog d = (AlertDialog) getDialog();
         if (d != null) {
-            Button positiveButton = d.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
+            Button positiveButton = d.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
