@@ -55,7 +55,6 @@
                 android:id="@+id/sign_in_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="@dimen/button_bar_max_width"
-                style="?buttonBarButtonStyle"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 

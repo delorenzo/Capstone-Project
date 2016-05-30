@@ -200,6 +200,5 @@ public class ViewStatsActivity extends AppCompatActivity
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mCursor = null;
-        mPagerAdapter.notifyDataSetChanged();
     }
 }
