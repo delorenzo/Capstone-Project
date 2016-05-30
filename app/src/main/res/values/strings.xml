@@ -77,7 +77,7 @@
     <!-- display name -->
     <string name="prefs_display_name_key">name</string>
     <!-- sign in uid -->
-    <string name="prefs_google_user_id">id</string>
+    <string name="prefs_google_user_id_token">id_token</string>
 
     <!-- format strings -->
     <string name="weight_format_metric" example="20 kg">
@@ -145,6 +145,10 @@
     <string name="error_message_repetitions">At least one repetition is required.</string>
     <string name="error_message_empty_routine_name">Routine name is required.</string>
     <string name="error_message_duplicate_routine_name">Routine name exists.</string>
+    <string name="error_message_invalid_digit">That is not a valid digit.</string>
+    <string name="error_message_invalid_weight">That is not a valid weight.</string>
+    <string name="error_message_invalid_name">That is not a valid name.</string>
+    <string name="error_message_weight_required">Weight is required.</string>
 
     <!-- default dialog values -->
     <string name="default_sets">3</string>
@@ -174,7 +178,7 @@
     <string name="add_widget">Add widget</string>
 
     <!-- sync strings -->
-    <string name="sync_account_type" translatable="false">com.google</string>
+    <string name="sync_account_type" translatable="false">@string/app_name</string>
 
     <!-- firebase analytics strings -->
     <string name="analytics_sign_in_key" translatable="false">sign-in</string>
@@ -190,4 +194,9 @@
 
     <!-- toast strings -->
     <string name="toast_select_day">Please select a day first.</string>
+
+    <!-- input validation strings -->
+    <string name="regex_valid_name" translatable="false">[a\-zA-Z 0\-9]+</string>
+    <string name="regex_valid_digit" translatable="false">[0\-9]</string>
+    <string name="regex_valid_decimal" translatable="false">[0\-9\.]</string>
 </resources>

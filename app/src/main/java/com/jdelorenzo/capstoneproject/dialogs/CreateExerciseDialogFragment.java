@@ -6,11 +6,13 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.jdelorenzo.capstoneproject.R;
 import com.jdelorenzo.capstoneproject.Utility;
 
@@ -32,6 +34,7 @@ public class CreateExerciseDialogFragment extends DialogFragment {
     @BindView(R.id.repetitions) EditText repetitionsEditText;
     @BindView(R.id.weight) EditText weightEditText;
     @BindView(R.id.weight_units) TextView weightUnits;
+    private static final String LOG_TAG = CreateExerciseDialogFragment.class.getSimpleName();
 
     private Unbinder unbinder;
     public interface CreateExerciseDialogFragmentListener extends Serializable {
@@ -67,23 +70,52 @@ public class CreateExerciseDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String description = exerciseEditText.getText().toString();
                         if (description.isEmpty()) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty description entered");
                             exerciseEditText.setError(getActivity().getString(R.string.error_message_exercise_name));
+                            return;
+                        }
+                        else if (!description.matches(getString(R.string.regex_valid_name))) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid exercise name " + description + " entered");
+                            exerciseEditText.setError(getString(R.string.error_message_invalid_name));
                             return;
                         }
                         String setText = setsEditText.getText().toString();
                         if (setText.isEmpty()) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty sets entered");
                             setsEditText.setError(getActivity().getString(R.string.error_message_sets));
+                            return;
+                        }
+                        else if (!setText.matches(getString(R.string.regex_valid_digit))) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid set amount " + setText + " entered");
+                            setsEditText.setError(getString(R.string.error_message_invalid_digit));
                             return;
                         }
                         int sets = Integer.parseInt(setText);
                         String repetitionText = repetitionsEditText.getText().toString();
                         if (repetitionText.isEmpty()) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty reps entered");
                             repetitionsEditText.setError(getActivity().getString(R.string.error_message_repetitions));
+                            return;
+                        }
+                        else if (!repetitionText.matches(getString(R.string.regex_valid_digit))) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid rep amount " + repetitionText + " entered");
+                            repetitionsEditText.setError(getString(R.string.error_message_invalid_digit));
                             return;
                         }
                         int repetitions = Integer.parseInt(repetitionText);
                         String weightText = weightEditText.getText().toString();
-                        double weight = weightText.isEmpty() ? 0 : Double.parseDouble(weightText);
+                        if (weightText.isEmpty()) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty weight entered");
+                            weightEditText.setError(getString(R.string.error_message_weight_required));
+                            return;
+                        }
+                        else if (!weightText.matches(getString(R.string.regex_valid_decimal))) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG,
+                                    "Invalid weight " + weightText + " entered.");
+                            weightEditText.setError(getString(R.string.error_message_invalid_weight));
+                            return;
+                        }
+                        double weight =  Double.parseDouble(weightText);
                         mCallback.onCreateExercise(sets, repetitions, description, weight);
                     }
                 })

@@ -18,10 +18,7 @@ import android.util.Log;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.jdelorenzo.capstoneproject.R;
-
-import org.json.JSONArray;
 
 //TODO:  Sync SQLITE database with Firebase database
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
@@ -100,7 +97,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static Account createSyncAccount(Context context) {
         // Create the account type and default account
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String id = sharedPreferences.getString(context.getString(R.string.prefs_google_user_id), "");
+        String id = sharedPreferences.getString(context.getString(R.string.prefs_google_user_id_token), "");
         if (id.isEmpty()) {
             FirebaseCrash.logcat(Log.WARN, LOG_TAG, "Sync adapter called without a valid Google sign on");
             return null;

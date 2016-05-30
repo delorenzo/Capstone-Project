@@ -6,16 +6,19 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.jdelorenzo.capstoneproject.R;
 
 /**
  * An {@link DialogFragment} subclass for creating and naming a new workout.
  */
 public class CreateRoutineDialogFragment extends DialogFragment {
+    private static final String LOG_TAG = CreateRoutineDialogFragment.class.getSimpleName();
     public interface CreateRoutineDialogListener {
         void onRoutineCreated(String name);
     }
@@ -37,7 +40,13 @@ public class CreateRoutineDialogFragment extends DialogFragment {
                         EditText nameEditText = (EditText) rootView.findViewById(R.id.workout_name_edit_text);
                         String name = nameEditText.getText().toString();
                         if (name.isEmpty()) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty routine name entered.");
                             nameEditText.setError(getString(R.string.error_message_empty_routine_name));
+                            return;
+                        }
+                        else if (!name.matches(getString(R.string.regex_valid_name))) {
+                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid name entered for routine:  " + name);
+                            nameEditText.setError(getString(R.string.error_message_invalid_name));
                             return;
                         }
                          mListener.onRoutineCreated(name);

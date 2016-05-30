@@ -3,7 +3,6 @@ package com.jdelorenzo.capstoneproject;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -35,14 +34,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.crash.FirebaseCrash;
-import com.jdelorenzo.capstoneproject.dialogs.SignInInfoDialogFragment;
-import com.jdelorenzo.capstoneproject.sync.SyncAdapter;
 
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Optional;
 
 /**
  * A login screen that offers login via Google Sign In.
@@ -116,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements
                     }
                 });
             }
-            //mSignInButton.setSize(SignInButton.SIZE_STANDARD);
+            mSignInButton.setSize(SignInButton.SIZE_WIDE);
             mSignInButton.setScopes(gso.getScopeArray());
         }
         else {
@@ -183,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                 preferences.edit()
                         .putString(getString(R.string.prefs_display_name_key), acct.getGivenName())
-                        .putString(getString(R.string.prefs_google_user_id), acct.getId())
+                        .putString(getString(R.string.prefs_google_user_id_token), acct.getIdToken())
                         .apply();
                 mFirebaseAnalytics.setUserProperty(getString(R.string.analytics_user_name),
                         acct.getGivenName());
