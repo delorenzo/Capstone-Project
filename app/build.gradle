@@ -4,6 +4,12 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     signingConfigs {
+        config {
+            keyAlias 'CapstoneKey'
+            keyPassword 'A*z#viI&xEQ0XBAt6pXf'
+            storeFile file('B:/AndroidStudioProjects/Capstone-Project/keystore/hitthegym.jks')
+            storePassword 'lKKZWpFg8Sizz8NAJ&4G'
+        }
     }
     compileSdkVersion 23
     buildToolsVersion '24.0.0 rc4'
@@ -23,6 +29,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }

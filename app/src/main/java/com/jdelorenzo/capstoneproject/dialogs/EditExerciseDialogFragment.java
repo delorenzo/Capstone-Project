@@ -1,14 +1,15 @@
 package com.jdelorenzo.capstoneproject.dialogs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -84,6 +85,29 @@ public class EditExerciseDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.action_accept, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        /*
+                        Do nothing here because the button is overridden to change the closing behavior.
+                         */
+                    }
+                })
+                .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dismiss();
+                    }
+                });
+        return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        final AlertDialog d = (AlertDialog)getDialog();
+        if (d != null) {
+            Button positiveButton = (Button) d.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                         String description = exerciseEditText.getText().toString();
                         if (description.isEmpty()) {
                             FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty description entered");
@@ -133,15 +157,9 @@ public class EditExerciseDialogFragment extends DialogFragment {
                         }
                         double weight =  Double.parseDouble(weightText);
                         mCallback.onEditExercise(repetitions, sets, description, weight);
-                    }
-                })
-                .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dismiss();
-                    }
-                });
-        return builder.create();
+                }
+            });
+        }
     }
 
     @Override
