@@ -6,6 +6,8 @@
     android:layout_marginTop="@dimen/button_bar_vertical_spacing"
     android:layout_marginBottom="@dimen/button_bar_vertical_spacing"
     android:id="@+id/list_item_day"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
     android:layout_height="wrap_content">
     <ImageButton
         android:layout_width="40dp"
@@ -20,9 +22,11 @@
         android:id="@+id/day"
         tools:text="Monday"
         android:gravity="center"
+        android:layout_gravity="center"
         android:background="@drawable/touch_selector"
         android:textColor="@android:color/white"
-        android:layout_weight="1"
-        android:layout_width="0dp"
+        android:maxWidth="@dimen/button_bar_max_width"
+        android:minWidth="@dimen/button_bar_max_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

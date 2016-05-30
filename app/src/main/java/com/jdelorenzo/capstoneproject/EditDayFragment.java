@@ -75,7 +75,6 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     public void onActivityCreated(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             mRoutineId = getArguments().getLong(ARG_ROUTINE_ID);
-            mAdapter.onRestoreInstanceState(savedInstanceState);
         }
         getLoaderManager().initLoader(DAY_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
@@ -84,7 +83,6 @@ public class EditDayFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putLong(ARG_ROUTINE_ID, mRoutineId);
-        mAdapter.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
