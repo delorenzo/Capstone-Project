@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "1024531492562",
-    "project_id": "hit-the-gym-3223d"
+    "firebase_url": "https://hit-the-gym-3223d.firebaseio.com",
+    "project_id": "hit-the-gym-3223d",
+    "storage_bucket": "hit-the-gym-3223d.appspot.com"
   },
   "client": [
     {
@@ -12,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1024531492562-34idsaib0cu0rpcidrio2bm8upvi33v8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jdelorenzo.capstoneproject",
+            "certificate_hash": "A73675B5297248C3383DFF111072D24BD7570466"
+          }
+        },
         {
           "client_id": "1024531492562-9mad5uafl1ip7cu8p2k8qpvnoh98bn64.apps.googleusercontent.com",
           "client_type": 1,
@@ -28,13 +38,9 @@
             "certificate_hash": "1008E104C6C545334B5F1105E064B2BBEBB6B958"
           }
         },
-		{
-          "client_id": "707303160491-isa49irmhk50ctnccfk5r0u0m0k9t5mg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.jdelorenzo.capstoneproject",
-            "certificate_hash": "A73675B5297248C3383DFF111072D24BD7570466"
-          }
+        {
+          "client_id": "1024531492562-soib3shmn8ptkjpl3edv6uuaqgti4f1s.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "1024531492562-urfvm1de8puhnvusv3b799da8r95tuld.apps.googleusercontent.com",
@@ -54,11 +60,16 @@
           }
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024531492562-soib3shmn8ptkjpl3edv6uuaqgti4f1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
