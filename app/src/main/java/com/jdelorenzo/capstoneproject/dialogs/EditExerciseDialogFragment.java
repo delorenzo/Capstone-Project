@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -108,55 +109,56 @@ public class EditExerciseDialogFragment extends DialogFragment {
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        String description = exerciseEditText.getText().toString();
-                        if (description.isEmpty()) {
-                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty description entered");
-                            exerciseEditText.setError(getActivity().getString(R.string.error_message_exercise_name));
-                            return;
-                        }
-                        else if (!description.matches(getString(R.string.regex_valid_name))) {
-                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid exercise name " + description + " entered");
-                            exerciseEditText.setError(getString(R.string.error_message_invalid_name));
-                            return;
-                        }
-                        String setText = setsEditText.getText().toString();
-                        if (setText.isEmpty()) {
-                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty sets entered");
-                            setsEditText.setError(getActivity().getString(R.string.error_message_sets));
-                            return;
-                        }
-                        else if (!setText.matches(getString(R.string.regex_valid_digit))) {
-                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid set amount " + setText + " entered");
-                            setsEditText.setError(getString(R.string.error_message_invalid_digit));
-                            return;
-                        }
-                        int sets = Integer.parseInt(setText);
-                        String repetitionText = repetitionsEditText.getText().toString();
-                        if (repetitionText.isEmpty()) {
-                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty reps entered");
-                            repetitionsEditText.setError(getActivity().getString(R.string.error_message_repetitions));
-                            return;
-                        }
-                        else if (!repetitionText.matches(getString(R.string.regex_valid_digit))) {
-                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid rep amount " + repetitionText + " entered");
-                            repetitionsEditText.setError(getString(R.string.error_message_invalid_digit));
-                            return;
-                        }
-                        int repetitions = Integer.parseInt(repetitionText);
-                        String weightText = weightEditText.getText().toString();
-                        if (weightText.isEmpty()) {
-                            FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty weight entered");
-                            weightEditText.setError(getString(R.string.error_message_weight_required));
-                            return;
-                        }
-                        else if (!weightText.matches(getString(R.string.regex_valid_decimal))) {
-                            FirebaseCrash.logcat(Log.INFO, LOG_TAG,
-                                    "Invalid weight " + weightText + " entered.");
-                            weightEditText.setError(getString(R.string.error_message_invalid_weight));
-                            return;
-                        }
-                        double weight =  Double.parseDouble(weightText);
-                        mCallback.onEditExercise(repetitions, sets, description, weight);
+                    String description = exerciseEditText.getText().toString();
+                    if (description.isEmpty()) {
+                        FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty description entered");
+                        exerciseEditText.setError(getActivity().getString(R.string.error_message_exercise_name));
+                        return;
+                    }
+                    else if (!description.matches(getString(R.string.regex_valid_name))) {
+                        FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid exercise name " + description + " entered");
+                        exerciseEditText.setError(getString(R.string.error_message_invalid_name));
+                        return;
+                    }
+                    String setText = setsEditText.getText().toString();
+                    if (setText.isEmpty()) {
+                        FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty sets entered");
+                        setsEditText.setError(getActivity().getString(R.string.error_message_sets));
+                        return;
+                    }
+                    else if (!setText.matches(getString(R.string.regex_valid_digit))) {
+                        FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid set amount " + setText + " entered");
+                        setsEditText.setError(getString(R.string.error_message_invalid_digit));
+                        return;
+                    }
+                    int sets = Integer.parseInt(setText);
+                    String repetitionText = repetitionsEditText.getText().toString();
+                    if (repetitionText.isEmpty()) {
+                        FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty reps entered");
+                        repetitionsEditText.setError(getActivity().getString(R.string.error_message_repetitions));
+                        return;
+                    }
+                    else if (!repetitionText.matches(getString(R.string.regex_valid_digit))) {
+                        FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Invalid rep amount " + repetitionText + " entered");
+                        repetitionsEditText.setError(getString(R.string.error_message_invalid_digit));
+                        return;
+                    }
+                    int repetitions = Integer.parseInt(repetitionText);
+                    String weightText = weightEditText.getText().toString();
+                    if (weightText.isEmpty()) {
+                        FirebaseCrash.logcat(Log.INFO, LOG_TAG, "Empty weight entered");
+                        weightEditText.setError(getString(R.string.error_message_weight_required));
+                        return;
+                    }
+                    else if (!weightText.matches(getString(R.string.regex_valid_decimal))) {
+                        FirebaseCrash.logcat(Log.INFO, LOG_TAG,
+                                "Invalid weight " + weightText + " entered.");
+                        weightEditText.setError(getString(R.string.error_message_invalid_weight));
+                        return;
+                    }
+                    double weight =  Double.parseDouble(weightText);
+                    mCallback.onEditExercise(repetitions, sets, description, weight);
+                    dismiss();
                 }
             });
         }

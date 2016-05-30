@@ -196,7 +196,7 @@
     <string name="toast_select_day">Please select a day first.</string>
 
     <!-- input validation strings -->
-    <string name="regex_valid_name" translatable="false">[a\-zA-Z 0\-9]+</string>
-    <string name="regex_valid_digit" translatable="false">[0\-9]</string>
-    <string name="regex_valid_decimal" translatable="false">[0\-9\.]</string>
+    <string name="regex_valid_name" translatable="false">[a-zA-Z\\s0-9]+</string>
+    <string name="regex_valid_digit" translatable="false">[0-9]+</string>
+    <string name="regex_valid_decimal" translatable="false">[0-9]+\\.?[0-9]*</string>
 </resources>

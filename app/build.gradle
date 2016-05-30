@@ -7,7 +7,7 @@ android {
         config {
             keyAlias 'CapstoneKey'
             keyPassword 'A*z#viI&xEQ0XBAt6pXf'
-            storeFile file('B:/AndroidStudioProjects/Capstone-Project/keystore/hitthegym.jks')
+            storeFile file('keystore/hitthegym.jks')
             storePassword 'lKKZWpFg8Sizz8NAJ&4G'
         }
     }
